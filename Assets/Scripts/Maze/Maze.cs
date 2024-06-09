@@ -1,46 +1,39 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Maze : MonoBehaviour {
-
-    /// <summary>
-    /// Grid that shows live generation (slower)
-    /// </summary>
-    [SerializeField] GameObject editableGridPref;
-    /// <summary>
-    /// Grid that hides live generation (faster)
-    /// </summary>
-    [SerializeField] GameObject nonEditableGridPref;
-
-    AbsGridObj gridObj;
-    DataGrid dataGrid;
-    AbsMazeGenerator mazeGenerator;
-
-    /// <summary>
-    /// called after maze generation is totally completed
-    /// </summary>
+    
+    #region ============================================================================================== Public Events
+    
     public Action OnGenerationComplete;
-    ///// <summary>
-    ///// called after grid generation is completed
-    /// </summary>
     public Action OnGridInitComplete;
-    /// <summary>
-    /// Indicates if the user decided to show live generation
-    /// </summary>
-    private bool showGeneration;
+    
+    #endregion
+    #region ============================================================================================= Private Fields
 
-    public IEnumerator Generate(int _nRows, int _nColumns, bool _showGeneration, AbsMazeGenerator.eAlgorithms _algorithm) {
+    [SerializeField] private GameObject liveGenerationGridPrototype;
+    [SerializeField] private GameObject notLiveGenerationGridPrototype;
 
-        showGeneration = _showGeneration;
+    private AbsGridObj gridObj;
+    private DataGrid dataGrid;
+    private AbsMazeGenerator mazeGenerator;
+    
+    private bool isLiveGenerationActive;
+    
+    #endregion Fields
+    #region ============================================================================================= Public Methods
+    
+    public IEnumerator Generate(int nRows, int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {
 
-        yield return StartCoroutine(instantiateGridObj(_nRows,_nColumns));
+        isLiveGenerationActive = showLiveGeneration;
 
-        instantiateMazeGenerator(_algorithm);
+        yield return StartCoroutine(instantiateGridObj(nRows,nColumns));
+
+        instantiateMazeGenerator(algorithm);
         
-        yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, dataGrid.GetCell(0, 0), _showGeneration));
+        yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, dataGrid.GetCell(0, 0), showLiveGeneration));
 
         ShowGrid();
     }
@@ -67,9 +60,13 @@ public class Maze : MonoBehaviour {
     public IEnumerator EnableCooling(GameObject _coolingObject) {
         yield return StartCoroutine(gridObj.EnableCulling(_coolingObject));
     }
+    
+    #endregion Public Methods
+    
+    #region ============================================================================================ Private Methods
 
     private void ShowGrid() {
-        if (!showGeneration) {
+        if (!isLiveGenerationActive) {
             gridObj.OnInitCompleted += OnGenerationComplete;
             UIManager.Instance.SetLoadingPanelText("Loading maze");
             StartCoroutine(gridObj.Init(dataGrid));
@@ -100,16 +97,18 @@ public class Maze : MonoBehaviour {
     }
 
     private IEnumerator instantiateGridObj(int _nRows,int _nColumns) {
-        if (showGeneration)
-            gridObj = Instantiate(editableGridPref).GetComponent<EditableGridObj>();
+        if (isLiveGenerationActive)
+            gridObj = Instantiate(liveGenerationGridPrototype).GetComponent<LiveGenerationGrid>();
         else
-            gridObj = Instantiate(nonEditableGridPref).GetComponent<NonEditableGridObj>();
+            gridObj = Instantiate(notLiveGenerationGridPrototype).GetComponent<NotLiveGenerationGrid>();
 
         dataGrid = new DataGrid(_nRows, _nColumns);
 
         gridObj.OnInitCompleted += OnGridInitComplete;
 
-        if (showGeneration)
+        if (isLiveGenerationActive)
             yield return StartCoroutine(gridObj.Init(dataGrid));
     }
+    
+    #endregion Private Methods
 }

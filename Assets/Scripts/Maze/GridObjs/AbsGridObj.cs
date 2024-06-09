@@ -50,13 +50,13 @@ public abstract class AbsGridObj : MonoBehaviour
     /// <returns></returns>
     public virtual IEnumerator Init(DataGrid _grid) {
         grid = _grid;
-        cellObjs = new CellObj[_grid.Nrows, _grid.Ncol];
+        cellObjs = new CellObj[_grid.RowsCount, _grid.ColumnsCount];
 
         IReadOnlyList<GameObject> objs = ObjectsPreAllocator.Instance.GetObjects();
 
-        for (int m = 0; m < _grid.Nrows; m++) {
-            for (int n = 0; n < _grid.Ncol; n++) {
-                cellObjs[m, n] = objs[m*_grid.Ncol + n].GetComponent<CellObj>();
+        for (int m = 0; m < _grid.RowsCount; m++) {
+            for (int n = 0; n < _grid.ColumnsCount; n++) {
+                cellObjs[m, n] = objs[m*_grid.ColumnsCount + n].GetComponent<CellObj>();
                 cellObjs[m, n].Init(grid.GetCell(m, n));
                 cellObjs[m, n].transform.parent = transform;
             }
@@ -72,8 +72,8 @@ public abstract class AbsGridObj : MonoBehaviour
     /// <param name="_active"></param>
     /// <returns></returns>
     protected IEnumerator setCellsActive(bool _active) {
-        for (int m = 0; m < grid.Nrows; m++) {
-            for (int n = 0; n < grid.Ncol; n++) {
+        for (int m = 0; m < grid.RowsCount; m++) {
+            for (int n = 0; n < grid.ColumnsCount; n++) {
                 cellObjs[m, n].gameObject.SetActive(true);
             }
             yield return null;
@@ -126,8 +126,8 @@ public abstract class AbsGridObj : MonoBehaviour
     /// </summary>
     /// <param name="_active"></param>
     public void SetWallsMeshActive(bool _active) {
-        for (int m = 0; m < grid.Nrows; m++) {
-            for (int n = 0; n < grid.Ncol; n++) {
+        for (int m = 0; m < grid.RowsCount; m++) {
+            for (int n = 0; n < grid.ColumnsCount; n++) {
                 cellObjs[m, n].SetWallMeshesActive(_active);
             }
         }
@@ -140,8 +140,8 @@ public abstract class AbsGridObj : MonoBehaviour
     /// <returns></returns>
     public IEnumerator SetWallsWithd(float _widht) {
 
-        for (int m = 0; m < grid.Nrows; m++) {
-            for (int n = 0; n < grid.Ncol; n++) {
+        for (int m = 0; m < grid.RowsCount; m++) {
+            for (int n = 0; n < grid.ColumnsCount; n++) {
                 cellObjs[m, n].SetWallsWidht(_widht);
             }
             yield return null;
@@ -149,8 +149,8 @@ public abstract class AbsGridObj : MonoBehaviour
         if (leftMargin && bottomMargin) {
             leftMargin.SetWidth(_widht);
             bottomMargin.SetWidth(_widht);
-            leftMargin.SetLength(grid.Nrows);
-            bottomMargin.SetLength(grid.Ncol);
+            leftMargin.SetLength(grid.RowsCount);
+            bottomMargin.SetLength(grid.ColumnsCount);
         }
     }
 
@@ -158,7 +158,7 @@ public abstract class AbsGridObj : MonoBehaviour
     /// Returns bottom right cell position
     /// </summary>
     public Vector3 GetBottomRightCellPos() {
-        return new Vector3(transform.position.x + grid.Ncol - 1, transform.position.y, transform.position.z - grid.Nrows + 1);
+        return new Vector3(transform.position.x + grid.ColumnsCount - 1, transform.position.y, transform.position.z - grid.RowsCount + 1);
     }
 
     /// <summary>
@@ -182,17 +182,17 @@ public abstract class AbsGridObj : MonoBehaviour
         leftMargin.gameObject.transform.position = new Vector3(
             -0.5f,
             transform.position.y,
-            -grid.Nrows / 2f + 0.5f);
+            -grid.RowsCount / 2f + 0.5f);
 
         bottomMargin.gameObject.transform.position = new Vector3(
-            grid.Ncol / 2f - 0.5f,
+            grid.ColumnsCount / 2f - 0.5f,
             transform.position.y,
-            -grid.Nrows + 0.5f);
+            -grid.RowsCount + 0.5f);
 
         bottomMargin.SetWidth(wallsStartingWidth);
         leftMargin.SetWidth(wallsStartingWidth);
-        bottomMargin.SetLength(grid.Ncol);
-        leftMargin.SetLength(grid.Nrows);
+        bottomMargin.SetLength(grid.ColumnsCount);
+        leftMargin.SetLength(grid.RowsCount);
 
         leftMargin.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
 
@@ -210,8 +210,8 @@ public abstract class AbsGridObj : MonoBehaviour
     private IEnumerator generateChunks() {
         
         GameObject chunk;
-        for (int ychunk = 0; ychunk <= grid.Nrows / CHUNK_SIZE; ychunk++) {
-            for (int xchunk = 0; xchunk <= grid.Ncol / CHUNK_SIZE; xchunk++) {
+        for (int ychunk = 0; ychunk <= grid.RowsCount / CHUNK_SIZE; ychunk++) {
+            for (int xchunk = 0; xchunk <= grid.ColumnsCount / CHUNK_SIZE; xchunk++) {
                 chunk = new GameObject("Chunk[" + ychunk + "," + xchunk + "]");
                 chunk.transform.parent = chunksContainer.transform;
                 chunk.transform.position = new Vector3(xchunk * CHUNK_SIZE +CHUNK_SIZE/ 2f, 0, -(ychunk* CHUNK_SIZE + CHUNK_SIZE/ 2f));
@@ -222,7 +222,7 @@ public abstract class AbsGridObj : MonoBehaviour
                         int m = ychunk * CHUNK_SIZE + mchunk;
                         int n = xchunk * CHUNK_SIZE + nchunk;
 
-                        if (m >= grid.Nrows || n >= grid.Ncol) break;
+                        if (m >= grid.RowsCount || n >= grid.ColumnsCount) break;
                         cellObjs[m, n].transform.parent = chunk.transform;
                     }
                 }

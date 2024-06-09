@@ -116,7 +116,7 @@ public class DataCell
     // ------------------------------------------ hash set
 
     public override int GetHashCode() {
-        return MPos * grid.Ncol + NPos;
+        return MPos * grid.ColumnsCount + NPos;
     }
     public override bool Equals(object _obj) {
         DataCell otherCell = _obj as DataCell;

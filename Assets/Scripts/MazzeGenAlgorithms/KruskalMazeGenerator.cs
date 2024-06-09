@@ -12,9 +12,9 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
         List<Edge> unvisitedEdges = getEdges(_grid);
 
         //create a set for each cell containing the cell itself
-        HashSet<DataCell>[,] sets = new HashSet<DataCell>[_grid.Nrows, _grid.Ncol];
-        for (int m = 0; m < _grid.Nrows; m++) {
-            for (int n = 0; n < _grid.Ncol; n++) {
+        HashSet<DataCell>[,] sets = new HashSet<DataCell>[_grid.RowsCount, _grid.ColumnsCount];
+        for (int m = 0; m < _grid.RowsCount; m++) {
+            for (int n = 0; n < _grid.ColumnsCount; n++) {
                 sets[m, n] = new HashSet<DataCell>();
                 sets[m, n].Add(_grid.GetCell(m, n));
             }
@@ -63,11 +63,11 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
 
         List<Edge> ris = new List<Edge>();
 
-        for (int m = 0; m < _grid.Nrows; m++)
-            for (int n = 0; n < _grid.Ncol; n++) {
-                if(n+1 < _grid.Ncol)
+        for (int m = 0; m < _grid.RowsCount; m++)
+            for (int n = 0; n < _grid.ColumnsCount; n++) {
+                if(n+1 < _grid.ColumnsCount)
                 ris.Add(new Edge(_grid.GetCell(m, n), _grid.GetCell(m, n + 1)));
-                if(m+1 < _grid.Nrows)
+                if(m+1 < _grid.RowsCount)
                 ris.Add(new Edge(_grid.GetCell(m, n), _grid.GetCell(m+1, n)));
             }
 

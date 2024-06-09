@@ -18,8 +18,8 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
         //cells out of final tree
         HashSet<DataCell> outOfTree = new HashSet<DataCell>();
-        for (int m = 0; m < _grid.Nrows; m++)
-            for (int n = 0; n < _grid.Ncol; n++)
+        for (int m = 0; m < _grid.RowsCount; m++)
+            for (int n = 0; n < _grid.ColumnsCount; n++)
                 outOfTree.Add(_grid.GetCell(m, n));
 
         outOfTree.Remove(_startCell);
@@ -57,7 +57,7 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
         DataCell randomCell = _outOfTree.ElementAt<DataCell>(Random.Range(0, _outOfTree.Count));
 
         //getting a random direction accessible from the cell
-        DataCell.eDirection randomDir = _grid.GetRandomDirection(randomCell);
+        DataCell.eDirection randomDir = _grid.GetRandomNeighbourDirection(randomCell);
 
         //adding the step to the path
         _resRandomWalk.Add(new Step(randomCell, randomDir));
@@ -68,10 +68,10 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
             //get new cell
             DataCell newCell = _grid.GetNeighbourAtDir(previousStep.cell, previousStep.direction);
 
-            // get new random direction (direction of the previous cel is excluded, don't want to turn around)
+            // get new random direction (direction of the previous cel is excluded)
             DataCell.eDirection? newDir;
             DataCell.eDirection impDir = DataCell.GetInverseDirection(previousStep.direction);
-            newDir = _grid.GetRandomDirection(newCell, new DataCell.eDirection[] { impDir });
+            newDir = _grid.GetRandomNeighbourDirection(newCell, new DataCell.eDirection[] { impDir });
             
             bool foundLoop = false;
 

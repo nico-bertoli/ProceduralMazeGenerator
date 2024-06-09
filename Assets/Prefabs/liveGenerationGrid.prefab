@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4712422449020729697}
   - component: {fileID: 8208715881734536462}
   m_Layer: 0
-  m_Name: EditableGrid
+  m_Name: liveGenerationGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
