@@ -69,20 +69,20 @@ public class DataGrid {
     public DataCell GetCell(int m, int n) =>  cells[m, n];
 
     //todo remove
-    public eDirection? GetRandomNeighbourDirection (DataCell _cell, eDirection[] _except) {
-        List<eDirection> possibleDirections = GetNeighboursDirections(_cell);
-        foreach(eDirection impDir in _except)
-            possibleDirections.Remove(impDir);
+    public eDirection? GetRandomNeighbourDirection (DataCell cell, eDirection[] preventDirections) {
+        List<eDirection> possibleDirections = GetNeighboursDirections(cell);
+        foreach(eDirection preventDirection in preventDirections)
+            possibleDirections.Remove(preventDirection);
 
         if (possibleDirections.Count == 0) return null;
         return possibleDirections[Random.Range(0, possibleDirections.Count)];
     }
     
-    public List<DataCell> GetNeighbours(DataCell _cell){
+    public List<DataCell> GetNeighbours(DataCell cell){
 
         List<DataCell> possibleNeighs = new List<DataCell>();
-        List<eDirection> directions = GetNeighboursDirections(_cell);
-        foreach (eDirection dir in directions)possibleNeighs.Add(GetNeighbourAtDir(_cell,dir));
+        List<eDirection> directions = GetNeighboursDirections(cell);
+        foreach (eDirection dir in directions)possibleNeighs.Add(GetNeighbourAtDir(cell,dir));
 
         return possibleNeighs;
     }
@@ -115,14 +115,14 @@ public class DataGrid {
         }
     }
     
-    public List<eDirection> GetNeighboursDirections(DataCell _cell) {
+    public List<eDirection> GetNeighboursDirections(DataCell cell) {
         List<eDirection> ris = GetAllDirections();
 
-        if (_cell.PosN == 0) ris.Remove(eDirection.LEFT);
-        else if (_cell.PosN == ColumnsCount - 1) ris.Remove(eDirection.RIGHT);
+        if (cell.PosN == 0) ris.Remove(eDirection.LEFT);
+        else if (cell.PosN == ColumnsCount - 1) ris.Remove(eDirection.RIGHT);
 
-        if (_cell.PosM == 0) ris.Remove(eDirection.TOP);
-        else if (_cell.PosM == RowsCount - 1) ris.Remove(eDirection.BOTTOM);
+        if (cell.PosM == 0) ris.Remove(eDirection.TOP);
+        else if (cell.PosM == RowsCount - 1) ris.Remove(eDirection.BOTTOM);
 
         return ris;
     }
@@ -133,13 +133,13 @@ public class DataGrid {
     /// <param name="_dir">Direction you want to get the inverse</param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public static eDirection GetInverseDirection(eDirection _dir) {
-        switch (_dir) {
+    public static eDirection GetInverseDirection(eDirection direction) {
+        switch (direction) {
             case eDirection.TOP:return eDirection.BOTTOM;
             case eDirection.BOTTOM: return eDirection.TOP;
             case eDirection.LEFT: return eDirection.RIGHT;
             case eDirection.RIGHT: return eDirection.LEFT;
-            default: throw new Exception($"{_dir} not recognized");
+            default: throw new Exception($"{direction} not recognized");
         }
     }
     

@@ -1,6 +1,4 @@
 using System;
-using static DataGrid;
-using System.Collections.Generic;
 
 public class DataCell
 {
@@ -35,11 +33,6 @@ public class DataCell
     /// Distance from left border
     /// </summary>
     public int PosN { get; }
-    
-    /// <summary>
-    /// Number of walls handled by each cell
-    /// </summary>
-    public const int HANDLED_WALLS_COUNT = 2;
 
     #endregion Public Fields
     #region ============================================================================================= Private Fields

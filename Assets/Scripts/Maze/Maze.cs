@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
+using static AbsMazeGenerator;
 
 public class Maze : MonoBehaviour {
     
@@ -29,18 +29,18 @@ public class Maze : MonoBehaviour {
 
         isLiveGenerationActive = showLiveGeneration;
 
-        yield return StartCoroutine(instantiateGridObj(nRows,nColumns));
+        yield return StartCoroutine(InstantiateGridObj(nRows,nColumns));
 
-        instantiateMazeGenerator(algorithm);
+        InstantiateMazeGenerator(algorithm);
         
         yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, dataGrid.GetCell(0, 0), showLiveGeneration));
 
         ShowGrid();
     }
 
-    public void SetLiveGenerationSpeed(float _speed) {
+    public void SetLiveGenerationSpeed(float speed) {
         if (mazeGenerator)
-            mazeGenerator.SetLiveGenerationSpeed(_speed);
+            mazeGenerator.SetLiveGenerationSpeed(speed);
     }
 
     public void Reset() {
@@ -48,8 +48,8 @@ public class Maze : MonoBehaviour {
         if (gridObj) Destroy(gridObj.gameObject);
     }
 
-    public IEnumerator SetWallsSize(float _size) {
-        yield return StartCoroutine(gridObj.SetWallsWithd(_size));
+    public IEnumerator SetWallsSize(float size) {
+        yield return StartCoroutine(gridObj.SetWallsWithd(size));
         yield return StartCoroutine(gridObj.CombineMeshes());
     }
 
@@ -57,8 +57,8 @@ public class Maze : MonoBehaviour {
         return gridObj.GetBottomRightCellPos();
     }
 
-    public IEnumerator EnableCooling(GameObject _coolingObject) {
-        yield return StartCoroutine(gridObj.EnableCulling(_coolingObject));
+    public IEnumerator EnableCooling(GameObject coolingObject) {
+        yield return StartCoroutine(gridObj.EnableCulling(coolingObject));
     }
     
     #endregion Public Methods
@@ -76,27 +76,29 @@ public class Maze : MonoBehaviour {
             StartCoroutine(gridObj.CombineMeshes());
             OnGenerationComplete();
         }
-
     }
 
-    private void instantiateMazeGenerator(AbsDfsMazeGenerator.eAlgorithms _algorithm) {
-        switch (_algorithm) {
-            case AbsMazeGenerator.eAlgorithms.DFSiterative:
+    private void InstantiateMazeGenerator(eAlgorithms algorithm) {
+        switch (algorithm) {
+            case eAlgorithms.DFSiterative:
                 mazeGenerator = new GameObject().AddComponent<DFSIterMazeGenerator>();
                 mazeGenerator.gameObject.name = "DFSIter Maze Generator";
                 break;
-            case AbsMazeGenerator.eAlgorithms.Willson:
+            case eAlgorithms.Willson:
                 mazeGenerator = new GameObject().AddComponent<WilsonMazeGenerator>();
                 mazeGenerator.gameObject.name = "Wilson Maze Generator";
                 break;
-            case AbsMazeGenerator.eAlgorithms.Kruskal:
+            case eAlgorithms.Kruskal:
                 mazeGenerator = new GameObject().AddComponent<KruskalMazeGenerator>();
                 mazeGenerator.gameObject.name = "Kruskal Maze Generator";
+                break;
+            default:
+                Debug.LogError($"{algorithm} not recognized! {nameof(InstantiateMazeGenerator)} failed");
                 break;
         }
     }
 
-    private IEnumerator instantiateGridObj(int _nRows,int _nColumns) {
+    private IEnumerator InstantiateGridObj(int _nRows,int _nColumns) {
         if (isLiveGenerationActive)
             gridObj = Instantiate(liveGenerationGridPrototype).GetComponent<LiveGenerationGrid>();
         else

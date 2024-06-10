@@ -3,18 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="eae620b3-e2b4-4b14-8931-75508c4ce474" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Cell.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Cell.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/DataGrid/DataCell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/DataGrid/DataCell.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/DataGrid/DataGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/DataGrid/DataGrid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/AbsGridObj.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/AbsGridObj.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/CellObj.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/CellObj.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/LiveGenerationGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/LiveGenerationGrid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/NotLiveGenerationGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/NotLiveGenerationGrid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/AbsDfsMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/AbsDfsMazeGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/DFSIterMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/DFSIterMazeGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/DFSRecMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/DFSRecMazeGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/KruskalMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/KruskalMazeGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/WilsonMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/WilsonMazeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +90,7 @@
       <workItem from="1717874056949" duration="1022000" />
       <workItem from="1717927558028" duration="4354000" />
       <workItem from="1718000420505" duration="1130000" />
+      <workItem from="1718048292244" duration="745000" />
     </task>
     <servers />
   </component>
