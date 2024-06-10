@@ -21,7 +21,6 @@ public abstract class AbsGridObj : MonoBehaviour
     [SerializeField] private float wallsStartingWidth = 0.4f;
 
     [Header("References")]
-    [SerializeField] protected GameObject cellObjPrefab;
     [SerializeField] protected MeshCombiner meshCombiner;
     [SerializeField] private GameObject marginWallPrefab;
     private WallObj leftMargin;
@@ -30,8 +29,9 @@ public abstract class AbsGridObj : MonoBehaviour
     /// <summary>
     /// Maze map used to generate the maze
     /// </summary>
-    protected DataGrid grid;
-    protected CellObj[,] cellObjs;
+    private DataGrid grid;
+
+    private CellObj[,] cellObjs;
     /// <summary>
     /// GameObj used to store mesh chunks
     /// </summary>
@@ -46,18 +46,18 @@ public abstract class AbsGridObj : MonoBehaviour
     /// <summary>
     /// Creates a gameobject representation the DataGrid received
     /// </summary>
-    /// <param name="_grid"></param>
+    /// <param name="grid"></param>
     /// <returns></returns>
-    public virtual IEnumerator Init(DataGrid _grid) {
-        grid = _grid;
-        cellObjs = new CellObj[_grid.RowsCount, _grid.ColumnsCount];
-
-        IReadOnlyList<GameObject> objs = ObjectsPreAllocator.Instance.GetObjects();
-
-        for (int m = 0; m < _grid.RowsCount; m++) {
-            for (int n = 0; n < _grid.ColumnsCount; n++) {
-                cellObjs[m, n] = objs[m*_grid.ColumnsCount + n].GetComponent<CellObj>();
-                cellObjs[m, n].Init(grid.GetCell(m, n));
+    public virtual IEnumerator Init(DataGrid grid) {
+        
+        this.grid = grid;
+        cellObjs = new CellObj[grid.RowsCount, grid.ColumnsCount];
+        IReadOnlyList<GameObject> cellObjects = ObjectsPreAllocator.Instance.GetObjects();
+        
+        for (int m = 0; m < grid.RowsCount; m++) {
+            for (int n = 0; n < grid.ColumnsCount; n++) {
+                cellObjs[m, n] = cellObjects[m*grid.ColumnsCount + n].GetComponent<CellObj>();
+                cellObjs[m, n].Init(this.grid.GetCell(m, n));
                 cellObjs[m, n].transform.parent = transform;
             }
             yield return null;

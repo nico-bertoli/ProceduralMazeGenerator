@@ -7,9 +7,12 @@ using UnityEngine;
 /// </summary>
 public class CellObj : MonoBehaviour
 {
+    [SerializeField] private WallObj topWall;
+    [SerializeField] private WallObj rightWall;
     //======================================== fields
     private DataCell dataCell;
-    private WallObj[] walls = new WallObj[2];
+    private WallObj[] walls;
+    
 
     //======================================== methods
     /// <summary>
@@ -18,32 +21,30 @@ public class CellObj : MonoBehaviour
     /// <param name="_cell">DataCell associated to this object</param>
     public void Init(DataCell _cell) {
         dataCell = _cell;
-        transform.position = new Vector3(dataCell.NPos, 0, -dataCell.MPos);
-
-        for (int i = 0; i < DataCell.N_WALLS; i++)
-            walls[i] = transform.GetChild(i).gameObject.GetComponent<WallObj>();
-
+        transform.position = new Vector3(dataCell.PosN, 0, -dataCell.PosM);
+        walls = new WallObj[] { topWall, rightWall };
+        
         UpdateExternalState();
-        //when data cell changes its state, gameobject is updated
+
         dataCell.OnWallBuiltOrDestroyed += UpdateExternalState;
     }
 
-    public void SetWallMeshesActive(bool _active) {
+    public void SetWallMeshesActive(bool active) {
         foreach (WallObj wall in walls)
-            wall.SetMeshActive(_active);
+            wall.SetMeshActive(active);
     }
 
-    public void SetWallsWidht(float _width) {
+    public void SetWallsWidht(float width) {
         foreach (WallObj wall in walls)
-            wall.SetWidth(_width);
+            wall.SetWidth(width);
     }
 
     /// <summary>
     /// Updates game object depending on dataCell state
     /// </summary>
-    public void UpdateExternalState() {
-        IReadOnlyList<bool> wallsState = dataCell.GetWallsState();
-        for(int i = 0; i < wallsState.Count; i++)
-            walls[i].gameObject.SetActive(wallsState[i]);
+    private void UpdateExternalState() {
+        Debug.Log("updating external state");
+        walls[0].gameObject.SetActive(dataCell.IsTopWallActive);
+        walls[1].gameObject.SetActive(dataCell.IsRightWallActive);
     }
 }

@@ -31,8 +31,8 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
             unvisitedEdges.RemoveAt(randomID);
 
             //get cells sets
-            HashSet<DataCell> set1 = sets[randomEdge.cell1.MPos, randomEdge.cell1.NPos];
-            HashSet<DataCell> set2 = sets[randomEdge.cell2.MPos, randomEdge.cell2.NPos];
+            HashSet<DataCell> set1 = sets[randomEdge.cell1.PosM, randomEdge.cell1.PosN];
+            HashSet<DataCell> set2 = sets[randomEdge.cell2.PosM, randomEdge.cell2.PosN];
 
             // if the sets are different
             if (!set2.Contains(randomEdge.cell1)) {
@@ -40,7 +40,7 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
                 //put cells in same set
                 set1.UnionWith(set2);
                 foreach (DataCell cell in set1)
-                    sets[cell.MPos, cell.NPos] = set1;
+                    sets[cell.PosM, cell.PosN] = set1;
 
                 //remove wall between cells
                 _grid.RemoveWall(randomEdge.cell1, randomEdge.cell2);

@@ -1,126 +1,91 @@
 using System;
-using System.Collections;
+using static DataGrid;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
 
 public class DataCell
 {
-    //======================================== fields
+    public Action OnWallBuiltOrDestroyed;
+    public bool IsTopWallActive
+    {
+        get => isTopWallActive;
+        set
+        {
+            isTopWallActive = value;
+            OnWallBuiltOrDestroyed?.Invoke();
+        }
+    }
+    
+    public bool IsRightWallActive
+    {
+        get => isRightWallActive;
+        set
+        {
+            isRightWallActive = value;
+            OnWallBuiltOrDestroyed?.Invoke();
+        }
+    }
+    #region ============================================================================================== Public Fields
+    
     /// <summary>
-    /// M position of the cell (distance from top)
+    /// Distance from top border
     /// </summary>
-    public int MPos { get; private set; }
-
+    public int PosM { get; }
+    
     /// <summary>
-    /// N position of the cell (distance from left margin)
+    /// Distance from left border
     /// </summary>
-    public int NPos { get; private set; }
-
-    /// <summary>
-    /// Possible directions you can move to from a cell
-    /// </summary>
-    public enum eDirection { TOP, RIGHT, BOTTOM, LEFT, N_DIRECTIONS};
-
+    public int PosN { get; }
+    
     /// <summary>
     /// Number of walls handled by each cell
     /// </summary>
-    public const int N_WALLS = 2;
+    public const int HANDLED_WALLS_COUNT = 2;
 
-    public Action OnWallBuiltOrDestroyed;
-
-    /// <summary>
-    /// Flags indicating if each wall is enabled
-    /// </summary>
-    protected bool[] walls = new bool[N_WALLS];
-
+    #endregion Public Fields
+    #region ============================================================================================= Private Fields
+    
     /// <summary>
     /// Grid object this cell is associated to
     /// </summary>
     private DataGrid grid;
 
-    //======================================== methods
-    public DataCell(DataGrid _grid, int _m, int _n) {
-        NPos = _n;
-        MPos = _m;
-        grid = _grid;
-        SetAllWallsActive(true);    //most of maze generation algorithms start with a grid with walls active
-    }
+    private bool isTopWallActive;
+    private bool isRightWallActive;
 
-    /// <summary>
-    /// Returns a list containing all the possible directions
-    /// </summary>
-    /// <returns></returns>
-    public static List<eDirection> GetAllDirections() {
-        List<eDirection> allDir = new List<eDirection>();
-        for (int i = 0; i < (int)eDirection.N_DIRECTIONS; i++)
-            allDir.Add((eDirection)i);
-        return allDir;
-    }
+    #endregion Private Fields
+    #region ============================================================================================= Public Methods
+    
+    public DataCell(DataGrid grid, int posM, int posN)
+    {
+        PosM = posM;
+        PosN = posN;
+        this.grid = grid;
 
-    /// <summary>
-    /// Returns the inverse direction of the given one
-    /// </summary>
-    /// <param name="_dir">Direction you want to get the inverse</param>
-    /// <returns></returns>
-    /// <exception cref="Exception"></exception>
-    public static eDirection GetInverseDirection(eDirection _dir) {
-        switch (_dir) {
-            case eDirection.TOP:return eDirection.BOTTOM;
-            case eDirection.BOTTOM: return eDirection.TOP;
-            case eDirection.LEFT: return eDirection.RIGHT;
-            case eDirection.RIGHT: return eDirection.LEFT;
-        }
-        throw new Exception("Cell.GetInverseDirection: input not recognized");
+        //most of maze generation algorithms start with a grid with walls active
+        SetAllWallsActive(true);   
     }
     
-    /// <summary>
-    /// Disables wall in the given direction
-    /// </summary>
-    /// <param name="_direction"></param>
-    public void RemoveWall(eDirection _direction) {
-        walls[(int)_direction] = false;
-        if(OnWallBuiltOrDestroyed!=null)OnWallBuiltOrDestroyed();
+    public override string ToString() => "[" + PosM.ToString() + "," + PosN + "]";
+    public override int GetHashCode() => PosM * grid.ColumnsCount + PosN;
+    public override bool Equals(object obj) {
+        DataCell otherCell = obj as DataCell;
+        
+        if (otherCell == null || otherCell.PosN != PosN || otherCell.PosM != PosM)
+            return false;
+        
+        return true;
     }
-    /// <summary>
-    /// Enables wall in the given direction
-    /// </summary>
-    /// <param name="_direction"></param>
-    public void BuildWall(eDirection _direction) {
-        walls[(int)_direction] = true;
-        if (OnWallBuiltOrDestroyed != null) OnWallBuiltOrDestroyed();
-    }
-
+    
+    #endregion Public Methods
+    #region ============================================================================================ Private Methods
     /// <summary>
     /// Enables/disables all walls
     /// </summary>
     /// <param name="_active"></param>
-    public void SetAllWallsActive(bool _active) {
-        for(int i = 0; i<N_WALLS; i++)
-            walls[i] = _active;
+    private void SetAllWallsActive(bool setActive)
+    {
+        IsTopWallActive = setActive;
+        IsRightWallActive = setActive;
     }
-
-    /// <summary>
-    /// Returns array indicating if each wall is enabled/disabled
-    /// </summary>
-    /// <returns></returns>
-    public IReadOnlyList<bool> GetWallsState() {
-        return walls;
-    }
-
-    public override string ToString() {
-        return "[" + MPos.ToString() + "," + NPos + "]";
-    }
-
-    // ------------------------------------------ hash set
-
-    public override int GetHashCode() {
-        return MPos * grid.ColumnsCount + NPos;
-    }
-    public override bool Equals(object _obj) {
-        DataCell otherCell = _obj as DataCell;
-        if (otherCell == null || otherCell.NPos != NPos || otherCell.MPos != MPos) return false;
-        return true;
-    }
+    #endregion Private Methods
 }

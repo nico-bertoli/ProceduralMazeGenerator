@@ -3,33 +3,29 @@
   <component name="ChangeListManager">
     <list default="true" id="eae620b3-e2b4-4b14-8931-75508c4ce474" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/EditableGrid.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/EditableGrid.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NonEditableGrid.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NonEditableGrid.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjs/Exit.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjs/Exit.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjs/Player.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjs/Player.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Cell.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Cell.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/DataGrid/DataCell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/DataGrid/DataCell.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/DataGrid/DataGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/DataGrid/DataGrid.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/AbsGridObj.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/AbsGridObj.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/EditableGridObj.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/LiveGenerationGrid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/EditableGridObj.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/LiveGenerationGrid.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/NonEditableGridObj.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/NotLiveGenerationGrid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/NonEditableGridObj.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/NotLiveGenerationGrid.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/CellObj.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/CellObj.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/LiveGenerationGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/LiveGenerationGrid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/NotLiveGenerationGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/NotLiveGenerationGrid.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/AbsDfsMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/AbsDfsMazeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/DFSIterMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/DFSIterMazeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/DFSRecMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/DFS/DFSRecMazeGenerator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/KruskalMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/KruskalMazeGenerator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/WilsonMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazzeGenAlgorithms/WilsonMazeGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.2d.pixel-perfect@5.0.1/Samples~/Scenes and Extras/Scenes/RoboHero/Scripts/Hero.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.2d.pixel-perfect@5.0.1/Samples~/Scenes and Extras/Scenes/Scripts/BasicCameraFollow.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.2d.pixel-perfect@5.0.1/Samples~/Scenes and Extras/Scenes/Scripts/HeroMover.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.3.0/Samples~/SimpleMultiplayer/SimpleMultiplayerPlayer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -102,6 +98,7 @@
       <workItem from="1717854344979" duration="3139000" />
       <workItem from="1717874056949" duration="1022000" />
       <workItem from="1717927558028" duration="4354000" />
+      <workItem from="1718000420505" duration="1130000" />
     </task>
     <servers />
   </component>

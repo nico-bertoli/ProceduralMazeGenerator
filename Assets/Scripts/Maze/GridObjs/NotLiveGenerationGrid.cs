@@ -6,8 +6,8 @@ using UnityEngine;
 /// Creates a game object representation of a DataGrid hiding maze generation (faster genration)
 /// </summary>
 public class NotLiveGenerationGrid : AbsGridObj {
-    public override IEnumerator Init(DataGrid _grid) {
-        yield return StartCoroutine(base.Init(_grid));
+    public override IEnumerator Init(DataGrid grid) {
+        yield return StartCoroutine(base.Init(grid));
         yield return StartCoroutine(CombineMeshes());
         OnInitCompleted();
     }

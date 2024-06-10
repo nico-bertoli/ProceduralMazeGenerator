@@ -10,7 +10,7 @@ public class DFSRecMazeGenerator : AbsDfsMazeGenerator {
     protected override IEnumerator GenerateMazeImpl(DataGrid _grid, DataCell _cell) {
 
         //set current cell as visited
-        visitedCells[_cell.MPos, _cell.NPos] = true;
+        visitedCells[_cell.PosM, _cell.PosN] = true;
 
         if (liveGeneration)
             yield return new WaitForSeconds(liveGenerationDelay);

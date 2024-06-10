@@ -28,7 +28,7 @@ public abstract class AbsDfsMazeGenerator : AbsMazeGenerator {
         List<DataCell> unvisitedNeighbours = _grid.GetNeighbours(_cell);
 
         for(int i = unvisitedNeighbours.Count-1; i >= 0; i--) {
-            if (visitedCells[unvisitedNeighbours[i].MPos, unvisitedNeighbours[i].NPos]) unvisitedNeighbours.RemoveAt(i);
+            if (visitedCells[unvisitedNeighbours[i].PosM, unvisitedNeighbours[i].PosN]) unvisitedNeighbours.RemoveAt(i);
         }
         return unvisitedNeighbours;
     }

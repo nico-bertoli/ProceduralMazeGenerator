@@ -1,18 +1,19 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using static DataCell;
+using Random = UnityEngine.Random;
 
-/// <summary>
-/// Grid of squares with editable walls representation
-/// </summary>
 public class DataGrid {
+    
+    public enum eDirection { TOP, RIGHT, BOTTOM, LEFT};
+    
     #region ===================================================================================================== Fields
     public int ColumnsCount { get; }
     public int RowsCount { get; }
     
     private readonly DataCell[,] cells;
-    
+
     #endregion  Fields
     #region ============================================================================================= Public Methods
     
@@ -29,26 +30,34 @@ public class DataGrid {
         }
     }
     
-    public void RemoveWall(DataCell _cell1, DataCell _cell2) {
-        if (_cell1.MPos < _cell2.MPos)
-            _cell2.RemoveWall(eDirection.TOP);
-        else if (_cell1.MPos > _cell2.MPos)
-            _cell1.RemoveWall(eDirection.TOP);
-        else if (_cell1.NPos > _cell2.NPos)
-            _cell2.RemoveWall(eDirection.RIGHT);
+    public void RemoveWall(DataCell cell1, DataCell cell2)
+    {
+        Debug.Assert(Mathf.Abs(cell1.PosM - cell2.PosM) == 1||  Mathf.Abs(cell1.PosN - cell2.PosN) == 1 , 
+            $"{nameof(RemoveWall)} received not adjacent cells! {cell1}, {cell2}");
+        
+        if (cell1.PosM < cell2.PosM)
+            cell2.IsTopWallActive = false;
+        else if (cell1.PosM > cell2.PosM)
+            cell1.IsTopWallActive = false;
+        else if (cell1.PosN > cell2.PosN)
+            cell2.IsRightWallActive = false;
         else
-            _cell1.RemoveWall(eDirection.RIGHT);
+            cell1.IsRightWallActive = false;
     }
     
-    public void BuildWall(DataCell _cell1, DataCell _cell2) {
-        if (_cell1.MPos < _cell2.MPos)
-            _cell2.BuildWall(eDirection.TOP);
-        else if (_cell1.MPos > _cell2.MPos)
-            _cell1.BuildWall(eDirection.TOP);
-        else if (_cell1.NPos > _cell2.NPos)
-            _cell2.BuildWall(eDirection.RIGHT);
+    public void BuildWall(DataCell cell1, DataCell cell2)
+    {
+        Debug.Assert(Mathf.Abs(cell1.PosM - cell2.PosM) == 1||  Mathf.Abs(cell1.PosN - cell2.PosN) == 1 , 
+            $"{nameof(BuildWall)} received not adjacent cells! {cell1}, {cell2}");
+        
+        if (cell1.PosM < cell2.PosM)
+            cell2.IsTopWallActive = true;
+        else if (cell1.PosM > cell2.PosM)
+            cell1.IsTopWallActive = true;
+        else if (cell1.PosN > cell2.PosN)
+            cell2.IsRightWallActive = true;
         else
-            _cell1.BuildWall(eDirection.RIGHT);
+            cell1.IsRightWallActive = true;
     }
 
     /// <summary>
@@ -58,12 +67,6 @@ public class DataGrid {
     /// <param name="n">Cell n index (distance from left side)</param>
     /// <returns></returns>
     public DataCell GetCell(int m, int n) =>  cells[m, n];
-
-        //todo remove
-    public eDirection GetRandomNeighbourDirection(DataCell _cell) {
-        List<eDirection> possibleDirections = GetNeighboursDirections(_cell);
-        return possibleDirections[Random.Range(0, possibleDirections.Count)];
-    }
 
     //todo remove
     public eDirection? GetRandomNeighbourDirection (DataCell _cell, eDirection[] _except) {
@@ -88,44 +91,70 @@ public class DataGrid {
         switch (direction)
         {
             case eDirection.TOP:
-                if (cell.MPos == 0)
+                if (cell.PosM == 0)
                     return null;
-                return cells[cell.MPos - 1, cell.NPos];
+                return cells[cell.PosM - 1, cell.PosN];
             
             case eDirection.BOTTOM:
-                if (cell.MPos == RowsCount-1)
+                if (cell.PosM == RowsCount-1)
                     return null;
-                return cells[cell.MPos + 1, cell.NPos];
+                return cells[cell.PosM + 1, cell.PosN];
 
             case eDirection.LEFT:
-                if (cell.NPos == 0)
+                if (cell.PosN == 0)
                     return null;
-                return cells[cell.MPos, cell.NPos-1];
+                return cells[cell.PosM, cell.PosN-1];
             
             case eDirection.RIGHT:
-                if (cell.NPos == ColumnsCount-1)
+                if (cell.PosN == ColumnsCount-1)
                     return null;
-                return cells[cell.MPos, cell.NPos+1];
+                return cells[cell.PosM, cell.PosN+1];
             default:
                 Debug.LogError($"direction: {direction} not recognized, returning null neighbour");
                 return null;
         }
     }
     
-    #endregion Public Methods
-    #region ============================================================================================ Private Methods
-
-    private List<eDirection> GetNeighboursDirections(DataCell _cell) {
+    public List<eDirection> GetNeighboursDirections(DataCell _cell) {
         List<eDirection> ris = GetAllDirections();
 
-        if (_cell.NPos == 0) ris.Remove(eDirection.LEFT);
-        else if (_cell.NPos == ColumnsCount - 1) ris.Remove(eDirection.RIGHT);
+        if (_cell.PosN == 0) ris.Remove(eDirection.LEFT);
+        else if (_cell.PosN == ColumnsCount - 1) ris.Remove(eDirection.RIGHT);
 
-        if (_cell.MPos == 0) ris.Remove(eDirection.TOP);
-        else if (_cell.MPos == RowsCount - 1) ris.Remove(eDirection.BOTTOM);
+        if (_cell.PosM == 0) ris.Remove(eDirection.TOP);
+        else if (_cell.PosM == RowsCount - 1) ris.Remove(eDirection.BOTTOM);
 
         return ris;
     }
-
-    #endregion Private Methods
+    
+    /// <summary>
+    /// Returns the inverse direction of the given one
+    /// </summary>
+    /// <param name="_dir">Direction you want to get the inverse</param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public static eDirection GetInverseDirection(eDirection _dir) {
+        switch (_dir) {
+            case eDirection.TOP:return eDirection.BOTTOM;
+            case eDirection.BOTTOM: return eDirection.TOP;
+            case eDirection.LEFT: return eDirection.RIGHT;
+            case eDirection.RIGHT: return eDirection.LEFT;
+            default: throw new Exception($"{_dir} not recognized");
+        }
+    }
+    
+    /// <summary>
+    /// Returns a list containing all the possible directions
+    /// </summary>
+    /// <returns></returns>
+    public static List<eDirection> GetAllDirections() {
+        List<eDirection> allDir = new List<eDirection>();
+        int directionsCount = Enum.GetValues(typeof(eDirection)).Length;
+        
+        for (int i = 0; i < directionsCount; i++)
+            allDir.Add((eDirection)i);
+        return allDir;
+    }
+    
+    #endregion Public Methods
 }

@@ -12,7 +12,7 @@ public class DFSIterMazeGenerator : AbsDfsMazeGenerator {
         yield return StartCoroutine(base.GenerateMazeImpl(_grid, _cell));
 
         //mark current cell as visited and add it to the stack
-        visitedCells[_cell.MPos, _cell.NPos] = true;
+        visitedCells[_cell.PosM, _cell.PosN] = true;
         Stack<DataCell> stack = new Stack<DataCell>();
         stack.Push(_cell);
 
@@ -23,7 +23,7 @@ public class DFSIterMazeGenerator : AbsDfsMazeGenerator {
                 //get a random unvisited neighbour
                 DataCell neigh = neighs[Random.Range(0, neighs.Count)];
                 _grid.RemoveWall(current, neigh);
-                visitedCells[neigh.MPos, neigh.NPos] = true;
+                visitedCells[neigh.PosM, neigh.PosN] = true;
                 stack.Push(current);
                 stack.Push(neigh);
 

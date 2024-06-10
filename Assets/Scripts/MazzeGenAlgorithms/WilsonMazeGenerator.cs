@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
+using static DataGrid;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/20/maze-generation-wilson-s-algorithm.html
 
@@ -57,7 +57,8 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
         DataCell randomCell = _outOfTree.ElementAt<DataCell>(Random.Range(0, _outOfTree.Count));
 
         //getting a random direction accessible from the cell
-        DataCell.eDirection randomDir = _grid.GetRandomNeighbourDirection(randomCell);
+        List<eDirection> possibleDirections = _grid.GetNeighboursDirections(randomCell);
+        eDirection randomDir = possibleDirections[Random.Range(0, possibleDirections.Count)];
 
         //adding the step to the path
         _resRandomWalk.Add(new Step(randomCell, randomDir));
@@ -69,15 +70,15 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
             DataCell newCell = _grid.GetNeighbourAtDir(previousStep.cell, previousStep.direction);
 
             // get new random direction (direction of the previous cel is excluded)
-            DataCell.eDirection? newDir;
-            DataCell.eDirection impDir = DataCell.GetInverseDirection(previousStep.direction);
-            newDir = _grid.GetRandomNeighbourDirection(newCell, new DataCell.eDirection[] { impDir });
+            
+            eDirection preventedDirection = GetInverseDirection(previousStep.direction);
+            eDirection? newDirection = _grid.GetRandomNeighbourDirection(newCell, new eDirection[] { preventedDirection });
             
             bool foundLoop = false;
 
             //todo: this easy fix could be made better
             //don't care about null new direction cause if it happens there is no new step, to prevent errors i'm setting it to a random direction
-            if (newDir == null) newDir = DataCell.eDirection.TOP;
+            if (newDirection == null) newDirection = eDirection.TOP;
 
             // if the new step creates a loop in path, the loop is cut
             for (int i = 0; i < _resRandomWalk.Count; i++) {
@@ -89,13 +90,13 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
                             _grid.BuildWall(_resRandomWalk[j].cell, _resRandomWalk[j - 1].cell);
                         _resRandomWalk.RemoveAt(j);
                     }
-                    _resRandomWalk[i].direction = (DataCell.eDirection)newDir;
+                    _resRandomWalk[i].direction = (eDirection)newDirection;
                     break;
                 }
             }
             //otherwise, the new step is added to randomwalk
             if (!foundLoop) {
-                Step newStep = new Step(newCell, (DataCell.eDirection)newDir);
+                Step newStep = new Step(newCell, (eDirection)newDirection);
                 _resRandomWalk.Add(newStep);
                 if (liveGeneration) {
                     _grid.RemoveWall(previousStep.cell, newStep.cell);
@@ -111,9 +112,9 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
     private class Step {
         public DataCell cell;
-        public DataCell.eDirection direction;
+        public eDirection direction;
 
-        public Step(DataCell _cell, DataCell.eDirection _direction) {
+        public Step(DataCell _cell, eDirection _direction) {
             cell = _cell;
             direction = _direction;
         }
