@@ -1,15 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public class WallObj : MonoBehaviour
 {
-    //======================================== fields
+    #region ============================================================================================= Private Fields
+
     private MeshRenderer meshRenderer;
     private float witdh;
+    
+    #endregion Private Fields
+    #region ============================================================================================= Public Methods
 
-    //======================================== methods
     public virtual void SetWidth(float _width) {
         witdh = _width;
         transform.localScale = new Vector3(1+_width,transform.localScale.y,_width);
@@ -17,12 +17,11 @@ public class WallObj : MonoBehaviour
     public void SetLength(float _l) {
         transform.localScale = new Vector3(_l + witdh, transform.localScale.y, transform.localScale.z);
     }
-    /// <summary>
-    /// enables/disables wall mesh
-    /// </summary>
-    /// <param name="_active"></param>
+    
     public void SetMeshActive(bool _active) {
         if (!meshRenderer) meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.enabled = _active;
     }
+    
+    #endregion Public Methods
 }

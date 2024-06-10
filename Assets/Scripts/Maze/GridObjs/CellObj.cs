@@ -2,26 +2,23 @@ using UnityEngine;
 
 public class CellObj : MonoBehaviour
 {
+    #region ============================================================================================= Private Fields
     [SerializeField] private WallObj topWall;
     [SerializeField] private WallObj rightWall;
-    //======================================== fields
+
     private DataCell dataCell;
     private WallObj[] walls;
     
-
-    //======================================== methods
-    /// <summary>
-    /// Initializes DataCell
-    /// </summary>
-    /// <param name="_cell">DataCell associated to this object</param>
+    #endregion Private Fields
+    #region ============================================================================================= Public Methods
     public void Init(DataCell _cell) {
         dataCell = _cell;
         transform.position = new Vector3(dataCell.PosN, 0, -dataCell.PosM);
         walls = new WallObj[] { topWall, rightWall };
         
-        UpdateExternalState();
+        RefreshWallsActive();
 
-        dataCell.OnWallBuiltOrDestroyed += UpdateExternalState;
+        dataCell.OnWallBuiltOrDestroyed += RefreshWallsActive;
     }
 
     public void SetWallMeshesActive(bool active) {
@@ -29,17 +26,18 @@ public class CellObj : MonoBehaviour
             wall.SetMeshActive(active);
     }
 
-    public void SetWallsWidht(float width) {
+    public void SetWallsWidth(float width) {
         foreach (WallObj wall in walls)
             wall.SetWidth(width);
     }
-
-    /// <summary>
-    /// Updates game object depending on dataCell state
-    /// </summary>
-    private void UpdateExternalState() {
-        Debug.Log("updating external state");
+    
+    #endregion Public Methods
+    #region ============================================================================================ Private Methods
+    
+    private void RefreshWallsActive() {
         walls[0].gameObject.SetActive(dataCell.IsTopWallActive);
         walls[1].gameObject.SetActive(dataCell.IsRightWallActive);
     }
+    
+    #endregion Private Methods
 }

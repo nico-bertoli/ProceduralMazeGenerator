@@ -69,7 +69,7 @@ public abstract class AbsGridObj : MonoBehaviour
 
         for (int m = 0; m < dataGrid.RowsCount; m++) {
             for (int n = 0; n < dataGrid.ColumnsCount; n++) {
-                cellObjs[m, n].SetWallsWidht(width);
+                cellObjs[m, n].SetWallsWidth(width);
             }
             yield return null;
         }
