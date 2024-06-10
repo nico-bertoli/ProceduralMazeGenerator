@@ -9,7 +9,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 /// <summary>
 /// Allows mesh combining
 /// </summary>
-public class MeshCombiner : MonoBehaviour
+public class MeshesCombiner : MonoBehaviour
 {
     [SerializeField] GameObject meshChunkPrefab;
     //int chunkSize = 2000;

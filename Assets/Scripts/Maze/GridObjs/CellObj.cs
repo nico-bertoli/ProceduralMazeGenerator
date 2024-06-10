@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// game object representation of a DataCell
-/// </summary>
 public class CellObj : MonoBehaviour
 {
     [SerializeField] private WallObj topWall;

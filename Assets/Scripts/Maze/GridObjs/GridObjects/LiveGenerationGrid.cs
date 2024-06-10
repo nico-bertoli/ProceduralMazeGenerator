@@ -8,8 +8,8 @@ using UnityEngine;
 public class LiveGenerationGrid : AbsGridObj {
     public override IEnumerator Init(DataGrid grid) {
         yield return StartCoroutine(base.Init(grid));
-        yield return StartCoroutine(setCellsActive(true));
-        SetWallsMeshActive(true);
+        yield return StartCoroutine(SetCellsActive(true));
+        SetWallsMeshesActive(true);
         OnInitCompleted();
     }
 }

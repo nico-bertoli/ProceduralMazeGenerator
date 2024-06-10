@@ -49,8 +49,8 @@ public class Maze : MonoBehaviour {
     }
 
     public IEnumerator SetWallsSize(float size) {
-        yield return StartCoroutine(gridObj.SetWallsWithd(size));
-        yield return StartCoroutine(gridObj.CombineMeshes());
+        yield return StartCoroutine(gridObj.SetWallsWidth(size));
+        yield return StartCoroutine(gridObj.GenerateChunks());
     }
 
     public Vector3 GetExitPosition() {
@@ -73,7 +73,7 @@ public class Maze : MonoBehaviour {
         }
 
         else {
-            StartCoroutine(gridObj.CombineMeshes());
+            StartCoroutine(gridObj.GenerateChunks());
             OnGenerationComplete();
         }
     }
