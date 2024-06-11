@@ -77,7 +77,7 @@ public class UIManager : Singleton<UIManager>
     /// <summary>
     /// Shows maze generation / overview panel (and enables loading panel)
     /// </summary>
-    public void ShowGenerationPanel() {
+    private void ShowGenerationPanel() {
         
         if (liveGeneration)
             loadingPanel.Text = "Loading maze";
@@ -108,7 +108,7 @@ public class UIManager : Singleton<UIManager>
 
     private void Start() {
         liveGenToggle.isOn = liveGeneration = false;
-        GameController.Instance.GetMaze().OnGenerationComplete += () => {
+        GameController.Instance.Maze.OnGenerationComplete += () => {
             playGameButton.SetActive(true);
             loadingPanel.gameObject.SetActive(false);
             genSpeedSlider.gameObject.SetActive(false);

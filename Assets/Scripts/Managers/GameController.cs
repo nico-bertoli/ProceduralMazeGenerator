@@ -1,105 +1,81 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameController : Singleton<GameController>
 {
-    //======================================== fields
+    #region ============================================================================================= Private Fields
 
     [Header("Settings")]
-    [SerializeField] float gameWallsSize = 0.04f;
+    [SerializeField] private float gameWallsSize = 0.04f;
+    
+    [field: Header("References")]
+    [field:SerializeField] public Maze Maze { get; private set; }
+    [SerializeField] private GameObject playerObj;
+    [SerializeField] private GameObject exitObj;
 
-    [Header("References")]
-    [SerializeField] Maze maze;
-    [SerializeField] GameObject playerObj;
-    [SerializeField] GameObject exitObj;
     /// <summary>
-    /// Camera used in the genration / maze overview phase
+    /// Used during maze preview
     /// </summary>
-    [SerializeField] TopDownCamera topDownCamera;
-    /// <summary>
-    /// Container of play-mode objects
-    /// </summary>
-    [SerializeField] GameObject gameObjectsContainer;
-    /// <summary>
-    /// Container of creation objects
-    /// </summary>
-    [SerializeField] GameObject creationObjectsContainer;
+    [SerializeField] private TopDownCamera topDownCamera;
+    [SerializeField] private GameObject gameObjects;
+    [SerializeField] private GameObject mazeGenerationObjects;
 
-    //======================================== methods
-    /// <summary>
-    /// Starts maze generation
-    /// </summary>
-    /// <param name="_nRows">Maze number of rows</param>
-    /// <param name="_nColumns">Maze number of columns</param>
-    /// <param name="_showGeneration">If true, show how algorithm works generating the maze slowly</param>
-    /// <param name="_algorithm">Maze generation algorithm to use</param>
-    /// <returns></returns>
-    /// 
-    public void GenerateMaze(int _nRows,int _nColumns, bool _showGeneration, AbsMazeGenerator.eAlgorithms _algorithm) {
+    #endregion Private Fields
+    #region ============================================================================================= Public Methods
+    
+    public void GenerateMaze(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {
 
-        Debug.Log("generate maze called with rows:" + _nRows + ", columns: " + _nColumns + ", algorithm:" + _algorithm + " live generation: " + _showGeneration);
+        Debug.Log($"generating maze, rows:{nRows}, columns:{nColumns}, algorithm:{algorithm} live generation:{showLiveGeneration} ");
 
-        topDownCamera.CenterPosition(Vector3.zero, _nRows, _nColumns);
-        topDownCamera.AdjustCameraSize(_nRows, _nColumns);
+        topDownCamera.CenterPosition(Vector3.zero, nRows, nColumns);
+        topDownCamera.AdjustCameraSize(nRows, nColumns);
 
-        StartCoroutine(maze.Generate(_nRows, _nColumns, _showGeneration, _algorithm));
+        StartCoroutine(Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm));
     }
     
-    public void SetLiveGenerationSpeed(float _speed) {
-        maze.SetLiveGenerationSpeed(_speed);
-    }
-
-    /// <summary>
-    /// Resets the generation
-    /// </summary>
     public void Reset() {
-        maze.Reset();
-        setGameMode(false);
+        Maze.Reset();
+        SetGameMode(false);
         UIManager.Instance.ShowSettingsPanel();
     }
+    
+    public void SetLiveGenerationSpeed(float speed) => Maze.SetLiveGenerationSpeed(speed);
 
-    public void QuitGame() {
-        Application.Quit();
-    }
+    public void QuitGame() => Application.Quit();
 
-    /// <summary>
-    /// Starts game mode
-    /// </summary>
-    public void PlayMaze() {
-        StartCoroutine(playMazeCor());
-    }
+    public void PlayMaze() => StartCoroutine(PlayMazeCor());
 
+    #endregion Public Methods
+    #region ============================================================================================ Private Methods
+    
     private void Start() {
-        maze.OnGridInitComplete += UIManager.Instance.DisableLoadingPanel;
-        gameObjectsContainer.SetActive(false);
+        Maze.OnGridInitComplete += UIManager.Instance.DisableLoadingPanel;
+        gameObjects.SetActive(false);
         topDownCamera.gameObject.SetActive(true);
         exitObj.GetComponent<Exit>().OnExitReached += Reset;
     }
 
-    private IEnumerator playMazeCor() {
+    private IEnumerator PlayMazeCor() {
         UIManager.Instance.ShowLoadingGamePanel();
 
-        yield return StartCoroutine(maze.SetWallsSize(gameWallsSize));
+        yield return StartCoroutine(Maze.SetWallsSize(gameWallsSize));
 
-        setGameMode(true);
+        SetGameMode(true);
 
         playerObj.transform.position = new Vector3(transform.position.x, playerObj.transform.position.y, transform.position.z);
         playerObj.transform.forward = -transform.forward;
 
-        exitObj.transform.position = maze.GetExitPosition();
+        exitObj.transform.position = Maze.GetExitPosition();
 
-        yield return StartCoroutine(maze.EnableCooling(playerObj));
+        yield return StartCoroutine(Maze.EnableCooling(playerObj));
         UIManager.Instance.DisableLoadingPanel();
     }
 
-    private void setGameMode(bool _active) {
-        gameObjectsContainer.SetActive(_active);
-        creationObjectsContainer.SetActive(!_active);
+    private void SetGameMode(bool active) {
+        gameObjects.SetActive(active);
+        mazeGenerationObjects.SetActive(active == false);
     }
-
-    public Maze GetMaze() { return maze; }
+    
+    #endregion Private Methods
 }

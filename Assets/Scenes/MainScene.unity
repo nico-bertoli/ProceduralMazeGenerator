@@ -2724,8 +2724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c0b27f6f0d0682419e74074789ed299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vertMargin: 0.2
-  orizMargin: 0.1
+  topBottomMargin: 0.2
+  leftRightMargin: 0.1
 --- !u!1 &982381018
 GameObject:
   m_ObjectHideFlags: 0
@@ -4955,13 +4955,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c95937c23f28a4195b605ef569cbf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameWallsSize: 0.04
-  maze: {fileID: 1674199080}
+  gameWallsSize: 0.1
+  <Maze>k__BackingField: {fileID: 1674199080}
   playerObj: {fileID: 56123305}
   exitObj: {fileID: 1239864889}
   topDownCamera: {fileID: 963194229}
-  gameObjectsContainer: {fileID: 1299070575}
-  creationObjectsContainer: {fileID: 125070818}
+  gameObjects: {fileID: 1299070575}
+  mazeGenerationObjects: {fileID: 125070818}
 --- !u!1 &1674199079
 GameObject:
   m_ObjectHideFlags: 0

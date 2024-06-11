@@ -25,7 +25,7 @@ public class Maze : MonoBehaviour {
     #endregion Fields
     #region ============================================================================================= Public Methods
     
-    public IEnumerator Generate(int nRows, int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {
+    public IEnumerator Generate(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm) {
 
         isLiveGenerationActive = showLiveGeneration;
 
@@ -71,7 +71,6 @@ public class Maze : MonoBehaviour {
             UIManager.Instance.SetLoadingPanelText("Loading maze");
             StartCoroutine(gridObj.Init(dataGrid));
         }
-
         else {
             StartCoroutine(gridObj.GenerateChunks());
             OnGenerationComplete();
@@ -98,13 +97,13 @@ public class Maze : MonoBehaviour {
         }
     }
 
-    private IEnumerator InstantiateGridObj(int _nRows,int _nColumns) {
+    private IEnumerator InstantiateGridObj(int nRows,int nColumns){
         if (isLiveGenerationActive)
             gridObj = Instantiate(liveGenerationGridPrototype).GetComponent<LiveGenerationGrid>();
         else
             gridObj = Instantiate(notLiveGenerationGridPrototype).GetComponent<NotLiveGenerationGrid>();
 
-        dataGrid = new DataGrid(_nRows, _nColumns);
+        dataGrid = new DataGrid(nRows, nColumns);
 
         gridObj.OnInitCompleted += OnGridInitComplete;
 
