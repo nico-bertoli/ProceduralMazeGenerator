@@ -43,7 +43,7 @@ public class GameController : Singleton<GameController>
 
         Debug.Log("generate maze called with rows:" + _nRows + ", columns: " + _nColumns + ", algorithm:" + _algorithm + " live generation: " + _showGeneration);
 
-        topDownCamera.AdjustCameraPosition(Vector3.zero, _nRows, _nColumns);
+        topDownCamera.CenterPosition(Vector3.zero, _nRows, _nColumns);
         topDownCamera.AdjustCameraSize(_nRows, _nColumns);
 
         StartCoroutine(maze.Generate(_nRows, _nColumns, _showGeneration, _algorithm));
