@@ -56,11 +56,11 @@ public abstract class AbsGridObj : MonoBehaviour
     public IEnumerator EnableCulling(GameObject target) {
         DistanceCulling.target = target;
         for (int i = 0; i < chunksContainer.transform.childCount; i++) {
-            chunksContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().Init();
+            chunksContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().StartCulling();
             if (i % 10 == 0) yield return null;
         }
         for (int i = 0; i < meshesContainer.transform.childCount; i++) {
-            meshesContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().Init();
+            meshesContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().StartCulling();
             if (i % 10 == 0) yield return null;
         }
     }
@@ -165,19 +165,25 @@ public abstract class AbsGridObj : MonoBehaviour
     /// Separates cells in chunks, depending on CHUNK_SIZE
     /// </summary>
     /// <returns></returns>
-    private IEnumerator GenerateChunks(GameObject chunksParent) {
-        GameObject chunk;
-        for (int ychunk = 0; ychunk <= dataGrid.RowsCount / CHUNK_SIZE; ychunk++) {
-            for (int xchunk = 0; xchunk <= dataGrid.ColumnsCount / CHUNK_SIZE; xchunk++) {
-                chunk = new GameObject("Chunk[" + ychunk + "," + xchunk + "]");
+    private IEnumerator GenerateChunks(GameObject chunksParent)
+    {
+        int ChunksCountM = dataGrid.RowsCount / CHUNK_SIZE;
+        int ChunksCountN = dataGrid.ColumnsCount / CHUNK_SIZE;
+        
+        for (int gridM = 0; gridM <= ChunksCountM; gridM++) {
+            for (int grinN = 0; grinN <= ChunksCountN; grinN++) {
+                
+                //create new chunk
+                GameObject chunk = new GameObject("Chunk[" + gridM + "," + grinN + "]");
                 chunk.transform.parent = chunksParent.transform;
-                chunk.transform.position = new Vector3(xchunk * CHUNK_SIZE +CHUNK_SIZE/ 2f, 0, -(ychunk* CHUNK_SIZE + CHUNK_SIZE/ 2f));
+                chunk.transform.position = new Vector3(grinN * CHUNK_SIZE +CHUNK_SIZE/ 2f, 0, -(gridM* CHUNK_SIZE + CHUNK_SIZE/ 2f));
 
-                for (int mchunk = 0; mchunk < CHUNK_SIZE; mchunk++) {
-                    for (int nchunk = 0; nchunk < CHUNK_SIZE; nchunk++) {
+                //make cells child of new chunk
+                for (int chunkM = 0; chunkM < CHUNK_SIZE; chunkM++) {
+                    for (int chunkN = 0; chunkN < CHUNK_SIZE; chunkN++) {
 
-                        int m = ychunk * CHUNK_SIZE + mchunk;
-                        int n = xchunk * CHUNK_SIZE + nchunk;
+                        int m = gridM * CHUNK_SIZE + chunkM;
+                        int n = grinN * CHUNK_SIZE + chunkN;
 
                         if (m >= dataGrid.RowsCount || n >= dataGrid.ColumnsCount) break;
                         cellObjs[m, n].transform.parent = chunk.transform;

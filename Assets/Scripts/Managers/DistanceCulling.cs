@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,30 +12,32 @@ public class DistanceCulling : MonoBehaviour
     #endregion Public Fields
     #region ============================================================================================= Private Fields
     
-    private static float refreshCullingEverySeconds = 1f;
-    private static float zEnableDistance =30f;
-    private static float generalEnableDistance = 18;
+    private static float cullingRefreshFactor = 0.1f;
+    private static float generalEnableDistance = 30;
 
     #endregion Private Fields
     #region ============================================================================================= Public Methods
-    
-    public void Init() {
-        Coroutiner.Instance.StartCoroutine(RefreshCullingCor());
-    }
-    
-    #endregion Public Methods
+
+    public void StartCulling() => Coroutiner.Instance.StartCoroutine(RefreshCullingCor());
+
+        #endregion Public Methods
     #region ============================================================================================ Private Methods
     
     private IEnumerator RefreshCullingCor() {
         while (this != null && gameObject != null)
         {
-            if((transform.position.z < target.transform.position.z && Vector3.Distance(transform.position, target.transform.position)<zEnableDistance)||
-               Vector3.Distance(transform.position, target.transform.position) < generalEnableDistance)
+            float targetDistance = Vector3.Distance(transform.position, target.transform.position);
+            if(targetDistance < generalEnableDistance)
                 gameObject.SetActive(true);
             else
                 gameObject.SetActive(false);
-            yield return new WaitForSeconds(refreshCullingEverySeconds);
-            Debug.LogError("refreshing");
+
+            //more distant chunks refresh later
+            float waitTime = cullingRefreshFactor * targetDistance;
+            if (waitTime < 1)
+                waitTime = 1;
+
+            yield return new WaitForSeconds(waitTime);
         }
     }
     #endregion Private Methods
