@@ -1,94 +1,45 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static AbsMazeGenerator;
 
-/// <summary>
-/// Handles UI
-/// </summary>
 public class UIManager : Singleton<UIManager>
 {
-    //======================================== fields
+    #region ============================================================================================= Private Fields
 
+    [Header("Settings")]
+    [SerializeField] private int liveGenerationMaxCells = 80;
+    [SerializeField] private int notLiveGenerationMaxCells = 80;
+    
+    [Header("References")]
+    [SerializeField] private Slider columnsSlider;
+    [SerializeField] private TextMeshProUGUI widthText;
+    [SerializeField] private Slider rowsSlider;
+    [SerializeField] private TextMeshProUGUI heightText;
+    [SerializeField] private Toggle liveGenToggle;
+    [SerializeField] private TMP_Dropdown algorithmDropdown;
+    [SerializeField] private Slider genSpeedSlider;
+    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject gamePanel;
+    [SerializeField] private GameObject playGameButton;
+    [SerializeField] private GameObject backButton;
+    [SerializeField] private LoadingPanel loadingPanel;
+    
     private int nColumns;
     private int nRows;
     private bool liveGeneration;
-    private AbsMazeGenerator.eAlgorithms algorithm;
+    private eAlgorithms algorithm;
     private int maxCells = 255;
     private const int minCells = 10;
-
-    [Header("References")]
-    [SerializeField] Slider columnsSlider;
-    [SerializeField] TextMeshProUGUI widthText;
-    [SerializeField] Slider rowsSlider;
-    [SerializeField] TextMeshProUGUI heightText;
-    [SerializeField] Toggle liveGenToggle;
-    [SerializeField] TMP_Dropdown algorithmDropdown;
-    [SerializeField] Slider genSpeedSlider;
-    [SerializeField] GameObject settingsPanel;
-    [SerializeField] GameObject gamePanel;
-    [SerializeField] GameObject playGameButton;
-    [SerializeField] GameObject backButton;
-    [SerializeField] LoadingPanel loadingPanel;
-
-    //======================================== methods
-
-    /// <summary>
-    /// Enables/disables live generation
-    /// </summary>
-    public void ToggleLiveGeneration() {
-        liveGeneration = !liveGeneration;
-        if (liveGeneration) maxCells = 80;
-        else maxCells = 255;
-    }
-
-    /// <summary>
-    /// Sets maze generation algorithm
-    /// </summary>
-    public void UpdateAlgorithm() {
-        algorithm = (AbsMazeGenerator.eAlgorithms)algorithmDropdown.value;
-    }
-
-    /// <summary>
-    /// Makes maze generation begin
-    /// </summary>
-    public void StartGeneration() {
-        playGameButton.SetActive(false);
-        if (liveGeneration) {
-            genSpeedSlider.gameObject.SetActive(true);
-            genSpeedSlider.value = 0;
-        }
-        else {
-            genSpeedSlider.gameObject.SetActive(false);
-        }
-
-        ShowGenerationPanel();
-        GameController.Instance.GenerateMaze(nRows, nColumns, liveGeneration, algorithm);
-    }
-
-    /// <summary>
-    /// Shows maze generation settings panel
-    /// </summary>
+    
+    #endregion Private Fields
+    #region ============================================================================================= Public Methods
+    
     public void ShowSettingsPanel() {
         gamePanel.SetActive(false);
         settingsPanel.SetActive(true);
     }
-
-    /// <summary>
-    /// Shows maze generation / overview panel (and enables loading panel)
-    /// </summary>
-    private void ShowGenerationPanel() {
-        
-        if (liveGeneration)
-            loadingPanel.Text = "Loading maze";
-        else
-            loadingPanel.Text = "Algorithm is working";
-
-        loadingPanel.gameObject.SetActive(true);
-        settingsPanel.SetActive(false);
-        gamePanel.SetActive(true);
-    }
-
+    
     public void ShowLoadingGamePanel() {
         genSpeedSlider.gameObject.SetActive(false);
         playGameButton.SetActive(false);
@@ -105,7 +56,24 @@ public class UIManager : Singleton<UIManager>
     public void SetLoadingPanelText(string _text) {
         loadingPanel.Text = _text;
     }
+    
+    public void PlayMaze() =>GameController.Instance.PlayMaze();
 
+    #endregion Public Methods
+    #region ============================================================================================ Private Methods
+    
+    private void ShowGenerationPanel() {
+        
+        if (liveGeneration)
+            loadingPanel.Text = "Loading maze";
+        else
+            loadingPanel.Text = "Algorithm is working";
+
+        loadingPanel.gameObject.SetActive(true);
+        settingsPanel.SetActive(false);
+        gamePanel.SetActive(true);
+    }
+    
     private void Start() {
         liveGenToggle.isOn = liveGeneration = false;
         GameController.Instance.Maze.OnGenerationComplete += () => {
@@ -119,10 +87,7 @@ public class UIManager : Singleton<UIManager>
         RefreshGridSizeText();
         SendLiveGeneSpeedToGameController();
     }
-
-    /// <summary>
-    /// Refresh grid size text depending on sliders value
-    /// </summary>
+    
     private void RefreshGridSizeText() {
         nColumns = (int)(columnsSlider.value * (maxCells - minCells) + minCells);
         nRows = (int)(rowsSlider.value * (maxCells - minCells) + minCells);
@@ -131,15 +96,36 @@ public class UIManager : Singleton<UIManager>
         heightText.text = "Rows: " + nRows;
     }
 
-    /// <summary>
-    /// Sets game controller live gen speed depending on gen speed slider
-    /// </summary>
     private void SendLiveGeneSpeedToGameController() {
         if (liveGeneration)
             GameController.Instance.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
     }
 
-    public void PlayMaze() {
-        GameController.Instance.PlayMaze();
+    #endregion Private Methods
+    #region ============================================================================================ Signals
+    
+    public void Signal_ToggleLiveGeneration() {
+        liveGeneration = !liveGeneration;
+        maxCells = liveGeneration ? liveGenerationMaxCells : notLiveGenerationMaxCells;
     }
+    
+    public void Signal_RefreshAlgorithm() {
+        algorithm = (eAlgorithms)algorithmDropdown.value;
+    }
+    
+    public void Signal_StartGeneration() {
+        playGameButton.SetActive(false);
+        if (liveGeneration) {
+            genSpeedSlider.gameObject.SetActive(true);
+            genSpeedSlider.value = 0;
+        }
+        else {
+            genSpeedSlider.gameObject.SetActive(false);
+        }
+
+        ShowGenerationPanel();
+        GameController.Instance.GenerateMaze(nRows, nColumns, liveGeneration, algorithm);
+    }
+    
+    #endregion Signals
 }

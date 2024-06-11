@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
-    //======================================== fields
+    #region ============================================================================================== Public Fields
+    
     public Vector2 MoveDirection { get; private set; }
     public bool IsMoving { get; set; }
-
-    //======================================== methods
+    
+    #endregion Public Fields
+    #region ============================================================================================= Public Methods
+    
     public void Move(InputAction.CallbackContext context) {
         if (context.performed) {
             IsMoving = true;
@@ -19,4 +20,6 @@ public class InputManager : Singleton<InputManager>
             IsMoving = false;
         }
     }
+    
+    #endregion PublicMethods
 }

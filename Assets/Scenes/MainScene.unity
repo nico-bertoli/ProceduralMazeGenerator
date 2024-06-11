@@ -3701,7 +3701,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 982381020}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: StartGeneration
+        m_MethodName: Signal_StartGeneration
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4024,7 +4024,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 982381020}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: UpdateAlgorithm
+        m_MethodName: Signal_RefreshAlgorithm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5802,7 +5802,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 982381020}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ToggleLiveGeneration
+        m_MethodName: Signal_ToggleLiveGeneration
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
