@@ -10,6 +10,5 @@ public class LiveGenerationGrid : AbsGridObj {
         yield return StartCoroutine(base.Init(grid));
         yield return StartCoroutine(SetCellsActive(true));
         SetWallsMeshesActive(true);
-        OnInitCompleted();
     }
 }

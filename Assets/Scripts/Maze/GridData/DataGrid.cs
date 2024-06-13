@@ -32,8 +32,11 @@ public class DataGrid {
     
     public void RemoveWall(DataCell cell1, DataCell cell2)
     {
-        Debug.Assert(Mathf.Abs(cell1.PosM - cell2.PosM) == 1||  Mathf.Abs(cell1.PosN - cell2.PosN) == 1 , 
+        Debug.Assert(Mathf.Abs(cell1.PosM - cell2.PosM) == 1 ||  Mathf.Abs(cell1.PosN - cell2.PosN) == 1 , 
             $"{nameof(RemoveWall)} received not adjacent cells! {cell1}, {cell2}");
+        
+        Debug.Assert(cell1.Equals(cell2) == false, 
+            $"{nameof(RemoveWall)} received same cell, wall couldn't be removed");
         
         if (cell1.PosM < cell2.PosM)
             cell2.IsTopWallActive = false;
@@ -80,11 +83,12 @@ public class DataGrid {
     
     public List<DataCell> GetNeighbours(DataCell cell){
 
-        List<DataCell> possibleNeighs = new List<DataCell>();
+        List<DataCell> possibleNeighbours = new List<DataCell>();
         List<eDirection> directions = GetNeighboursDirections(cell);
-        foreach (eDirection dir in directions)possibleNeighs.Add(GetNeighbourAtDir(cell,dir));
+        foreach (eDirection dir in directions)
+            possibleNeighbours.Add(GetNeighbourAtDir(cell,dir));
 
-        return possibleNeighs;
+        return possibleNeighbours;
     }
     
     public DataCell GetNeighbourAtDir(DataCell cell, eDirection direction){
@@ -114,7 +118,7 @@ public class DataGrid {
                 return null;
         }
     }
-    
+
     public List<eDirection> GetNeighboursDirections(DataCell cell) {
         List<eDirection> ris = GetAllDirections();
 

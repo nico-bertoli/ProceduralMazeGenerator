@@ -7,9 +7,10 @@ public class Maze : MonoBehaviour {
     
     #region ============================================================================================== Public Events
     
-    public Action OnGenerationComplete;
-    public Action OnGridInitComplete;
+    public Action OnMazeChunksGenerated;
     
+    public Action OnGenerationStarted;
+    public Action OnGenerationEnded;
     #endregion
     #region ============================================================================================= Private Fields
 
@@ -33,8 +34,10 @@ public class Maze : MonoBehaviour {
 
         InstantiateMazeGenerator(algorithm);
         
+        OnGenerationStarted?.Invoke();
         yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, dataGrid.GetCell(0, 0), showLiveGeneration));
-
+        OnGenerationEnded?.Invoke();
+        
         ShowGrid();
     }
 
@@ -67,13 +70,13 @@ public class Maze : MonoBehaviour {
 
     private void ShowGrid() {
         if (!isLiveGenerationActive) {
-            gridObj.OnInitCompleted += OnGenerationComplete;
+            // gridObj.OnGridFinalMeshCreated += OnGridFinalMeshCreated;
             UIManager.Instance.SetLoadingPanelText("Loading maze");
             StartCoroutine(gridObj.Init(dataGrid));
         }
         else {
             StartCoroutine(gridObj.GenerateChunks());
-            OnGenerationComplete();
+            // OnGridFinalMeshCreated?.Invoke();
         }
     }
 
@@ -103,13 +106,13 @@ public class Maze : MonoBehaviour {
         else
             gridObj = Instantiate(notLiveGenerationGridPrototype).GetComponent<NotLiveGenerationGrid>();
 
-        dataGrid = new DataGrid(nRows, nColumns);
+        gridObj.OnGridChunksGenerated += OnMazeChunksGenerated;
 
-        gridObj.OnInitCompleted += OnGridInitComplete;
+        dataGrid = new DataGrid(nRows, nColumns);
 
         if (isLiveGenerationActive)
             yield return StartCoroutine(gridObj.Init(dataGrid));
     }
-    
+
     #endregion Private Methods
 }

@@ -6,17 +6,17 @@ using UnityEngine;
 //algorithm: https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
 
 public class KruskalMazeGenerator : AbsMazeGenerator {
-        protected override IEnumerator GenerateMazeImpl(DataGrid _grid, DataCell _startCell) {
+        protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
 
         //get all edges
-        List<Edge> unvisitedEdges = getEdges(_grid);
+        List<Edge> unvisitedEdges = getEdges(grid);
 
         //create a set for each cell containing the cell itself
-        HashSet<DataCell>[,] sets = new HashSet<DataCell>[_grid.RowsCount, _grid.ColumnsCount];
-        for (int m = 0; m < _grid.RowsCount; m++) {
-            for (int n = 0; n < _grid.ColumnsCount; n++) {
+        HashSet<DataCell>[,] sets = new HashSet<DataCell>[grid.RowsCount, grid.ColumnsCount];
+        for (int m = 0; m < grid.RowsCount; m++) {
+            for (int n = 0; n < grid.ColumnsCount; n++) {
                 sets[m, n] = new HashSet<DataCell>();
-                sets[m, n].Add(_grid.GetCell(m, n));
+                sets[m, n].Add(grid.GetCell(m, n));
             }
             yield return null;
         }
@@ -43,9 +43,9 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
                     sets[cell.PosM, cell.PosN] = set1;
 
                 //remove wall between cells
-                _grid.RemoveWall(randomEdge.cell1, randomEdge.cell2);
+                grid.RemoveWall(randomEdge.cell1, randomEdge.cell2);
 
-                if (liveGeneration)
+                if (isLiveGenerationEnabled)
                     yield return new WaitForSeconds(liveGenerationDelay);
             }
 

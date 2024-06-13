@@ -7,28 +7,35 @@ using UnityEngine;
 /// </summary>
 public class DFSIterMazeGenerator : AbsDfsMazeGenerator {
 
-    protected override IEnumerator GenerateMazeImpl(DataGrid _grid, DataCell _cell) {
-
-        yield return StartCoroutine(base.GenerateMazeImpl(_grid, _cell));
-
+    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
+        
+        InitVisitedCells(grid.RowsCount, grid.ColumnsCount);
         //mark current cell as visited and add it to the stack
-        visitedCells[_cell.PosM, _cell.PosN] = true;
+        visitedCells[startCell.PosM, startCell.PosN] = true;
         Stack<DataCell> stack = new Stack<DataCell>();
-        stack.Push(_cell);
+        stack.Push(startCell);
 
         while (stack.Count > 0) {
             DataCell current = stack.Pop ();
-            List<DataCell> neighs = getUnvisitedNeighbours(_grid,current);
+            List<DataCell> neighs = GetUnvisitedNeighbours(grid,current);
             if (neighs.Count > 0) {
                 //get a random unvisited neighbour
                 DataCell neigh = neighs[Random.Range(0, neighs.Count)];
-                _grid.RemoveWall(current, neigh);
+                grid.RemoveWall(current, neigh);
                 visitedCells[neigh.PosM, neigh.PosN] = true;
                 stack.Push(current);
                 stack.Push(neigh);
 
-                if (liveGeneration)
-                    yield return new WaitForSeconds(liveGenerationDelay);
+                if (isLiveGenerationEnabled)
+                {
+                    if (liveGenerationDelay == 0)
+                    {
+                        yield return null;
+                    }
+                    else
+                        yield return new WaitForSeconds(liveGenerationDelay);
+                }
+                    
             }
         }
     }

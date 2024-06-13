@@ -9,7 +9,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Settings")]
     [SerializeField] private int liveGenerationMaxCells = 80;
-    [SerializeField] private int notLiveGenerationMaxCells = 80;
+    [SerializeField] private int notLiveGenerationMaxCells = 260;
     
     [Header("References")]
     [SerializeField] private Slider columnsSlider;
@@ -53,13 +53,32 @@ public class UIManager : Singleton<UIManager>
         backButton.SetActive(true);
     }
 
-    public void SetLoadingPanelText(string _text) {
-        loadingPanel.Text = _text;
+    public void SetLoadingPanelText(string text) {
+        loadingPanel.Text = text;
     }
     
     public void PlayMaze() =>GameController.Instance.PlayMaze();
 
     #endregion Public Methods
+    #region ============================================================================================ Monobehaviour
+    
+    private void Start() {
+       
+        GameController.Instance.Maze.OnMazeChunksGenerated += OnGridFinalMeshCreated;
+        
+        GameController.Instance.Maze.OnMazeChunksGenerated += OnMazeGridChunksGenerated;
+        GameController.Instance.Maze.OnGenerationStarted += OnMazeGenerationStarted;
+        
+        liveGenToggle.isOn = liveGeneration = false;
+    }
+    
+    private void Update() {
+        RefreshGridSizeText();
+        SendLiveGeneSpeedToGameController();
+    }
+    
+    #endregion
+    
     #region ============================================================================================ Private Methods
     
     private void ShowGenerationPanel() {
@@ -74,20 +93,25 @@ public class UIManager : Singleton<UIManager>
         gamePanel.SetActive(true);
     }
     
-    private void Start() {
-        liveGenToggle.isOn = liveGeneration = false;
-        GameController.Instance.Maze.OnGenerationComplete += () => {
-            playGameButton.SetActive(true);
-            loadingPanel.gameObject.SetActive(false);
-            genSpeedSlider.gameObject.SetActive(false);
-        };
+    private void OnMazeGridChunksGenerated()
+    {
+        if(liveGeneration == false)
+            DisableLoadingPanel();
     }
 
-    private void Update() {
-        RefreshGridSizeText();
-        SendLiveGeneSpeedToGameController();
+    private void OnMazeGenerationStarted()
+    {
+        if(liveGeneration)
+            DisableLoadingPanel();
     }
-    
+
+    private void OnGridFinalMeshCreated()
+    {
+        playGameButton.SetActive(true);
+        loadingPanel.gameObject.SetActive(false);
+        genSpeedSlider.gameObject.SetActive(false);
+    }
+
     private void RefreshGridSizeText() {
         nColumns = (int)(columnsSlider.value * (maxCells - minCells) + minCells);
         nRows = (int)(rowsSlider.value * (maxCells - minCells) + minCells);

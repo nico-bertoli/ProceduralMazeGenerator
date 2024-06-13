@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 /// </summary>
 public abstract class AbsGridObj : MonoBehaviour
 {
-    public Action OnInitCompleted;
+    public Action OnGridChunksGenerated;
 
     #region ============================================================================================= Private Fields
 
@@ -51,6 +51,8 @@ public abstract class AbsGridObj : MonoBehaviour
             yield return null;
         }
         SetWallsMeshesActive(false);
+        
+        OnGridChunksGenerated?.Invoke();
     }
     
     public IEnumerator EnableCulling(GameObject target) {

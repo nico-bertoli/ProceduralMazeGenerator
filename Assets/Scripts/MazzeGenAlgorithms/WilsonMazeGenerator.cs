@@ -11,25 +11,25 @@ using static DataGrid;
 /// </summary>
 public class WilsonMazeGenerator : AbsMazeGenerator {
 
-    protected override IEnumerator GenerateMazeImpl(DataGrid _grid, DataCell _startCell) {
+    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
 
         HashSet<DataCell> finalTree = new HashSet<DataCell>();
-        finalTree.Add(_startCell);
+        finalTree.Add(startCell);
 
         //cells out of final tree
         HashSet<DataCell> outOfTree = new HashSet<DataCell>();
-        for (int m = 0; m < _grid.RowsCount; m++)
-            for (int n = 0; n < _grid.ColumnsCount; n++)
-                outOfTree.Add(_grid.GetCell(m, n));
+        for (int m = 0; m < grid.RowsCount; m++)
+            for (int n = 0; n < grid.ColumnsCount; n++)
+                outOfTree.Add(grid.GetCell(m, n));
 
-        outOfTree.Remove(_startCell);
+        outOfTree.Remove(startCell);
 
         //while there are not connected cells...
         while (outOfTree.Count > 0) {
 
             //fin a random walk
             List<Step> rWalk = new List<Step>();
-            yield return randomWalk(_grid, finalTree, outOfTree, rWalk);
+            yield return randomWalk(grid, finalTree, outOfTree, rWalk);
 
             //add the final walk cells to the final tree (and remove them from out of tree set)
             for(int i = 0;i < rWalk.Count;i++){
@@ -37,8 +37,8 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
                 outOfTree.Remove(rWalk[i].cell);
 
                 // optimization for non live generation: walls are edited only after a complete randomwalk is found
-                if (!liveGeneration && i!= rWalk.Count-1)
-                    _grid.RemoveWall(rWalk[i].cell, _grid.GetNeighbourAtDir(rWalk[i].cell, rWalk[i].direction));
+                if (!isLiveGenerationEnabled && i!= rWalk.Count-1)
+                    grid.RemoveWall(rWalk[i].cell, grid.GetNeighbourAtDir(rWalk[i].cell, rWalk[i].direction));
             }
         }
     }
@@ -86,7 +86,7 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
                     foundLoop = true;
                     for (int j = _resRandomWalk.Count - 1; j > i; j--) {
 
-                        if (liveGeneration)
+                        if (isLiveGenerationEnabled)
                             _grid.BuildWall(_resRandomWalk[j].cell, _resRandomWalk[j - 1].cell);
                         _resRandomWalk.RemoveAt(j);
                     }
@@ -98,7 +98,7 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
             if (!foundLoop) {
                 Step newStep = new Step(newCell, (eDirection)newDirection);
                 _resRandomWalk.Add(newStep);
-                if (liveGeneration) {
+                if (isLiveGenerationEnabled) {
                     _grid.RemoveWall(previousStep.cell, newStep.cell);
                     yield return new WaitForSeconds(liveGenerationDelay);
                 }

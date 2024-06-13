@@ -7,26 +7,28 @@ using UnityEngine;
 /// </summary>
 public class DFSRecMazeGenerator : AbsDfsMazeGenerator {
 
-    protected override IEnumerator GenerateMazeImpl(DataGrid _grid, DataCell _cell) {
+    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
 
+        InitVisitedCells(grid.RowsCount, grid.ColumnsCount);
+        
         //set current cell as visited
-        visitedCells[_cell.PosM, _cell.PosN] = true;
+        visitedCells[startCell.PosM, startCell.PosN] = true;
 
-        if (liveGeneration)
+        if (isLiveGenerationEnabled)
             yield return new WaitForSeconds(liveGenerationDelay);
 
-        List<DataCell> unvisitedNeighbours = getUnvisitedNeighbours(_grid, _cell);
+        List<DataCell> unvisitedNeighbours = GetUnvisitedNeighbours(grid, startCell);
 
         //while there are unvisited neighbours
         while (unvisitedNeighbours.Count > 0) {
 
             DataCell randUnvisitedNeigh = unvisitedNeighbours[Random.Range(0, unvisitedNeighbours.Count)];
-            _grid.RemoveWall(_cell, randUnvisitedNeigh);
+            grid.RemoveWall(startCell, randUnvisitedNeigh);
 
             //recursion on neighbour
-            yield return (StartCoroutine(GenerateMazeImpl(_grid, randUnvisitedNeigh)));
+            yield return (StartCoroutine(GenerateMazeImplementation(grid, randUnvisitedNeigh)));
 
-            unvisitedNeighbours = getUnvisitedNeighbours(_grid, _cell);
+            unvisitedNeighbours = GetUnvisitedNeighbours(grid, startCell);
         }
     }
 

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GameController : Singleton<GameController>
 {
@@ -26,7 +25,7 @@ public class GameController : Singleton<GameController>
     
     public void GenerateMaze(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {
 
-        Debug.Log($"generating maze, rows:{nRows}, columns:{nColumns}, algorithm:{algorithm} live generation:{showLiveGeneration} ");
+        // Debug.Log($"generating maze, rows:{nRows}, columns:{nColumns}, algorithm:{algorithm} live generation:{showLiveGeneration} ");
 
         topDownCamera.CenterPosition(Vector3.zero, nRows, nColumns);
         topDownCamera.AdjustCameraSize(nRows, nColumns);
@@ -50,7 +49,6 @@ public class GameController : Singleton<GameController>
     #region ============================================================================================ Private Methods
     
     private void Start() {
-        Maze.OnGridInitComplete += UIManager.Instance.DisableLoadingPanel;
         gameObjects.SetActive(false);
         topDownCamera.gameObject.SetActive(true);
         exitObj.GetComponent<Exit>().OnExitReached += Reset;
