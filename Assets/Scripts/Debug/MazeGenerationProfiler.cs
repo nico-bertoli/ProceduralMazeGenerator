@@ -14,17 +14,26 @@ public class MazeGenerationProfiler : MonoBehaviour
 
     private void OnGenerationStarted()
     {
+        if (GameController.Instance.Maze.IsLiveGenerationActive)
+            return;
+        
         generationStartTime = Time.time;
     }
 
     private void OnGenerationEnded()
     {
+        if (GameController.Instance.Maze.IsLiveGenerationActive)
+            return;
+        
         generationEndTime = Time.time;
         Debug.Log($"Generation took {Time.time - generationStartTime} seconds");
     }
 
     private void OnMazeChunksGenerated()
     {
+        if (GameController.Instance.Maze.IsLiveGenerationActive)
+            return;
+        
         Debug.Log($"Maze mesh generation took {Time.time - generationEndTime} seconds");
     }
     #endif

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static AbsMazeGenerator;
 
 public class Maze : MonoBehaviour {
@@ -11,7 +12,13 @@ public class Maze : MonoBehaviour {
     
     public Action OnGenerationStarted;
     public Action OnGenerationEnded;
-    #endregion
+    
+    #endregion Public Events
+    #region ========================================================================================== Public Properties
+    
+    public bool IsLiveGenerationActive { get; private set; }
+    
+    #endregion Public Properties
     #region ============================================================================================= Private Fields
 
     [SerializeField] private GameObject liveGenerationGridPrototype;
@@ -21,14 +28,14 @@ public class Maze : MonoBehaviour {
     private DataGrid dataGrid;
     private AbsMazeGenerator mazeGenerator;
     
-    private bool isLiveGenerationActive;
+    
     
     #endregion Fields
     #region ============================================================================================= Public Methods
     
     public IEnumerator Generate(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm) {
 
-        isLiveGenerationActive = showLiveGeneration;
+        IsLiveGenerationActive = showLiveGeneration;
 
         yield return StartCoroutine(InstantiateGridObj(nRows,nColumns));
 
@@ -69,7 +76,7 @@ public class Maze : MonoBehaviour {
     #region ============================================================================================ Private Methods
 
     private void ShowGrid() {
-        if (!isLiveGenerationActive) {
+        if (!IsLiveGenerationActive) {
             // gridObj.OnGridFinalMeshCreated += OnGridFinalMeshCreated;
             UIManager.Instance.SetLoadingPanelText("Loading maze");
             StartCoroutine(gridObj.Init(dataGrid));
@@ -101,7 +108,7 @@ public class Maze : MonoBehaviour {
     }
 
     private IEnumerator InstantiateGridObj(int nRows,int nColumns){
-        if (isLiveGenerationActive)
+        if (IsLiveGenerationActive)
             gridObj = Instantiate(liveGenerationGridPrototype).GetComponent<LiveGenerationGrid>();
         else
             gridObj = Instantiate(notLiveGenerationGridPrototype).GetComponent<NotLiveGenerationGrid>();
@@ -110,7 +117,7 @@ public class Maze : MonoBehaviour {
 
         dataGrid = new DataGrid(nRows, nColumns);
 
-        if (isLiveGenerationActive)
+        if (IsLiveGenerationActive)
             yield return StartCoroutine(gridObj.Init(dataGrid));
     }
 

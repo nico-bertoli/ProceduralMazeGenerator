@@ -1443,7 +1443,7 @@ GameObject:
   - component: {fileID: 346531868}
   - component: {fileID: 346531869}
   m_Layer: 0
-  m_Name: DebugManager
+  m_Name: Profiler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
