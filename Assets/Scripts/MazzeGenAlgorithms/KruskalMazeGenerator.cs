@@ -1,15 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
 
 public class KruskalMazeGenerator : AbsMazeGenerator {
-        protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
+    
+    /// <summary>
+    /// Edge between two cells
+    /// </summary>
+    private class Edge {
+
+        public DataCell cell1;
+        public DataCell cell2;
+
+        public Edge(DataCell cell1, DataCell cell2) {
+            this.cell1 = cell1;
+            this.cell2 = cell2;
+        }
+    }
+    
+    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
 
         //get all edges
-        List<Edge> unvisitedEdges = getEdges(grid);
+        List<Edge> unvisitedEdges = GetEdges(grid);
 
         //create a set for each cell containing the cell itself
         HashSet<DataCell>[,] sets = new HashSet<DataCell>[grid.RowsCount, grid.ColumnsCount];
@@ -21,14 +35,14 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
             yield return null;
         }
 
-        int yieldIndex = 0;
+        int loopCount = 0;
         //while there are unvisited cells
         while (unvisitedEdges.Count > 0) {
 
             //get a random edge
-            int randomID = Random.Range(0, unvisitedEdges.Count);
-            Edge randomEdge = unvisitedEdges[randomID];
-            unvisitedEdges.RemoveAt(randomID);
+            int randomIndex = Random.Range(0, unvisitedEdges.Count);
+            Edge randomEdge = unvisitedEdges[randomIndex];
+            unvisitedEdges.RemoveAt(randomIndex);
 
             //get cells sets
             HashSet<DataCell> set1 = sets[randomEdge.cell1.PosM, randomEdge.cell1.PosN];
@@ -49,43 +63,29 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
                     yield return new WaitForSeconds(liveGenerationDelay);
             }
 
-            if(yieldIndex%500==0)yield return null;
-            yieldIndex++;
+            //prevents application freeze
+            if(loopCount%1000==0)yield return null;
+            loopCount++;
         }
     }
 
     /// <summary>
     /// Returns all edges for the given grid
     /// </summary>
-    /// <param name="_grid"></param>
+    /// <param name="grid"></param>
     /// <returns></returns>
-    private List<Edge> getEdges(DataGrid _grid) {
+    private List<Edge> GetEdges(DataGrid grid) {
 
         List<Edge> ris = new List<Edge>();
 
-        for (int m = 0; m < _grid.RowsCount; m++)
-            for (int n = 0; n < _grid.ColumnsCount; n++) {
-                if(n+1 < _grid.ColumnsCount)
-                ris.Add(new Edge(_grid.GetCell(m, n), _grid.GetCell(m, n + 1)));
-                if(m+1 < _grid.RowsCount)
-                ris.Add(new Edge(_grid.GetCell(m, n), _grid.GetCell(m+1, n)));
+        for (int m = 0; m < grid.RowsCount; m++){
+            for (int n = 0; n < grid.ColumnsCount; n++) {
+                if(n+1 < grid.ColumnsCount)
+                    ris.Add(new Edge(grid.GetCell(m, n), grid.GetCell(m, n + 1)));
+                if(m+1 < grid.RowsCount)
+                    ris.Add(new Edge(grid.GetCell(m, n), grid.GetCell(m+1, n)));
             }
-
+        }
         return ris;   
     }
-
-    /// <summary>
-    /// Edge between two cells
-    /// </summary>
-    private class Edge {
-
-        public DataCell cell1;
-        public DataCell cell2;
-
-        public Edge(DataCell _cell1, DataCell _cell2) {
-            cell1 = _cell1;
-            cell2 = _cell2;
-        }
-    }
-
 }

@@ -1,14 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 
 //algorithm: https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking
 
-public abstract class AbsDfsMazeGenerator : AbsMazeGenerator {
+public abstract class AbsRandDfsMazeGenerator : AbsMazeGenerator {
 
     #region =========================================================================================== Fields
     
     /// <summary>
-    /// Matrix of flags indicating if each cell has been visited
+    /// Matrix indicating if each cell has been visited
     /// </summary>
     protected static bool[,] visitedCells;
     

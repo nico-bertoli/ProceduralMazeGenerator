@@ -90,7 +90,7 @@ public class Maze : MonoBehaviour {
     private void InstantiateMazeGenerator(eAlgorithms algorithm) {
         switch (algorithm) {
             case eAlgorithms.DFSiterative:
-                mazeGenerator = new GameObject().AddComponent<DFSIterMazeGenerator>();
+                mazeGenerator = new GameObject().AddComponent<RandDfsIterMazeGenerator>();
                 mazeGenerator.gameObject.name = "DFSIter Maze Generator";
                 break;
             case eAlgorithms.Willson:

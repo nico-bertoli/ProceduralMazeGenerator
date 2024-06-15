@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Recursive implementation of randomized DFS
 /// </summary>
-public class DFSRecMazeGenerator : AbsDfsMazeGenerator {
+public class RandDfsRecMazeGenerator : AbsRandDfsMazeGenerator {
 
     protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -17,8 +16,7 @@ public abstract class AbsMazeGenerator : MonoBehaviour
     #region =========================================================================================== Private Fields
     
     private const float LIVE_GEN_MAX_DELAY = 0.4f;
-    private float debug_generationStartTime;
-    
+
     #endregion Private Fields
     #region =========================================================================================== Protected Fields
     
@@ -35,8 +33,6 @@ public abstract class AbsMazeGenerator : MonoBehaviour
         
         //live generation always starts at min speed
         liveGenerationDelay = LIVE_GEN_MAX_DELAY;
-        
-        debug_generationStartTime = Time.time;
 
         yield return StartCoroutine(GenerateMazeImplementation(grid, startCell));
     }

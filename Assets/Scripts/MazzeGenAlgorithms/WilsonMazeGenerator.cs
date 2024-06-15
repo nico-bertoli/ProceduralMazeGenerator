@@ -6,10 +6,17 @@ using static DataGrid;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/20/maze-generation-wilson-s-algorithm.html
 
-/// <summary>
-/// Applies Wilson's Algorithm to the grid to generate a maze.
-/// </summary>
 public class WilsonMazeGenerator : AbsMazeGenerator {
+    
+    private class Step {
+        public DataCell cell;
+        public eDirection direction;
+
+        public Step(DataCell _cell, eDirection _direction) {
+            cell = _cell;
+            direction = _direction;
+        }
+    }
 
     protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
 
@@ -18,25 +25,26 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
         //cells out of final tree
         HashSet<DataCell> outOfTree = new HashSet<DataCell>();
-        for (int m = 0; m < grid.RowsCount; m++)
-            for (int n = 0; n < grid.ColumnsCount; n++)
-                outOfTree.Add(grid.GetCell(m, n));
-
-        outOfTree.Remove(startCell);
+        for (int m = 0; m < grid.RowsCount; m++) {
+            for (int n = 0; n < grid.ColumnsCount; n++) {
+                if(grid.GetCell(m,n).Equals(startCell) == false)
+                    outOfTree.Add(grid.GetCell(m, n));
+            }
+        }
 
         //while there are not connected cells...
         while (outOfTree.Count > 0) {
 
             //fin a random walk
             List<Step> rWalk = new List<Step>();
-            yield return randomWalk(grid, finalTree, outOfTree, rWalk);
+            yield return RandomWalk(grid, finalTree, outOfTree, rWalk);
 
-            //add the final walk cells to the final tree (and remove them from out of tree set)
+            //add random walk cells to the final tree (and remove them from out of tree set)
             for(int i = 0;i < rWalk.Count;i++){
                 finalTree.Add(rWalk[i].cell);
                 outOfTree.Remove(rWalk[i].cell);
 
-                // optimization for non live generation: walls are edited only after a complete randomwalk is found
+                // optimization for non live generation: walls are edited only after a complete random walk is found
                 if (!isLiveGenerationEnabled && i!= rWalk.Count-1)
                     grid.RemoveWall(rWalk[i].cell, grid.GetNeighbourAtDir(rWalk[i].cell, rWalk[i].direction));
             }
@@ -44,79 +52,65 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
     }
 
     /// <summary>
-    /// Returns a randomwalk from the greed to the give final tree
+    /// Returns a random walk from the greed to the give final tree
     /// </summary>
-    /// <param name="_grid"></param>
-    /// <param name="_finalTree">Cells in final tree</param>
-    /// <param name="_outOfTree">Cells out of tree</param>
-    /// <param name="_resRandomWalk">Random walk list to edit</param>
+    /// <param name="grid"></param>
+    /// <param name="finalTree">Cells in final tree</param>
+    /// <param name="outOfTree">Cells out of tree</param>
+    /// <param name="resRandomWalk">Random walk list to edit</param>
     /// <returns></returns>
-    private IEnumerator randomWalk(DataGrid _grid, HashSet<DataCell> _finalTree, HashSet<DataCell> _outOfTree, List<Step> _resRandomWalk) {
+    private IEnumerator RandomWalk(DataGrid grid, HashSet<DataCell> finalTree, HashSet<DataCell> outOfTree, List<Step> resRandomWalk) {
 
         //finding random cell out of the final tree
-        DataCell randomCell = _outOfTree.ElementAt<DataCell>(Random.Range(0, _outOfTree.Count));
+        DataCell randomCell = outOfTree.ElementAt(Random.Range(0, outOfTree.Count));
 
         //getting a random direction accessible from the cell
-        List<eDirection> possibleDirections = _grid.GetNeighboursDirections(randomCell);
+        List<eDirection> possibleDirections = grid.GetNeighboursDirections(randomCell);
         eDirection randomDir = possibleDirections[Random.Range(0, possibleDirections.Count)];
 
         //adding the step to the path
-        _resRandomWalk.Add(new Step(randomCell, randomDir));
+        resRandomWalk.Add(new Step(randomCell, randomDir));
 
         while (true) {
 
-            Step previousStep = _resRandomWalk[_resRandomWalk.Count - 1];
-            //get new cell
-            DataCell newCell = _grid.GetNeighbourAtDir(previousStep.cell, previousStep.direction);
+            Step previousStep = resRandomWalk[resRandomWalk.Count - 1];
+            DataCell newCell = grid.GetNeighbourAtDir(previousStep.cell, previousStep.direction);
 
             // get new random direction (direction of the previous cel is excluded)
-            
             eDirection preventedDirection = GetInverseDirection(previousStep.direction);
-            eDirection? newDirection = _grid.GetRandomNeighbourDirection(newCell, new eDirection[] { preventedDirection });
+            eDirection? newDirection = grid.GetRandomNeighbourDirection(newCell, new eDirection[] { preventedDirection });
             
             bool foundLoop = false;
 
-            //todo: this easy fix could be made better
-            //don't care about null new direction cause if it happens there is no new step, to prevent errors i'm setting it to a random direction
-            if (newDirection == null) newDirection = eDirection.TOP;
-
             // if the new step creates a loop in path, the loop is cut
-            for (int i = 0; i < _resRandomWalk.Count; i++) {
-                if (_resRandomWalk[i].cell == newCell) {
+            for (int i = 0; i < resRandomWalk.Count; i++) {
+                if (resRandomWalk[i].cell == newCell) {
                     foundLoop = true;
-                    for (int j = _resRandomWalk.Count - 1; j > i; j--) {
+                    for (int j = resRandomWalk.Count - 1; j > i; j--) {
 
                         if (isLiveGenerationEnabled)
-                            _grid.BuildWall(_resRandomWalk[j].cell, _resRandomWalk[j - 1].cell);
-                        _resRandomWalk.RemoveAt(j);
+                            grid.BuildWall(resRandomWalk[j].cell, resRandomWalk[j - 1].cell);
+                        resRandomWalk.RemoveAt(j);
                     }
-                    _resRandomWalk[i].direction = (eDirection)newDirection;
+                    if(newDirection != null)
+                        resRandomWalk[i].direction = (eDirection)newDirection;
                     break;
                 }
             }
             //otherwise, the new step is added to randomwalk
             if (!foundLoop) {
+                Debug.Assert(newDirection != null,"newDirection was null generating random walk, this shouldn't happen!");
                 Step newStep = new Step(newCell, (eDirection)newDirection);
-                _resRandomWalk.Add(newStep);
+                resRandomWalk.Add(newStep);
                 if (isLiveGenerationEnabled) {
-                    _grid.RemoveWall(previousStep.cell, newStep.cell);
+                    grid.RemoveWall(previousStep.cell, newStep.cell);
                     yield return new WaitForSeconds(liveGenerationDelay);
                 }
             }
 
             //if random walk reached final tree, the random walk can be returned
-            if (_finalTree.Contains(newCell))
+            if (finalTree.Contains(newCell))
                 break;
-        }
-    }
-
-    private class Step {
-        public DataCell cell;
-        public eDirection direction;
-
-        public Step(DataCell _cell, eDirection _direction) {
-            cell = _cell;
-            direction = _direction;
         }
     }
 }
