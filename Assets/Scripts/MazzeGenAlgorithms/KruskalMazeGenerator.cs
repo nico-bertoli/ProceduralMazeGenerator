@@ -64,7 +64,7 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
             }
 
             //prevents application freeze
-            if(loopCount%1000==0)yield return null;
+            if(loopCount%500==0)yield return null;
             loopCount++;
         }
     }

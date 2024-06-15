@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using static AbsMazeGenerator;
 
@@ -19,7 +20,8 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private GameObject playGameButton;
     [SerializeField] private GameObject backButton;
-    [SerializeField] private LoadingPanel loadingPanel;
+    [SerializeField] private GameObject loadingPanel;
+    [SerializeField] private LoadingText loadingText;
     
     private int nColumns;
     private int nRows;
@@ -42,19 +44,17 @@ public class UIManager : Singleton<UIManager>
         genSpeedSlider.gameObject.SetActive(false);
         playGameButton.SetActive(false);
         backButton.SetActive(false);
-        loadingPanel.gameObject.SetActive(true);
-        loadingPanel.Text = "Loading";
+        loadingPanel.SetActive(true);
+        SetLoadingPanelText("Loading");
     }
+
+    public void SetLoadingPanelText(string text) => loadingText.Text = text;
 
     public void DisableLoadingPanel() {
         loadingPanel.gameObject.SetActive(false);
         backButton.SetActive(true);
     }
 
-    public void SetLoadingPanelText(string text) {
-        loadingPanel.Text = text;
-    }
-    
     public void PlayMaze() =>GameController.Instance.PlayMaze();
 
     #endregion Public Methods
@@ -82,9 +82,9 @@ public class UIManager : Singleton<UIManager>
     private void ShowGenerationPanel() {
         
         if (liveGeneration)
-            loadingPanel.Text = "Loading maze";
+            loadingText.Text = "Loading maze";
         else
-            loadingPanel.Text = "Algorithm is working";
+            loadingText.Text = "Algorithm is working";
 
         loadingPanel.gameObject.SetActive(true);
         settingsPanel.SetActive(false);

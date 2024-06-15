@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,40 +10,42 @@ using TMPro;
 /// </summary>
 public class LoadingText : MonoBehaviour
 {
-    //======================================== fields
-    [SerializeField] float animationFramesDelay = 0.3f;
-    TextMeshProUGUI text;
-    List<string> dotsAnimationFrames;
-
-    //======================================== methods
-    private void Awake() {
-        text = GetComponent<TextMeshProUGUI>();
-    }
+    public string Text { get; set; }
     
-    /// <summary>
-    /// Evaluates text frames
-    /// </summary>
-    /// <param name="message"></param>
-    public void SetText(string message) {
-        dotsAnimationFrames = new List<string>();
-        dotsAnimationFrames.Add(" "+message+".");
-        for (int i = 0;i<2;i++)
-            dotsAnimationFrames.Add(" "+dotsAnimationFrames[dotsAnimationFrames.Count - 1]+".");
+    #region ============================================================================================= Private Fields
+    
+    [SerializeField] float animationFramesDelay = 0.3f;
+    [SerializeField] private TextMeshProUGUI shownTf;
+    
+    private List<string> beginningAnimationCharacters = new List<string>() { "", " ", "  ", "   " };
+    private List<string> endAnimationCharacters = new List<string>() { "", ".", "..", "..." };
+    
+    #endregion Private Fields
+    #region ============================================================================================= Methods
+
+    private void OnEnable()
+    {
+      StartCoroutine(DotsAnimationCor());
     }
-    private void OnEnable() {
-        GameController.Instance.StartCoroutine(DotsAnimationCor());
-    }
+
     /// <summary>
     /// Handles animation
     /// </summary>
     /// <returns></returns>
     private IEnumerator DotsAnimationCor() {
         int i = 0;
-        while (gameObject.activeSelf) {
-            text.text = dotsAnimationFrames[i++];
-            if (i == dotsAnimationFrames.Count)
+        while (true)
+        {
+            shownTf.text = $"{beginningAnimationCharacters[i]}{Text}{endAnimationCharacters[i++]}";
+            
+            if (i == endAnimationCharacters.Count)
                 i = 0;
             yield return new WaitForSeconds(animationFramesDelay);
         }
     }
+    
+    #endregion Methods
+
+    
+    
 }

@@ -1884,10 +1884,10 @@ RectTransform:
   m_Father: {fileID: 203668942}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
-  m_SizeDelta: {x: 1305.7523, y: 124.48}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 124.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &456556601
 MonoBehaviour:
@@ -1998,7 +1998,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a75846ce409cf419fc8e7555edb432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationSpeed: 0.3
+  animationFramesDelay: 0.3
+  shownTf: {fileID: 456556601}
 --- !u!1 &475015625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,8 +2815,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bede50925e658f0459c9d0129447aac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  liveGenerationMaxCells: 40
-  notLiveGenerationMaxCells: 300
   columnsSlider: {fileID: 1845717841}
   widthText: {fileID: 872213327102972962}
   rowsSlider: {fileID: 1487036153}
@@ -2827,7 +2826,8 @@ MonoBehaviour:
   gamePanel: {fileID: 447857857}
   playGameButton: {fileID: 345886693}
   backButton: {fileID: 1405594436}
-  loadingPanel: {fileID: 203668945}
+  loadingPanel: {fileID: 203668941}
+  loadingText: {fileID: 456556604}
 --- !u!1 &996903635
 GameObject:
   m_ObjectHideFlags: 0
