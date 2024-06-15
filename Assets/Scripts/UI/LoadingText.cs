@@ -10,37 +10,39 @@ using TMPro;
 public class LoadingText : MonoBehaviour
 {
     //======================================== fields
-    [SerializeField] float animationSpeed = 0.3f;
+    [SerializeField] float animationFramesDelay = 0.3f;
     TextMeshProUGUI text;
-    List<string> textFrames;
+    List<string> dotsAnimationFrames;
 
     //======================================== methods
     private void Awake() {
         text = GetComponent<TextMeshProUGUI>();
     }
+    
     /// <summary>
     /// Evaluates text frames
     /// </summary>
-    /// <param name="_message"></param>
-    public void SetText(string _message) {
-        textFrames = new List<string>();
-        textFrames.Add(" "+_message+".");
+    /// <param name="message"></param>
+    public void SetText(string message) {
+        dotsAnimationFrames = new List<string>();
+        dotsAnimationFrames.Add(" "+message+".");
         for (int i = 0;i<2;i++)
-            textFrames.Add(" "+textFrames[textFrames.Count - 1]+".");
+            dotsAnimationFrames.Add(" "+dotsAnimationFrames[dotsAnimationFrames.Count - 1]+".");
     }
     private void OnEnable() {
-        GameController.Instance.StartCoroutine(Animation());
+        GameController.Instance.StartCoroutine(DotsAnimationCor());
     }
     /// <summary>
     /// Handles animation
     /// </summary>
     /// <returns></returns>
-    private IEnumerator Animation() {
+    private IEnumerator DotsAnimationCor() {
         int i = 0;
         while (gameObject.activeSelf) {
-            text.text = textFrames[i++];
-            if (i == textFrames.Count) i = 0;
-            yield return new WaitForSeconds(animationSpeed);
+            text.text = dotsAnimationFrames[i++];
+            if (i == dotsAnimationFrames.Count)
+                i = 0;
+            yield return new WaitForSeconds(animationFramesDelay);
         }
     }
 }

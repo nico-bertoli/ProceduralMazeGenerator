@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 //code without chunks: https://www.youtube.com/watch?v=wYAlky1aZn4
 
@@ -12,28 +8,25 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class MeshesCombiner : MonoBehaviour
 {
     [SerializeField] GameObject meshChunkPrefab;
-    //int chunkSize = 2000;
-    
+
     /// <summary>
     /// Combines all meshes in object child. For a lot of meshes, this could throw an exception, so you may want to use CombineMeshesNoSizeLimit instead
     /// </summary>
-    /// <param name="_obj">Object whose child you want to combine the meshes</param>
+    /// <param name="objToCombineMeshes">Object whose child you want to combine the meshes</param>
     /// <returns></returns>
-    public GameObject CombineMeshes(GameObject _obj) {
+    public GameObject CombineMeshes(GameObject objToCombineMeshes) {
 
-        MeshFilter[] meshFilters = _obj.GetComponentsInChildren<MeshFilter>();
-
+        MeshFilter[] meshFilters = objToCombineMeshes.GetComponentsInChildren<MeshFilter>();
         CombineInstance[] allCombiners = new CombineInstance[meshFilters.Length];
 
         for (int i = 0; i < meshFilters.Length; i++) {
-            //0 is the default value for this field
             allCombiners[i].subMeshIndex = 0;
             allCombiners[i].mesh = meshFilters[i].sharedMesh;
             allCombiners[i].transform = meshFilters[i].transform.localToWorldMatrix;
         }
 
         GameObject chunksContainer = new GameObject();
-        chunksContainer.transform.position = _obj.transform.position;
+        chunksContainer.transform.position = objToCombineMeshes.transform.position;
 
         Mesh finalMesh = new Mesh();
         finalMesh.CombineMeshes(allCombiners);
