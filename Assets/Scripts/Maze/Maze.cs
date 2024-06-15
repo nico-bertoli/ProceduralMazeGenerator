@@ -9,7 +9,6 @@ public class Maze : MonoBehaviour {
     #region ============================================================================================== Public Events
     
     public Action OnMazeChunksGenerated;
-    
     public Action OnGenerationStarted;
     public Action OnGenerationEnded;
     
@@ -28,10 +27,15 @@ public class Maze : MonoBehaviour {
     private DataGrid dataGrid;
     private AbsMazeGenerator mazeGenerator;
     
-    
-    
     #endregion Fields
     #region ============================================================================================= Public Methods
+
+    public Vector3 GetCentralCellPosition() 
+    {
+        var centralCell = dataGrid.GetCentralCell();
+        //for how maze is setup z component must be negative
+        return new Vector3(centralCell.PosN, 0, -centralCell.PosM);
+    }
     
     public IEnumerator Generate(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm) {
 
@@ -40,9 +44,9 @@ public class Maze : MonoBehaviour {
         yield return StartCoroutine(InstantiateGridObj(nRows,nColumns));
 
         InstantiateMazeGenerator(algorithm);
-        
         OnGenerationStarted?.Invoke();
-        yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, dataGrid.GetCell(0, 0), showLiveGeneration));
+        DataCell startCell = dataGrid.GetCentralCell();
+        yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, startCell, showLiveGeneration));
         OnGenerationEnded?.Invoke();
         
         ShowGrid();

@@ -61,7 +61,8 @@ public class GameController : Singleton<GameController>
 
         SetGameMode(true);
 
-        playerObj.transform.position = new Vector3(transform.position.x, playerObj.transform.position.y, transform.position.z);
+        Vector3 mazeCentralPos = Maze.GetCentralCellPosition();
+        playerObj.transform.position = new Vector3(mazeCentralPos.x, playerObj.transform.position.y,mazeCentralPos.z);
         playerObj.transform.forward = -transform.forward;
 
         exitObj.transform.position = Maze.GetExitPosition();

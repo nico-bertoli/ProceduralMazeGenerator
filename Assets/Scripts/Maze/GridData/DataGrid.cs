@@ -29,6 +29,13 @@ public class DataGrid {
             }
         }
     }
+
+    public DataCell GetCentralCell()
+    {
+        int m = RowsCount / 2;
+        int n = ColumnsCount / 2;
+        return cells[m, n];
+    }
     
     public void RemoveWall(DataCell cell1, DataCell cell2)
     {
