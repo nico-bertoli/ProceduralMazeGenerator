@@ -61,10 +61,10 @@ public abstract class AbsGridObj : MonoBehaviour
             chunksContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().StartCulling();
             if (i % 10 == 0) yield return null;
         }
-        for (int i = 0; i < meshesContainer.transform.childCount; i++) {
-            meshesContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().StartCulling();
-            if (i % 10 == 0) yield return null;
-        }
+        // for (int i = 0; i < meshesContainer.transform.childCount; i++) {
+        //     meshesContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().StartCulling();
+        //     if (i % 10 == 0) yield return null;
+        // }
     }
     
     public IEnumerator SetWallsWidth(float width) {
