@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-
 public class DistanceCulling : MonoBehaviour
 {
     #region ============================================================================================== Public Fields
@@ -13,7 +12,7 @@ public class DistanceCulling : MonoBehaviour
     #region ============================================================================================= Private Fields
     
     private static float cullingRefreshFactor = 0.1f;
-    private static float generalEnableDistance = 30;
+    private static float enableDistance = 30;
 
     #endregion Private Fields
     #region ============================================================================================= Public Methods
@@ -27,7 +26,7 @@ public class DistanceCulling : MonoBehaviour
         while (this != null && gameObject != null)
         {
             float targetDistance = Vector3.Distance(transform.position, target.transform.position);
-            if(targetDistance < generalEnableDistance)
+            if(targetDistance < enableDistance)
                 gameObject.SetActive(true);
             else
                 gameObject.SetActive(false);

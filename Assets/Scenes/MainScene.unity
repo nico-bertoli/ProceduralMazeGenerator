@@ -2815,7 +2815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   liveGenerationMaxCells: 40
-  notLiveGenerationMaxCells: 250
+  notLiveGenerationMaxCells: 300
   columnsSlider: {fileID: 1845717841}
   widthText: {fileID: 872213327102972962}
   rowsSlider: {fileID: 1487036153}

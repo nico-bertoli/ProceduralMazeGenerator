@@ -6,9 +6,10 @@ public class ObjectsPreAllocator : Singleton<ObjectsPreAllocator>
 
     [Header("References")]
     [SerializeField] private GameObject preAllocatedObjPrefab;
-
-    //preallocates 250 x 250 cells, making maze generation faster
-    int size = 65025;
+    
+    // int size = 65025; //250x250
+    // int size = 90000; //300 x 300
+    int size = 160000; //400 x 400
     List<GameObject> objects = new List<GameObject>();
 
     #endregion Private Fields
@@ -37,7 +38,4 @@ public class ObjectsPreAllocator : Singleton<ObjectsPreAllocator>
     }
 
     #endregion Protected Methods
-
-    
-
 }

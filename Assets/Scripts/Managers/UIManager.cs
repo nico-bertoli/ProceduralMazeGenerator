@@ -7,10 +7,6 @@ public class UIManager : Singleton<UIManager>
 {
     #region ============================================================================================= Private Fields
 
-    [Header("Settings")]
-    [SerializeField] private int liveGenerationMaxCells = 80;
-    [SerializeField] private int notLiveGenerationMaxCells = 260;
-    
     [Header("References")]
     [SerializeField] private Slider columnsSlider;
     [SerializeField] private TextMeshProUGUI widthText;
@@ -29,9 +25,11 @@ public class UIManager : Singleton<UIManager>
     private int nRows;
     private bool liveGeneration;
     private eAlgorithms algorithm;
-    private int maxCells = 255;
-    private const int minCells = 10;
     
+    private int notLiveGenerationMaxCells = 400;
+    private int liveGenerationMaxCells = 40;
+    private const int minCells = 10;
+
     #endregion Private Fields
     #region ============================================================================================= Public Methods
     
@@ -113,8 +111,8 @@ public class UIManager : Singleton<UIManager>
     }
 
     private void RefreshGridSizeText() {
-        nColumns = (int)(columnsSlider.value * (maxCells - minCells) + minCells);
-        nRows = (int)(rowsSlider.value * (maxCells - minCells) + minCells);
+        nColumns = (int)(columnsSlider.value * (notLiveGenerationMaxCells - minCells) + minCells);
+        nRows = (int)(rowsSlider.value * (notLiveGenerationMaxCells - minCells) + minCells);
 
         widthText.text = "Columns: " + nColumns;
         heightText.text = "Rows: " + nRows;
@@ -130,7 +128,7 @@ public class UIManager : Singleton<UIManager>
     
     public void Signal_ToggleLiveGeneration() {
         liveGeneration = !liveGeneration;
-        maxCells = liveGeneration ? liveGenerationMaxCells : notLiveGenerationMaxCells;
+        notLiveGenerationMaxCells = liveGeneration ? liveGenerationMaxCells : notLiveGenerationMaxCells;
     }
     
     public void Signal_RefreshAlgorithm() {
