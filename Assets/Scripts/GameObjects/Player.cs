@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Rigidbody rigidBody;
+
+    [SerializeField] private PlayerInputReader inputReader;
     
     private Collision currentWallCollision;
 
@@ -20,9 +22,9 @@ public class Player : MonoBehaviour
     private void Update() => HandleMovement();
 
     private void HandleMovement() {
-        if (InputManager.Instance.IsMoving)
+        if (inputReader.IsMoving)
         {
-            Vector3 moveDir = (-Vector3.forward * InputManager.Instance.MoveDirection.y - Vector3.right * InputManager.Instance.MoveDirection.x).normalized;
+            Vector3 moveDir = (-Vector3.forward * inputReader.MoveDirection.y - Vector3.right * inputReader.MoveDirection.x).normalized;
             moveDir = RotateMoveDirectionAlongCollidingWall(moveDir);
             rigidBody.velocity = moveDir * moveSpeed;
         }

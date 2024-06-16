@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : Singleton<InputManager>
+public class PlayerInputReader : MonoBehaviour
 {
     #region ============================================================================================== Public Fields
     
