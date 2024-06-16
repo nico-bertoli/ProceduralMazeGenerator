@@ -46,8 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallsStartingWidth: 0.4
-  cellObjPrefab: {fileID: 6836719500945033704, guid: 70d2befd5ecd3fb468b05a87b15dd508, type: 3}
-  meshCombiner: {fileID: 4712422448982973613}
+  meshesCombiner: {fileID: 4712422448982973613}
   marginWallPrefab: {fileID: 7285831972252732111, guid: 514aaf5222b0d5842af545e4c29cf4c0, type: 3}
 --- !u!1001 &2334952355962501462
 PrefabInstance:

@@ -8,8 +8,8 @@ public class TopDownCamera : MonoBehaviour {
     
     #region ============================================================================================= Private Fields
     
-    [SerializeField] float topBottomMargin = 0.2f;
-    [SerializeField] float leftRightMargin = 0.1f;
+    [SerializeField] private float topBottomMargin = 0.2f;
+    [SerializeField] private float leftRightMargin = 0.1f;
     
     #endregion Private Fields
     #region ============================================================================================= Public Methods

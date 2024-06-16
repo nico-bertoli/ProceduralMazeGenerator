@@ -16,8 +16,7 @@ public abstract class AbsGridObj : MonoBehaviour
 
     [Header ("Settings")]
     [SerializeField] private float wallsStartingWidth = 0.4f;
-
-    [FormerlySerializedAs("meshCombiner")]
+    
     [Header("References")]
     [SerializeField] protected MeshesCombiner meshesCombiner;
     [SerializeField] private GameObject marginWallPrefab;

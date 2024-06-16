@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4712422449020729698, guid: 000deab41dc62074cafaae7900e33273, type: 3}
       propertyPath: m_Name
-      value: HideGenGridObj
+      value: notLiveGenerationGrid
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8208715881734536462, guid: 000deab41dc62074cafaae7900e33273, type: 3}
@@ -84,8 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallsStartingWidth: 0.4
-  cellObjPrefab: {fileID: 6836719500945033704, guid: 70d2befd5ecd3fb468b05a87b15dd508, type: 3}
-  meshCombiner: {fileID: 6712638389853094735}
+  meshesCombiner: {fileID: 6712638389853094735}
   marginWallPrefab: {fileID: 7285831972252732111, guid: 514aaf5222b0d5842af545e4c29cf4c0, type: 3}
 --- !u!114 &6712638389853094735 stripped
 MonoBehaviour:

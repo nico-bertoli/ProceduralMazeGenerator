@@ -7,10 +7,10 @@ public class Player : MonoBehaviour
     #region ============================================================================================= Private Fields
     
     [Header("Settings")]
-    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 5f;
 
     [Header("References")]
-    [SerializeField] Rigidbody rigidBody;
+    [SerializeField] private Rigidbody rigidBody;
     
     private Collision currentWallCollision;
 
@@ -47,8 +47,6 @@ public class Player : MonoBehaviour
             //     10);
             return moveDirectionForcedByWall;
         }
-        
-        Debug.LogError("angle was too large");
         return moveDir;
     }
     

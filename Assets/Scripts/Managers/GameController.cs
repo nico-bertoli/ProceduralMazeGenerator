@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameController : Singleton<GameController>
 {
-    #region ============================================================================================= Private Fields
+    #region ============================================================================================= Fields
 
     [Header("Settings")]
     [SerializeField] private float gameWallsSize = 0.04f;
@@ -20,7 +20,7 @@ public class GameController : Singleton<GameController>
     [SerializeField] private GameObject gameObjects;
     [SerializeField] private GameObject mazeGenerationObjects;
 
-    #endregion Private Fields
+    #endregion Fields
     #region ============================================================================================= Public Methods
     
     public void GenerateMaze(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {

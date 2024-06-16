@@ -14,7 +14,7 @@ public class LoadingText : MonoBehaviour
     
     #region ============================================================================================= Private Fields
     
-    [SerializeField] float animationFramesDelay = 0.3f;
+    [SerializeField] private float animationFramesDelay = 0.3f;
     [SerializeField] private TextMeshProUGUI shownTf;
     
     private List<string> beginningAnimationCharacters = new List<string>() { "", " ", "  ", "   " };
