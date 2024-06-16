@@ -33,6 +33,7 @@ public class MeshesCombiner : MonoBehaviour
         GameObject obj = Instantiate(meshChunkPrefab,transform.position,Quaternion.identity);
         obj.GetComponent<MeshFilter>().sharedMesh = finalMesh;
         obj.transform.parent = chunksContainer.transform;
+        obj.isStatic = true;
         
         return chunksContainer;
     }

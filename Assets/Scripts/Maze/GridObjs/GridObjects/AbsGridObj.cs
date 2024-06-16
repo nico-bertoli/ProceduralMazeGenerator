@@ -180,6 +180,7 @@ public abstract class AbsGridObj : MonoBehaviour
                 GameObject chunk = new GameObject("Chunk[" + gridM + "," + grinN + "]");
                 chunk.transform.parent = chunksParent.transform;
                 chunk.transform.position = new Vector3(grinN * CHUNK_SIZE +CHUNK_SIZE/ 2f, 0, -(gridM* CHUNK_SIZE + CHUNK_SIZE/ 2f));
+                chunk.isStatic = true;
 
                 //make cells child of new chunk
                 for (int chunkM = 0; chunkM < CHUNK_SIZE; chunkM++) {
