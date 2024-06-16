@@ -25,17 +25,14 @@ public class MeshesCombiner : MonoBehaviour
             allCombiners[i].transform = meshFilters[i].transform.localToWorldMatrix;
         }
 
-        GameObject chunksContainer = new GameObject();
-        chunksContainer.transform.position = objToCombineMeshes.transform.position;
+        Mesh combinedMesh = new Mesh();
+        combinedMesh.CombineMeshes(allCombiners);
 
-        Mesh finalMesh = new Mesh();
-        finalMesh.CombineMeshes(allCombiners);
-        GameObject obj = Instantiate(meshChunkPrefab,transform.position,Quaternion.identity);
-        obj.GetComponent<MeshFilter>().sharedMesh = finalMesh;
-        obj.transform.parent = chunksContainer.transform;
-        obj.isStatic = true;
+        GameObject combinedMeshObject = Instantiate(meshChunkPrefab,transform.position,Quaternion.identity);
+        combinedMeshObject.GetComponent<MeshFilter>().sharedMesh = combinedMesh;
+        combinedMeshObject.isStatic = true;
         
-        return chunksContainer;
+        return combinedMeshObject;
     }
 
     //----------------------------------------------------------------------------------------------- not used
