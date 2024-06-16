@@ -14,8 +14,6 @@ public abstract class AbsMazeGenerator : MonoBehaviour
     }
     
     #region =========================================================================================== Private Fields
-    
-    private const float LIVE_GEN_MAX_DELAY = 0.4f;
 
     #endregion Private Fields
     #region =========================================================================================== Protected Fields
@@ -34,9 +32,9 @@ public abstract class AbsMazeGenerator : MonoBehaviour
 
     public IEnumerator GenerateMaze(DataGrid grid, DataCell startCell,bool isLiveGenerationEnabled) {
         this.isLiveGenerationEnabled = isLiveGenerationEnabled;
-        
+
         //live generation always starts at min speed
-        liveGenerationDelay = LIVE_GEN_MAX_DELAY;
+        liveGenerationDelay = liveGenerationMaxDelay;
 
         yield return StartCoroutine(GenerateMazeImplementation(grid, startCell));
     }
@@ -49,7 +47,7 @@ public abstract class AbsMazeGenerator : MonoBehaviour
         if (isLiveGenerationEnabled)
         {
             speed = Mathf.Clamp(speed, 0, 100);
-            liveGenerationDelay = liveGenerationDelay / 100 * Mathf.Abs(speed - 100);
+            liveGenerationDelay = liveGenerationMaxDelay / 100 * Mathf.Abs(speed - 100);
         }
     }
     
