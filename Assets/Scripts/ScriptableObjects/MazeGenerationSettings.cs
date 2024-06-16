@@ -4,10 +4,16 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(menuName = "ScriptableObjects/MazeGenerationSettings",fileName = "MazeGenerationSettings")]
 public class MazeGenerationSettings : ScriptableObject
 {
-    [field:SerializeField] public int LiveGenerationMaxSideCells { get; private set; } = 40;
-    [field:SerializeField] public int NotLiveGenerationMaxCells { get; private set; } = 400;
+    [field:Header("Maze Size")]
+    
+    [field:SerializeField] public int LiveGenMaxSideCells { get; private set; } = 40;
+    [field:SerializeField] public int NotLiveGenMaxSideCells { get; private set; } = 400;
 
-    [field: SerializeField] public int MinCells { get; private set; } = 10;
+    [field: SerializeField] public int MinSideCells { get; private set; } = 10;
+
+
+    [field:Header("Live Generation")]
+    [field: SerializeField] public float LiveGenerationMaxDelay { get; private set; } = 0.4f;
 
 
 }

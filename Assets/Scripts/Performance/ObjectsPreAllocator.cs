@@ -7,10 +7,6 @@ public class ObjectsPreAllocator : Singleton<ObjectsPreAllocator>
     [Header("References")]
     [SerializeField] private GameObject preAllocatedObjPrefab;
     
-    // private const int  preallocatedObjectsCount = 65025; // max maze size = 250x250
-    // private const int  preallocatedObjectsCount = 90000; // max maze size = 300 x 300
-    private const int preallocatedObjectsCount = 160000; // max maze size = 400 x 400
-    
     List<GameObject> objects = new List<GameObject>();
 
     #endregion Private Fields
@@ -31,6 +27,10 @@ public class ObjectsPreAllocator : Singleton<ObjectsPreAllocator>
 
     protected override void Awake() {
         base.Awake();
+
+        int mazeSideMaxCells = Settings.Instance.mazeGenerationSettings.NotLiveGenMaxSideCells;
+        int preallocatedObjectsCount = mazeSideMaxCells * mazeSideMaxCells;
+
         for (int i = 0; i < preallocatedObjectsCount; i++) {
             GameObject obj = Instantiate(preAllocatedObjPrefab, transform);//true
             obj.SetActive(false);

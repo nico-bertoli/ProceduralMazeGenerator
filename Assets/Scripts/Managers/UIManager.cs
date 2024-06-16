@@ -112,13 +112,13 @@ public class UIManager : Singleton<UIManager>
     {
         if (isLiveGenerationActive)
         {
-            nColumns = (int)(columnsSlider.value * (mazeGenSettings.LiveGenerationMaxSideCells - mazeGenSettings.MinCells) + mazeGenSettings.MinCells);
-            nRows = (int)(rowsSlider.value * (mazeGenSettings.LiveGenerationMaxSideCells - mazeGenSettings.MinCells) + mazeGenSettings.MinCells);
+            nColumns = (int)(columnsSlider.value * (mazeGenSettings.LiveGenMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
+            nRows = (int)(rowsSlider.value * (mazeGenSettings.LiveGenMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
         }
         else
         {
-            nColumns = (int)(columnsSlider.value * (mazeGenSettings.NotLiveGenerationMaxCells - mazeGenSettings.MinCells) + mazeGenSettings.MinCells);
-            nRows = (int)(rowsSlider.value * (mazeGenSettings.NotLiveGenerationMaxCells - mazeGenSettings.MinCells) + mazeGenSettings.MinCells);
+            nColumns = (int)(columnsSlider.value * (mazeGenSettings.NotLiveGenMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
+            nRows = (int)(rowsSlider.value * (mazeGenSettings.NotLiveGenMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
         }
 
         widthText.text = "Columns: " + nColumns;

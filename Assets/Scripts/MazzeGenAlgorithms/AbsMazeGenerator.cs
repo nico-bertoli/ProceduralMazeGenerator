@@ -22,9 +22,13 @@ public abstract class AbsMazeGenerator : MonoBehaviour
     
     protected float liveGenerationDelay;
     protected bool isLiveGenerationEnabled;
-    
+
     #endregion Protected Fields
-    
+    #region =========================================================================================== Private Properties
+
+    private float liveGenerationMaxDelay => Settings.Instance.mazeGenerationSettings.LiveGenerationMaxDelay;
+
+    #endregion Private Properties
     #region ============================================================================================= Public Methods
 
 
@@ -45,7 +49,7 @@ public abstract class AbsMazeGenerator : MonoBehaviour
         if (isLiveGenerationEnabled)
         {
             speed = Mathf.Clamp(speed, 0, 100);
-            liveGenerationDelay = LIVE_GEN_MAX_DELAY / 100 * Mathf.Abs(speed - 100);
+            liveGenerationDelay = liveGenerationDelay / 100 * Mathf.Abs(speed - 100);
         }
     }
     
