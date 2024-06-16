@@ -64,6 +64,8 @@ public class UIManager : Singleton<UIManager>
         
         GameController.Instance.Maze.OnMazeChunksGenerated += OnMazeGridChunksGenerated;
         GameController.Instance.Maze.OnGenerationStarted += OnMazeGenerationStarted;
+
+        loadingPanel.SetActive(false);
         
         liveGenToggle.isOn = isLiveGenerationActive = false;
     }
