@@ -55,16 +55,18 @@ public abstract class AbsGridObj : MonoBehaviour
         OnGridChunksGenerated?.Invoke();
     }
     
-    public IEnumerator EnableCulling(GameObject target) {
+    public IEnumerator SetupCulling(GameObject target) {
         DistanceCulling.target = target;
         for (int i = 0; i < chunksContainer.transform.childCount; i++) {
             chunksContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().StartCulling();
             if (i % 10 == 0) yield return null;
         }
-        // for (int i = 0; i < meshesContainer.transform.childCount; i++) {
-        //     meshesContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().StartCulling();
-        //     if (i % 10 == 0) yield return null;
-        // }
+    }
+
+    public void EnableAllChunks()
+    {
+        for (int i = 0; i < chunksContainer.transform.childCount; i++)
+            chunksContainer.transform.GetChild(i).gameObject.SetActive(true);
     }
     
     public IEnumerator SetWallsWidth(float width) {

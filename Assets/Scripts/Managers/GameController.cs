@@ -67,7 +67,7 @@ public class GameController : Singleton<GameController>
 
         exitObj.transform.position = Maze.GetExitPosition();
 
-        yield return StartCoroutine(Maze.EnableCooling(playerObj));
+        yield return StartCoroutine(Maze.SetupCulling(playerObj));
         UIManager.Instance.DisableLoadingPanel();
     }
 

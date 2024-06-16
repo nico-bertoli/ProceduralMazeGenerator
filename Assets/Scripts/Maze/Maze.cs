@@ -71,8 +71,13 @@ public class Maze : MonoBehaviour {
         return gridObj.GetBottomRightCellPos();
     }
 
-    public IEnumerator EnableCooling(GameObject coolingObject) {
-        yield return StartCoroutine(gridObj.EnableCulling(coolingObject));
+    private bool isCullingEnabled = false;
+
+    public IEnumerator SetupCulling(GameObject coolingObject) {
+        if (isCullingEnabled) 
+            yield return StartCoroutine(gridObj.SetupCulling(coolingObject));
+        else
+            gridObj.EnableAllChunks();
     }
     
     #endregion Public Methods
