@@ -5,6 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshCollider))]
 public class MeshGenerator : MonoBehaviour
 {
     [Header("Settings")]
@@ -12,6 +13,7 @@ public class MeshGenerator : MonoBehaviour
     
     private Mesh mesh;
     private MeshRenderer meshRenderer;
+    private MeshCollider collider;
     
     private Vector3[] vertices;
     private int[] trinangles;
@@ -20,6 +22,7 @@ public class MeshGenerator : MonoBehaviour
     {
         mesh = GetComponent<MeshFilter>().mesh;
         meshRenderer = GetComponent<MeshRenderer>();
+        collider = GetComponent<MeshCollider>();
         meshRenderer.material = material;
     }
 
@@ -51,5 +54,6 @@ public class MeshGenerator : MonoBehaviour
         mesh.triangles = trinangles;
 
         mesh.RecalculateNormals();
+        collider.sharedMesh = mesh;
     }
 }
