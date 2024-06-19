@@ -22,6 +22,7 @@ public class Maze : MonoBehaviour {
 
     [SerializeField] private GameObject liveGenerationGridPrototype;
     [SerializeField] private GameObject notLiveGenerationGridPrototype;
+    [SerializeField] private VoxelGenerator voxelGenerator;
 
     private AbsGridObj gridObj;
     private DataGrid dataGrid;
@@ -89,6 +90,9 @@ public class Maze : MonoBehaviour {
             // gridObj.OnGridFinalMeshCreated += OnGridFinalMeshCreated;
             UIManager.Instance.SetLoadingPanelText("Loading maze");
             StartCoroutine(gridObj.Init(dataGrid));
+            
+            voxelGenerator.CreateVoxel(dataGrid);
+            
         }
         else {
             StartCoroutine(gridObj.GenerateChunks());
