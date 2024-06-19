@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// : https://www.youtube.com/watch?v=b_1ZlHrJZc4&list=PL5KbKbJ6Gf9-d303Lk8TGKCW-t5JsBdtB&index=10
+
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
@@ -10,9 +12,7 @@ public class VoxelGenerator : MonoBehaviour
     [SerializeField] private Material material;
 
     [SerializeField] private float scale = 1f;
-    [SerializeField] private Vector3 position = Vector3.zero;
-    // private float adjustedScale;
-    
+
     private Mesh mesh;
     private MeshRenderer meshRenderer;
     private MeshCollider collider;
@@ -26,13 +26,10 @@ public class VoxelGenerator : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         collider = GetComponent<MeshCollider>();
         meshRenderer.material = material;
-
-        // adjustedScale = scale * 0.5f;
     }
 
     public void CreateVoxel(DataGrid dataGrid)
     {
-        return;
         // create voxel
         vertices.Clear();
         trinangles.Clear();
@@ -42,10 +39,17 @@ public class VoxelGenerator : MonoBehaviour
             for (int n = 0; n < dataGrid.ColumnsCount; n++)
             {
                 DataCell cell = dataGrid.GetCell(m, n);
-                Vector3 cellPos = new Vector3(cell.PosM, 0.5f, -cell.PosN);
-                if (cell.PosN == 0)
-                    cellPos = new Vector3(cellPos.x, 2, cellPos.z);
-                MakeCube(vertices,trinangles,scale * 0.5f,cellPos  * scale);
+                
+                if (cell.IsTopWallActive)
+                {
+                    Vector3 topWallPos = new Vector3(cell.PosM + 0.5f, 0.5f, -cell.PosN);
+                    MakeCube(vertices,trinangles,scale * 0.5f,topWallPos  * scale);
+                }
+                if (cell.IsRightWallActive)
+                {
+                    Vector3 rightWallPos = new Vector3(cell.PosM, 0.5f, -cell.PosN - 0.5f);
+                    MakeCube(vertices,trinangles,scale * 0.5f,rightWallPos  * scale);
+                }
             }
         }
         

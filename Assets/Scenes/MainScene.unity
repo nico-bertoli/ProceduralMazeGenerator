@@ -2504,7 +2504,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: a6181707a561dc74d849c76d0d5519de, type: 2}
   scale: 1
-  position: {x: 0, y: 0, z: 0}
 --- !u!64 &819684770
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3442,7 +3441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1299070576
 Transform:
   m_ObjectHideFlags: 0
@@ -6451,15 +6450,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6801457391592235977, guid: 72e5874d225b1432b82cdc89ef876c40, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.19300917
+      value: 0.19300918
       objectReference: {fileID: 0}
     - target: {fileID: 6801457391592235977, guid: 72e5874d225b1432b82cdc89ef876c40, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.6802555
+      value: 0.68025553
       objectReference: {fileID: 0}
     - target: {fileID: 6801457391592235977, guid: 72e5874d225b1432b82cdc89ef876c40, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.1930092
+      value: -0.19300923
       objectReference: {fileID: 0}
     - target: {fileID: 6801457391592235977, guid: 72e5874d225b1432b82cdc89ef876c40, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6499,11 +6498,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6801457391901566195, guid: 72e5874d225b1432b82cdc89ef876c40, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000014901159
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6801457391901566195, guid: 72e5874d225b1432b82cdc89ef876c40, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000059604638
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6801457391901566195, guid: 72e5874d225b1432b82cdc89ef876c40, type: 3}
       propertyPath: m_LocalRotation.z
