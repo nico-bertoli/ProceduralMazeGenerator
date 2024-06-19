@@ -56,8 +56,9 @@ public class GameController : Singleton<GameController>
 
     private IEnumerator PlayMazeCor() {
         UIManager.Instance.ShowLoadingGamePanel();
-
-        yield return StartCoroutine(Maze.SetWallsSize(gameWallsSize));
+        
+        if(Maze.IsLiveGenerationActive)
+            yield return StartCoroutine(Maze.SetWallsSize(gameWallsSize));
 
         SetGameMode(true);
 
@@ -66,8 +67,7 @@ public class GameController : Singleton<GameController>
         playerObj.transform.forward = -transform.forward;
 
         exitObj.transform.position = Maze.GetExitPosition();
-
-        yield return StartCoroutine(Maze.SetupCulling(playerObj));
+        
         UIManager.Instance.DisableLoadingPanel();
     }
 

@@ -16,6 +16,11 @@ public class DataGrid {
 
     #endregion  Fields
     #region ============================================================================================= Public Methods
+
+    public Vector3 GetExitPosition()
+    {
+        return new Vector3(ColumnsCount-1, 0, -RowsCount+1);
+    }
     
     public DataGrid (int rowsCount,int columnsCount) {
 

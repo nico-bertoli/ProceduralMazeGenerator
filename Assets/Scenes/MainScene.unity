@@ -2504,6 +2504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: a6181707a561dc74d849c76d0d5519de, type: 2}
   wallsThickness: 0.1
+  wallsHeight: 0.5
 --- !u!64 &819684770
 MeshCollider:
   m_ObjectHideFlags: 0

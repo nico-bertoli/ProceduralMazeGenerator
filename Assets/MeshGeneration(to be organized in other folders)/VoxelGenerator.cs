@@ -26,6 +26,8 @@ public class VoxelGenerator : MonoBehaviour
         meshRenderer.material = material;
     }
 
+    public Action OnMeshGenerated;
+
     public void CreateVoxel(DataGrid dataGrid)
     {
         // create voxel
@@ -64,6 +66,8 @@ public class VoxelGenerator : MonoBehaviour
         
         // setup collider
         collider.sharedMesh = mesh;
+        
+        OnMeshGenerated?.Invoke();
     }
 
     //-------------------------------------------------------------------------------

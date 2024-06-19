@@ -42,7 +42,10 @@ public class Maze : MonoBehaviour {
 
         IsLiveGenerationActive = showLiveGeneration;
 
-        yield return StartCoroutine(InstantiateGridObj(nRows,nColumns));
+        dataGrid = new DataGrid(nRows, nColumns);
+        
+        if(IsLiveGenerationActive)
+            yield return StartCoroutine(InstantiateGridObj(nRows,nColumns));
 
         InstantiateMazeGenerator(algorithm);
         OnGenerationStarted?.Invoke();
@@ -68,18 +71,13 @@ public class Maze : MonoBehaviour {
         yield return StartCoroutine(gridObj.GenerateChunks());
     }
 
-    public Vector3 GetExitPosition() {
-        return gridObj.GetBottomRightCellPos();
+    public Vector3 GetExitPosition()
+    {
+        return dataGrid.GetExitPosition();
     }
 
     private bool isCullingEnabled = false;
-
-    public IEnumerator SetupCulling(GameObject coolingObject) {
-        if (isCullingEnabled) 
-            yield return StartCoroutine(gridObj.SetupCulling(coolingObject));
-        else
-            gridObj.EnableAllChunks();
-    }
+    
     
     #endregion Public Methods
     
@@ -87,10 +85,10 @@ public class Maze : MonoBehaviour {
 
     private void ShowGrid() {
         if (!IsLiveGenerationActive) {
-            // gridObj.OnGridFinalMeshCreated += OnGridFinalMeshCreated;
-            UIManager.Instance.SetLoadingPanelText("Loading maze");
-            StartCoroutine(gridObj.Init(dataGrid));
+            voxelGenerator.OnMeshGenerated += OnMazeChunksGenerated;
             
+            UIManager.Instance.SetLoadingPanelText("Loading maze");
+            // StartCoroutine(gridObj.Init(dataGrid));
             voxelGenerator.CreateVoxel(dataGrid);
             
         }
@@ -122,14 +120,11 @@ public class Maze : MonoBehaviour {
 
     private IEnumerator InstantiateGridObj(int nRows,int nColumns){
         if (IsLiveGenerationActive)
+        {
             gridObj = Instantiate(liveGenerationGridPrototype).GetComponent<LiveGenerationGrid>();
-        else
-            gridObj = Instantiate(notLiveGenerationGridPrototype).GetComponent<NotLiveGenerationGrid>();
-
-        gridObj.OnGridChunksGenerated += OnMazeChunksGenerated;
-
-        dataGrid = new DataGrid(nRows, nColumns);
-
+            gridObj.OnGridChunksGenerated += OnMazeChunksGenerated;
+        }
+        
         if (IsLiveGenerationActive)
             yield return StartCoroutine(gridObj.Init(dataGrid));
     }

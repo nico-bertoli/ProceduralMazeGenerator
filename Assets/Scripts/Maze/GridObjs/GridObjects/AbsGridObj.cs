@@ -53,14 +53,6 @@ public abstract class AbsGridObj : MonoBehaviour
         
         OnGridChunksGenerated?.Invoke();
     }
-    
-    public IEnumerator SetupCulling(GameObject target) {
-        DistanceCulling.target = target;
-        for (int i = 0; i < chunksContainer.transform.childCount; i++) {
-            chunksContainer.transform.GetChild(i).gameObject.AddComponent<DistanceCulling>().StartCulling();
-            if (i % 10 == 0) yield return null;
-        }
-    }
 
     public void EnableAllChunks()
     {
