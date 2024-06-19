@@ -12,15 +12,10 @@ public class VoxelGenerator : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private Material material;
 
-    [SerializeField] private Vector3 scale = Vector3.one;
-
     private Mesh mesh;
     private MeshRenderer meshRenderer;
     private MeshCollider collider;
-    
-    private List<Vector3> vertices = new List<Vector3>();
-    private List<int> trinangles = new List<int>();
-    
+
     private void Awake()
     {
         mesh = GetComponent<MeshFilter>().mesh;
@@ -32,8 +27,11 @@ public class VoxelGenerator : MonoBehaviour
     public void CreateVoxel(DataGrid dataGrid)
     {
         // create voxel
-        vertices.Clear();
-        trinangles.Clear();
+        List<Vector3> vertices = new List<Vector3>();
+        List<int> trinangles = new List<int>();
+
+        Vector3 topWallScale = new Vector3(0.5f, 0.5f, 0.1f);
+        Vector3 rightWallScale = new Vector3(0.1f, 0.5f, 0.5f);
 
         for (int m = 0; m < dataGrid.RowsCount; m++)
         {
@@ -46,12 +44,12 @@ public class VoxelGenerator : MonoBehaviour
                 if (cell.IsTopWallActive)
                 {
                     Vector3 topWallPos = new Vector3(cell.PosN - wallOffsetFromCenter, 0.5f, -cell.PosM);
-                    MakeCube(vertices,trinangles,scale * 0.5f,topWallPos);
+                    MakeCube(vertices,trinangles,topWallScale * 0.5f,topWallPos);
                 }
                 if (cell.IsRightWallActive)
                 {
                     Vector3 rightWallPos = new Vector3(cell.PosN, 0.5f, -cell.PosM - wallOffsetFromCenter);
-                    MakeCube(vertices,trinangles,scale * 0.5f,rightWallPos);
+                    MakeCube(vertices,trinangles,rightWallScale * 0.5f,rightWallPos);
                 }
             }
         }
@@ -76,17 +74,8 @@ public class VoxelGenerator : MonoBehaviour
             if(direction == CubeFaceDirection.Bottom)
                 continue;
             
-            MakeFace(vertices,trinangles,direction, scale, position);
+            MakeFace(vertices,triangles,direction, scale, position);
         }
-        
-        // for (int i = 0; i < 6; i++)
-        // {
-        //     // prevents creating bottom face
-        //     if(i==5)
-        //         continue;
-        //     
-        //     MakeFace(vertices,trinangles,(Direction)i, scale, position);
-        // }
     }
 
     private void MakeFace(List<Vector3> vertices, List<int> triangles, CubeFaceDirection cubeFaceDirection, Vector3 scale, Vector3 position)
@@ -102,17 +91,15 @@ public class VoxelGenerator : MonoBehaviour
         triangles.Add(vertCount -4 + 3);
     }
 
-    private static Vector3[] GetFaceVertices(CubeFaceDirection cubeFaceDirection, Vector3 scale, Vector3 position)
+    private static Vector3[] GetFaceVertices(CubeFaceDirection faceDirection, Vector3 scale, Vector3 position)
     {
         Vector3[] faceVertices = new Vector3[4];
         for (int i = 0; i < faceVertices.Length; i++)
         {
-            // float scaleOnDirectionAxis = direction switch
-            // {
-            //     
-            // }
-            
-            faceVertices[i] = CubeVertices[CubeTriangles[(int)cubeFaceDirection][i]] * 0.2f + position; //1 was scalw
+            var vertex = CubeVertices[CubeTriangles[(int)faceDirection][i]];
+            vertex.Scale(scale);
+            vertex += position;
+            faceVertices[i] = vertex;
         }
         return faceVertices;
     }
