@@ -39,20 +39,21 @@ public class VoxelGenerator : MonoBehaviour
             for (int n = 0; n < dataGrid.ColumnsCount; n++)
             {
                 DataCell cell = dataGrid.GetCell(m, n);
+
+                float wallOffsetFromCenter = 0.5f;
                 
                 if (cell.IsTopWallActive)
                 {
-                    Vector3 topWallPos = new Vector3(cell.PosM + 0.5f, 0.5f, -cell.PosN);
-                    MakeCube(vertices,trinangles,scale * 0.5f,topWallPos  * scale);
+                    Vector3 topWallPos = new Vector3(cell.PosN - wallOffsetFromCenter, 0.5f, -cell.PosM);
+                    MakeCube(vertices,trinangles,scale * 0.5f,topWallPos);
                 }
                 if (cell.IsRightWallActive)
                 {
-                    Vector3 rightWallPos = new Vector3(cell.PosM, 0.5f, -cell.PosN - 0.5f);
-                    MakeCube(vertices,trinangles,scale * 0.5f,rightWallPos  * scale);
+                    Vector3 rightWallPos = new Vector3(cell.PosN, 0.5f, -cell.PosM - wallOffsetFromCenter);
+                    MakeCube(vertices,trinangles,scale * 0.5f,rightWallPos);
                 }
             }
         }
-        
         
         // create mesh
         mesh.Clear();
