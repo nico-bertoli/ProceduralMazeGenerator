@@ -11,6 +11,8 @@ public class VoxelGenerator : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private Material material;
+    [SerializeField] private float wallsThickness = 0.1f;
+    [SerializeField] private float wallsHeight = 0.5f;
 
     private Mesh mesh;
     private MeshRenderer meshRenderer;
@@ -30,8 +32,8 @@ public class VoxelGenerator : MonoBehaviour
         List<Vector3> vertices = new List<Vector3>();
         List<int> trinangles = new List<int>();
 
-        Vector3 topWallScale = new Vector3(0.5f, 0.5f, 0.1f);
-        Vector3 rightWallScale = new Vector3(0.1f, 0.5f, 0.5f);
+        Vector3 topWallScale = new Vector3(1, wallsHeight, wallsThickness);
+        Vector3 rightWallScale = new Vector3(wallsThickness, wallsHeight, 1);
 
         for (int m = 0; m < dataGrid.RowsCount; m++)
         {
@@ -43,12 +45,12 @@ public class VoxelGenerator : MonoBehaviour
                 
                 if (cell.IsTopWallActive)
                 {
-                    Vector3 topWallPos = new Vector3(cell.PosN - wallOffsetFromCenter, 0.5f, -cell.PosM);
+                    Vector3 topWallPos = new Vector3(cell.PosN - wallOffsetFromCenter, 0, -cell.PosM);
                     MakeCube(vertices,trinangles,topWallScale * 0.5f,topWallPos);
                 }
                 if (cell.IsRightWallActive)
                 {
-                    Vector3 rightWallPos = new Vector3(cell.PosN, 0.5f, -cell.PosM - wallOffsetFromCenter);
+                    Vector3 rightWallPos = new Vector3(cell.PosN, 0, -cell.PosM - wallOffsetFromCenter);
                     MakeCube(vertices,trinangles,rightWallScale * 0.5f,rightWallPos);
                 }
             }
