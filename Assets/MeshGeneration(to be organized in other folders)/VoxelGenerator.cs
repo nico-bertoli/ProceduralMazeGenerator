@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class VoxelGenerator : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private Material material;
 
-    [SerializeField] private float scale = 1f;
+    [SerializeField] private Vector3 scale = Vector3.one;
 
     private Mesh mesh;
     private MeshRenderer meshRenderer;
@@ -67,22 +68,30 @@ public class VoxelGenerator : MonoBehaviour
 
     //-------------------------------------------------------------------------------
 
-    private void MakeCube(List<Vector3> vertices, List<int> triangles, float scale, Vector3 position)
+    private void MakeCube(List<Vector3> vertices, List<int> triangles, Vector3 scale, Vector3 position)
     {
-        for (int i = 0; i < 6; i++)
+        foreach (CubeFaceDirection direction in Enum.GetValues(typeof(CubeFaceDirection)))
         {
             // prevents creating bottom face
-            if(i==5)
+            if(direction == CubeFaceDirection.Bottom)
                 continue;
             
-            MakeFace(vertices,trinangles,i, scale, position);
+            MakeFace(vertices,trinangles,direction, scale, position);
         }
-           
+        
+        // for (int i = 0; i < 6; i++)
+        // {
+        //     // prevents creating bottom face
+        //     if(i==5)
+        //         continue;
+        //     
+        //     MakeFace(vertices,trinangles,(Direction)i, scale, position);
+        // }
     }
 
-    private void MakeFace(List<Vector3> vertices, List<int> triangles, int direction, float scale, Vector3 position)
+    private void MakeFace(List<Vector3> vertices, List<int> triangles, CubeFaceDirection cubeFaceDirection, Vector3 scale, Vector3 position)
     {
-        vertices.AddRange(GetFaceVertices(direction,scale, position));
+        vertices.AddRange(GetFaceVertices(cubeFaceDirection,scale, position));
         int vertCount = vertices.Count;
         
         triangles.Add(vertCount -4);
@@ -93,16 +102,32 @@ public class VoxelGenerator : MonoBehaviour
         triangles.Add(vertCount -4 + 3);
     }
 
-    private static Vector3[] GetFaceVertices(int direction, float scale, Vector3 position)
+    private static Vector3[] GetFaceVertices(CubeFaceDirection cubeFaceDirection, Vector3 scale, Vector3 position)
     {
         Vector3[] faceVertices = new Vector3[4];
         for (int i = 0; i < faceVertices.Length; i++)
-            faceVertices[i] = CubeVertices[CubeTriangles[direction][i]] * scale + position;
-        
+        {
+            // float scaleOnDirectionAxis = direction switch
+            // {
+            //     
+            // }
+            
+            faceVertices[i] = CubeVertices[CubeTriangles[(int)cubeFaceDirection][i]] * 0.2f + position; //1 was scalw
+        }
         return faceVertices;
     }
-    
+
     //-------------------
+    
+    private enum CubeFaceDirection
+    {
+        Forward = 0,
+        Right = 1,
+        Back = 2,
+        Left = 3,
+        Up = 4,
+        Bottom = 5
+    }
 
     private static readonly Vector3[] CubeVertices = new Vector3[]
     {
