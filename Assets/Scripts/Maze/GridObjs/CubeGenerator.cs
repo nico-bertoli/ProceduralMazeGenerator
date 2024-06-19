@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
-public class MeshGenerator : MonoBehaviour
+public class CubeGenerator : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private Material material;
