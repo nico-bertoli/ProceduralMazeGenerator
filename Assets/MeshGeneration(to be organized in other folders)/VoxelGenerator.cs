@@ -67,15 +67,17 @@ public class VoxelGenerator : MonoBehaviour
 
     //-------------------------------------------------------------------------------
 
-    private void MakeVoxel(List<Vector3> vertices, List<int> triangles)
-    {
-        
-    }
-    
     private void MakeCube(List<Vector3> vertices, List<int> triangles, float scale, Vector3 position)
     {
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
+        {
+            // prevents creating bottom face
+            if(i==5)
+                continue;
+            
             MakeFace(vertices,trinangles,i, scale, position);
+        }
+           
     }
 
     private void MakeFace(List<Vector3> vertices, List<int> triangles, int direction, float scale, Vector3 position)
