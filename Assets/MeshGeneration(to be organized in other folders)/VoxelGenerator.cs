@@ -1,35 +1,42 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // : https://www.youtube.com/watch?v=b_1ZlHrJZc4&list=PL5KbKbJ6Gf9-d303Lk8TGKCW-t5JsBdtB&index=10
 
-[RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
-[RequireComponent(typeof(MeshCollider))]
 public class VoxelGenerator : MonoBehaviour
 {
+    [Header("References")] 
+    [SerializeField] private VoxelChunk voxelChunkPrototype;
+    
     [Header("Settings")]
     [SerializeField] private Material material;
     [SerializeField] private float wallsThickness = 0.1f;
     [SerializeField] private float wallsHeight = 0.5f;
-
-    private Mesh mesh;
-    private MeshRenderer meshRenderer;
-    private MeshCollider collider;
-
-    private void Awake()
-    {
-        mesh = GetComponent<MeshFilter>().mesh;
-        meshRenderer = GetComponent<MeshRenderer>();
-        collider = GetComponent<MeshCollider>();
-        meshRenderer.material = material;
-    }
-
+    
     public Action OnMeshGenerated;
-    private int CHUNK_SIZE = 20;
+    private int CHUNK_SIZE = 40;
 
     public void CreateVoxel(DataGrid dataGrid)
+    {
+        const int chunkSize = 20;
+
+        int mChunksCount = Mathf.CeilToInt(dataGrid.RowsCount / chunkSize);
+        int nChunksCount = Mathf.CeilToInt(dataGrid.ColumnsCount / chunkSize);
+
+        for (int m = 0; m < mChunksCount; m++)
+        {
+            for (int n = 0; n < nChunksCount; n++)
+            {
+                CreateChunk(dataGrid,m*chunkSize,n*chunkSize,chunkSize);
+            }
+        }
+        
+        OnMeshGenerated?.Invoke();
+    }
+
+    private void CreateChunk(DataGrid dataGrid, int mBegin, int nBegin, int chunkSize)
     {
         // create voxel
         List<Vector3> vertices = new List<Vector3>();
@@ -38,14 +45,12 @@ public class VoxelGenerator : MonoBehaviour
         Vector3 topWallScale = new Vector3(1, wallsHeight, wallsThickness);
         Vector3 rightWallScale = new Vector3(wallsThickness, wallsHeight, 1);
 
-        for (int m = 0; m < dataGrid.RowsCount; m++)
+        for (int m = mBegin; m < mBegin + chunkSize && m < dataGrid.RowsCount; m++)
         {
-            for (int n = 0; n < dataGrid.ColumnsCount; n++)
+            for (int n = nBegin; n < nBegin + chunkSize && n < dataGrid.ColumnsCount; n++)
             {
                 DataCell cell = dataGrid.GetCell(m, n);
-
                 float wallOffsetFromCenter = 0.5f;
-                
                 if (cell.IsTopWallActive)
                 {
                     Vector3 topWallPos = new Vector3(cell.PosN - wallOffsetFromCenter, 0, -cell.PosM);
@@ -58,19 +63,12 @@ public class VoxelGenerator : MonoBehaviour
                 }
             }
         }
-
-        /////////////////////////////////////
         
-        // create mesh
-        mesh.Clear();
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = trinangles.ToArray();
-        mesh.RecalculateNormals();
-        
-        // setup collider
-        collider.sharedMesh = mesh;
-        
-        OnMeshGenerated?.Invoke();
+        VoxelChunk chunk = Instantiate(voxelChunkPrototype,transform).GetComponent<VoxelChunk>();
+        chunk.Init(vertices,trinangles,material);
+        // chunk.transform.position = transform.position;
+        // chunk.transform.parent = transform;
+        chunk.gameObject.isStatic = true;
     }
 
     //-------------------------------------------------------------------------------

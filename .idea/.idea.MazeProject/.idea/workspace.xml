@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eae620b3-e2b4-4b14-8931-75508c4ce474" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/LiveGenerationGri.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/LiveGenerationGri.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MeshGeneration(to be organized in other folders)/VoxelGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MeshGeneration(to be organized in other folders)/VoxelGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjects/MazeGenerationSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ScriptableObjects/MazeGenerationSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,6 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/MeshGeneration(to be organized in other folders)/VoxelChunk.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Debug/MazeGenerationProfiler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.2d.pixel-perfect@5.0.1/Samples~/Scenes and Extras/Scenes/RoboHero/Scripts/Hero.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.2d.pixel-perfect@5.0.1/Samples~/Scenes and Extras/Scenes/Scripts/BasicCameraFollow.cs" root0="SKIP_HIGHLIGHTING" />
@@ -97,7 +102,7 @@
       <workItem from="1718447655743" duration="5568000" />
       <workItem from="1718528020901" duration="1692000" />
       <workItem from="1718816169018" duration="1326000" />
-      <workItem from="1718904203454" duration="4138000" />
+      <workItem from="1718904203454" duration="7409000" />
     </task>
     <servers />
   </component>

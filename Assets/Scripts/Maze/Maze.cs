@@ -85,7 +85,6 @@ public class Maze : MonoBehaviour {
             UIManager.Instance.SetLoadingPanelText("Loading maze");
             // StartCoroutine(gridObj.Init(dataGrid));
             voxelGenerator.CreateVoxel(dataGrid);
-            
         }
         else
         {
