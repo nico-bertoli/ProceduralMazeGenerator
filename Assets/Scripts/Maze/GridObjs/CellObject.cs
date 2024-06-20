@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CellObj : MonoBehaviour
+public class CellObject : MonoBehaviour
 {
     #region ============================================================================================= Private Fields
     [SerializeField] private WallObj topWall;

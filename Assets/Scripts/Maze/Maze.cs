@@ -20,11 +20,9 @@ public class Maze : MonoBehaviour {
     #endregion Public Properties
     #region ============================================================================================= Private Fields
 
-    [SerializeField] private GameObject liveGenerationGridPrototype;
-    [SerializeField] private GameObject notLiveGenerationGridPrototype;
+    [SerializeField] private LiveGenerationGri liveGenGrid;
     [SerializeField] private VoxelGenerator voxelGenerator;
 
-    private AbsGridObj gridObj;
     private DataGrid dataGrid;
     private AbsMazeGenerator mazeGenerator;
     
@@ -43,9 +41,9 @@ public class Maze : MonoBehaviour {
         IsLiveGenerationActive = showLiveGeneration;
 
         dataGrid = new DataGrid(nRows, nColumns);
-        
-        if(IsLiveGenerationActive)
-            yield return StartCoroutine(InstantiateGridObj(nRows,nColumns));
+
+        if (IsLiveGenerationActive)
+            yield return StartCoroutine(liveGenGrid.Init(dataGrid));
 
         InstantiateMazeGenerator(algorithm);
         OnGenerationStarted?.Invoke();
@@ -62,13 +60,13 @@ public class Maze : MonoBehaviour {
     }
 
     public void Reset() {
-        if (mazeGenerator) Destroy(mazeGenerator.gameObject);
-        if (gridObj) Destroy(gridObj.gameObject);
+        if (mazeGenerator != null)
+            Destroy(mazeGenerator.gameObject);
     }
 
     public IEnumerator SetWallsSize(float size) {
-        yield return StartCoroutine(gridObj.SetWallsWidth(size));
-        yield return StartCoroutine(gridObj.GenerateChunks());
+        yield return StartCoroutine(liveGenGrid.SetWallsWidth(size));
+        // yield return StartCoroutine(liveGenGrid.GenerateChunks());
     }
 
     public Vector3 GetExitPosition()
@@ -92,9 +90,9 @@ public class Maze : MonoBehaviour {
             voxelGenerator.CreateVoxel(dataGrid);
             
         }
-        else {
-            StartCoroutine(gridObj.GenerateChunks());
-            // OnGridFinalMeshCreated?.Invoke();
+        else
+        {
+            OnMazeChunksGenerated?.Invoke();
         }
     }
 
@@ -116,17 +114,6 @@ public class Maze : MonoBehaviour {
                 Debug.LogError($"{algorithm} not recognized! {nameof(InstantiateMazeGenerator)} failed");
                 break;
         }
-    }
-
-    private IEnumerator InstantiateGridObj(int nRows,int nColumns){
-        if (IsLiveGenerationActive)
-        {
-            gridObj = Instantiate(liveGenerationGridPrototype).GetComponent<LiveGenerationGrid>();
-            gridObj.OnGridChunksGenerated += OnMazeChunksGenerated;
-        }
-        
-        if (IsLiveGenerationActive)
-            yield return StartCoroutine(gridObj.Init(dataGrid));
     }
 
     #endregion Private Methods

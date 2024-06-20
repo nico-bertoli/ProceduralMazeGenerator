@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 /// Game Object representing a DataGrid
 /// </summary>
-public abstract class AbsGridObj : MonoBehaviour
+public class LiveGenerationGri : MonoBehaviour
 {
     public Action OnGridChunksGenerated;
 
@@ -20,46 +18,78 @@ public abstract class AbsGridObj : MonoBehaviour
     [Header("References")]
     [SerializeField] protected MeshesCombiner meshesCombiner;
     [SerializeField] private GameObject marginWallPrefab;
+    [SerializeField] private CellObject cellObjectPrefab;
     
     private const int CHUNK_SIZE = 20;
     
     private WallObj leftMargin;
     private WallObj bottomMargin;
     private DataGrid dataGrid;
-    private CellObj[,] cellObjs;
+    private CellObject[,] cellObjs;
     private GameObject meshesContainer;
     private GameObject chunksContainer;
     
     #endregion Private Fields
     #region ============================================================================================= Public Methods
 
-    public IEnumerator GenerateChunks() {
-        ResetMeshesContainer();
-        yield return StartCoroutine(SetCellsActive(true));
+    public IEnumerator Init(DataGrid grid) {
+        
+        Reset();
+        dataGrid = grid;
+        cellObjs = new CellObject[grid.RowsCount, grid.ColumnsCount];
 
-        if (chunksContainer == null) {
-            InitChunksContainer();
-            yield return GenerateChunks(chunksContainer);
-        }
-
-        for (int i = 0; i < chunksContainer.transform.childCount; i++) {
-            GameObject chunk = chunksContainer.transform.GetChild(i).gameObject;
-            GameObject combinedMeshes = meshesCombiner.CombineMeshes(chunk);
-            combinedMeshes.name = ("Mesh");
-            combinedMeshes.transform.parent = meshesContainer.transform;
+        for (int m = 0; m < grid.RowsCount; m++) {
+            for (int n = 0; n < grid.ColumnsCount; n++) {
+                CellObject cellObject = Instantiate(cellObjectPrefab, transform).GetComponent<CellObject>();
+                cellObjs[m, n] = cellObject;
+                cellObjs[m, n].Init(dataGrid.GetCell(m, n));
+            }
             yield return null;
         }
-        SetWallsMeshesActive(false);
+        yield return StartCoroutine(SetWallsWidth(wallsStartingWidth));
+        InitMargins();
         
-        OnGridChunksGenerated?.Invoke();
-    }
-
-    public void EnableAllChunks()
-    {
-        for (int i = 0; i < chunksContainer.transform.childCount; i++)
-            chunksContainer.transform.GetChild(i).gameObject.SetActive(true);
+        yield return StartCoroutine(SetCellsActive(true));
+        SetWallsMeshesActive(true);
     }
     
+    private void Reset()
+    {
+        if (cellObjs == null)
+            return; 
+        
+        foreach (CellObject cell in cellObjs)
+            Destroy(cell.gameObject);
+        
+        if(leftMargin != null)
+            Destroy(leftMargin.gameObject);
+        
+        if(bottomMargin != null)
+            Destroy(bottomMargin.gameObject);
+    }
+    
+    // public IEnumerator GenerateChunks() {
+    //     
+    //     ResetMeshesContainer();
+    //     yield return StartCoroutine(SetCellsActive(true));
+    //
+    //     if (chunksContainer == null) {
+    //         InitChunksContainer();
+    //         yield return GenerateChunks(chunksContainer);
+    //     }
+    //
+    //     for (int i = 0; i < chunksContainer.transform.childCount; i++) {
+    //         GameObject chunk = chunksContainer.transform.GetChild(i).gameObject;
+    //         GameObject combinedMeshes = meshesCombiner.CombineMeshes(chunk);
+    //         combinedMeshes.name = ("Mesh");
+    //         combinedMeshes.transform.parent = meshesContainer.transform;
+    //         yield return null;
+    //     }
+    //     SetWallsMeshesActive(false);
+    //     
+    //     OnGridChunksGenerated?.Invoke();
+    // }
+
     public IEnumerator SetWallsWidth(float width) {
 
         for (int m = 0; m < dataGrid.RowsCount; m++) {
@@ -106,25 +136,7 @@ public abstract class AbsGridObj : MonoBehaviour
     
     #endregion Protected Methods
     #region ============================================================================================ Private Methods
-    
-    public virtual IEnumerator Init(DataGrid grid) {
-        
-        dataGrid = grid;
-        cellObjs = new CellObj[grid.RowsCount, grid.ColumnsCount];
-        IReadOnlyList<GameObject> cellObjects = ObjectsPreAllocator.Instance.GetPreallocatedObjects();
-        
-        for (int m = 0; m < grid.RowsCount; m++) {
-            for (int n = 0; n < grid.ColumnsCount; n++) {
-                cellObjs[m, n] = cellObjects[m*grid.ColumnsCount + n].GetComponent<CellObj>();
-                cellObjs[m, n].Init(dataGrid.GetCell(m, n));
-                cellObjs[m, n].transform.parent = transform;
-            }
-            yield return null;
-        }
-        yield return StartCoroutine(SetWallsWidth(wallsStartingWidth));
-        InitMargins();
-    }
-    
+
     private void InitMargins() {
         leftMargin = Instantiate(marginWallPrefab).GetComponent<WallObj>();
         bottomMargin = Instantiate(marginWallPrefab).GetOrAddComponent<WallObj>();
@@ -189,10 +201,6 @@ public abstract class AbsGridObj : MonoBehaviour
             }
             yield return null;
         }
-    }
-
-    private void OnDestroy() {
-        if (ObjectsPreAllocator.Instance) ObjectsPreAllocator.Instance.ResetPreallocatedObjects();
     }
 
     private void InitChunksContainer() {
