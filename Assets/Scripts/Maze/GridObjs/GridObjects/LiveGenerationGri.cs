@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,12 +12,9 @@ public class LiveGenerationGri : MonoBehaviour
     [SerializeField] private float wallsStartingWidth = 0.4f;
     
     [Header("References")]
-    [SerializeField] protected MeshesCombiner meshesCombiner;
     [SerializeField] private GameObject marginWallPrefab;
     [SerializeField] private CellObject cellObjectPrefab;
-    
-    private const int CHUNK_SIZE = 20;
-    
+
     private WallObj leftMargin;
     private WallObj bottomMargin;
     private DataGrid dataGrid;
@@ -124,37 +119,6 @@ public class LiveGenerationGri : MonoBehaviour
         leftMargin.gameObject.SetActive(true);
         leftMargin.SetMeshActive(true);
         bottomMargin.SetMeshActive(true);
-    }
-
-    //todo copy this for mesh chunks
-    private void GenerateChunks(GameObject chunksParent)
-    {
-        int ChunksCountM = dataGrid.RowsCount / CHUNK_SIZE;
-        int ChunksCountN = dataGrid.ColumnsCount / CHUNK_SIZE;
-        
-        for (int gridM = 0; gridM <= ChunksCountM; gridM++) {
-            for (int grinN = 0; grinN <= ChunksCountN; grinN++) {
-                
-                //create new chunk
-                GameObject chunk = new GameObject("Chunk[" + gridM + "," + grinN + "]");
-                chunk.transform.parent = chunksParent.transform;
-                chunk.transform.position = new Vector3(grinN * CHUNK_SIZE +CHUNK_SIZE/ 2f, 0, -(gridM* CHUNK_SIZE + CHUNK_SIZE/ 2f));
-                chunk.isStatic = true;
-
-                //make cells child of new chunk
-                for (int chunkM = 0; chunkM < CHUNK_SIZE; chunkM++) {
-                    for (int chunkN = 0; chunkN < CHUNK_SIZE; chunkN++) {
-
-                        int m = gridM * CHUNK_SIZE + chunkM;
-                        int n = grinN * CHUNK_SIZE + chunkN;
-
-                        if (m >= dataGrid.RowsCount || n >= dataGrid.ColumnsCount) break;
-                        cellObjs[m, n].transform.parent = chunk.transform;
-                    }
-                }
-                chunk.SetActive(false);
-            }
-        }
     }
 
     #endregion Private Methods

@@ -27,6 +27,7 @@ public class VoxelGenerator : MonoBehaviour
     }
 
     public Action OnMeshGenerated;
+    private int CHUNK_SIZE = 20;
 
     public void CreateVoxel(DataGrid dataGrid)
     {
@@ -57,6 +58,8 @@ public class VoxelGenerator : MonoBehaviour
                 }
             }
         }
+
+        /////////////////////////////////////
         
         // create mesh
         mesh.Clear();
