@@ -8,8 +8,6 @@ using UnityEngine;
 /// </summary>
 public class LiveGenerationGri : MonoBehaviour
 {
-    public Action OnGridChunksGenerated;
-
     #region ============================================================================================= Private Fields
 
     [Header ("Settings")]
@@ -32,7 +30,7 @@ public class LiveGenerationGri : MonoBehaviour
     #endregion Private Fields
     #region ============================================================================================= Public Methods
 
-    public IEnumerator Init(DataGrid grid) {
+    public void Init(DataGrid grid) {
         
         Reset();
         dataGrid = grid;
@@ -44,12 +42,11 @@ public class LiveGenerationGri : MonoBehaviour
                 cellObjs[m, n] = cellObject;
                 cellObjs[m, n].Init(dataGrid.GetCell(m, n));
             }
-            yield return null;
         }
-        yield return StartCoroutine(SetWallsWidth(wallsStartingWidth));
+        SetWallsWidth(wallsStartingWidth);
         InitMargins();
         
-        yield return StartCoroutine(SetCellsActive(true));
+        SetCellsActive(true);
         SetWallsMeshesActive(true);
     }
     
@@ -68,13 +65,12 @@ public class LiveGenerationGri : MonoBehaviour
             Destroy(bottomMargin.gameObject);
     }
 
-    public IEnumerator SetWallsWidth(float width) {
+    public void SetWallsWidth(float width) {
 
         for (int m = 0; m < dataGrid.RowsCount; m++) {
             for (int n = 0; n < dataGrid.ColumnsCount; n++) {
                 cellObjs[m, n].SetWallsWidth(width);
             }
-            yield return null;
         }
         if (leftMargin && bottomMargin) {
             leftMargin.SetWidth(width);
@@ -87,13 +83,10 @@ public class LiveGenerationGri : MonoBehaviour
     #endregion Public Methods
     #region ============================================================================================ Private Methods
 
-    private IEnumerator SetCellsActive(bool setActive) {
-        for (int m = 0; m < dataGrid.RowsCount; m++) {
-            for (int n = 0; n < dataGrid.ColumnsCount; n++) {
+    private void SetCellsActive(bool setActive) {
+        for (int m = 0; m < dataGrid.RowsCount; m++) 
+            for (int n = 0; n < dataGrid.ColumnsCount; n++) 
                 cellObjs[m, n].gameObject.SetActive(setActive);
-            }
-            yield return null;
-        }
     }
     
     private void SetWallsMeshesActive(bool setActive) {
@@ -134,7 +127,7 @@ public class LiveGenerationGri : MonoBehaviour
     }
 
     //todo copy this for mesh chunks
-    private IEnumerator GenerateChunks(GameObject chunksParent)
+    private void GenerateChunks(GameObject chunksParent)
     {
         int ChunksCountM = dataGrid.RowsCount / CHUNK_SIZE;
         int ChunksCountN = dataGrid.ColumnsCount / CHUNK_SIZE;
@@ -161,7 +154,6 @@ public class LiveGenerationGri : MonoBehaviour
                 }
                 chunk.SetActive(false);
             }
-            yield return null;
         }
     }
 

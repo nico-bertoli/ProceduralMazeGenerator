@@ -42,23 +42,12 @@ public class GameController : Singleton<GameController>
     public void SetLiveGenerationSpeed(float speed) => Maze.SetLiveGenerationSpeed(speed);
 
     public void QuitGame() => Application.Quit();
-
-    public void PlayMaze() => StartCoroutine(PlayMazeCor());
-
-    #endregion Public Methods
-    #region ============================================================================================ Private Methods
     
-    private void Start() {
-        gameObjects.SetActive(false);
-        topDownCamera.gameObject.SetActive(true);
-        exitObj.GetComponent<Exit>().OnExitReached += Reset;
-    }
-
-    private IEnumerator PlayMazeCor() {
+    public void PlayMaze() {
         UIManager.Instance.ShowLoadingGamePanel();
         
         if(Maze.IsLiveGenerationActive)
-            yield return StartCoroutine(Maze.SetWallsSize(gameWallsSize));
+            Maze.SetWallsSize(gameWallsSize);
 
         SetGameMode(true);
 
@@ -69,6 +58,15 @@ public class GameController : Singleton<GameController>
         exitObj.transform.position = Maze.GetExitPosition();
         
         UIManager.Instance.DisableLoadingPanel();
+    }
+
+    #endregion Public Methods
+    #region ============================================================================================ Private Methods
+    
+    private void Start() {
+        gameObjects.SetActive(false);
+        topDownCamera.gameObject.SetActive(true);
+        exitObj.GetComponent<Exit>().OnExitReached += Reset;
     }
 
     private void SetGameMode(bool active) {

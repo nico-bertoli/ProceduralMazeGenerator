@@ -43,7 +43,7 @@ public class Maze : MonoBehaviour {
         dataGrid = new DataGrid(nRows, nColumns);
 
         if (IsLiveGenerationActive)
-            yield return StartCoroutine(liveGenGrid.Init(dataGrid));
+            liveGenGrid.Init(dataGrid);
 
         InstantiateMazeGenerator(algorithm);
         OnGenerationStarted?.Invoke();
@@ -64,10 +64,7 @@ public class Maze : MonoBehaviour {
             Destroy(mazeGenerator.gameObject);
     }
 
-    public IEnumerator SetWallsSize(float size) {
-        yield return StartCoroutine(liveGenGrid.SetWallsWidth(size));
-        // yield return StartCoroutine(liveGenGrid.GenerateChunks());
-    }
+    public void SetWallsSize(float size) => liveGenGrid.SetWallsWidth(size);
 
     public Vector3 GetExitPosition()
     {
