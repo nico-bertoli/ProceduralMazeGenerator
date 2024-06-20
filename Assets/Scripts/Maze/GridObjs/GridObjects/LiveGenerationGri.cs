@@ -67,28 +67,6 @@ public class LiveGenerationGri : MonoBehaviour
         if(bottomMargin != null)
             Destroy(bottomMargin.gameObject);
     }
-    
-    // public IEnumerator GenerateChunks() {
-    //     
-    //     ResetMeshesContainer();
-    //     yield return StartCoroutine(SetCellsActive(true));
-    //
-    //     if (chunksContainer == null) {
-    //         InitChunksContainer();
-    //         yield return GenerateChunks(chunksContainer);
-    //     }
-    //
-    //     for (int i = 0; i < chunksContainer.transform.childCount; i++) {
-    //         GameObject chunk = chunksContainer.transform.GetChild(i).gameObject;
-    //         GameObject combinedMeshes = meshesCombiner.CombineMeshes(chunk);
-    //         combinedMeshes.name = ("Mesh");
-    //         combinedMeshes.transform.parent = meshesContainer.transform;
-    //         yield return null;
-    //     }
-    //     SetWallsMeshesActive(false);
-    //     
-    //     OnGridChunksGenerated?.Invoke();
-    // }
 
     public IEnumerator SetWallsWidth(float width) {
 
@@ -105,19 +83,11 @@ public class LiveGenerationGri : MonoBehaviour
             bottomMargin.SetLength(dataGrid.ColumnsCount);
         }
     }
-    
-    public Vector3 GetBottomRightCellPos() {
-        return new Vector3(
-            transform.position.x + dataGrid.ColumnsCount - 1, 
-            transform.position.y, 
-            transform.position.z - dataGrid.RowsCount + 1
-            );
-    }
 
     #endregion Public Methods
-    #region ========================================================================================== Protected Methods
-    
-    protected IEnumerator SetCellsActive(bool setActive) {
+    #region ============================================================================================ Private Methods
+
+    private IEnumerator SetCellsActive(bool setActive) {
         for (int m = 0; m < dataGrid.RowsCount; m++) {
             for (int n = 0; n < dataGrid.ColumnsCount; n++) {
                 cellObjs[m, n].gameObject.SetActive(setActive);
@@ -126,17 +96,12 @@ public class LiveGenerationGri : MonoBehaviour
         }
     }
     
-    protected void SetWallsMeshesActive(bool setActive) {
-        for (int m = 0; m < dataGrid.RowsCount; m++) {
-            for (int n = 0; n < dataGrid.ColumnsCount; n++) {
+    private void SetWallsMeshesActive(bool setActive) {
+        for (int m = 0; m < dataGrid.RowsCount; m++)
+            for (int n = 0; n < dataGrid.ColumnsCount; n++) 
                 cellObjs[m, n].SetWallMeshesActive(setActive);
-            }
-        }
     }
     
-    #endregion Protected Methods
-    #region ============================================================================================ Private Methods
-
     private void InitMargins() {
         leftMargin = Instantiate(marginWallPrefab).GetComponent<WallObj>();
         bottomMargin = Instantiate(marginWallPrefab).GetOrAddComponent<WallObj>();
@@ -168,10 +133,7 @@ public class LiveGenerationGri : MonoBehaviour
         bottomMargin.SetMeshActive(true);
     }
 
-    /// <summary>
-    /// Separates cells in chunks, depending on CHUNK_SIZE
-    /// </summary>
-    /// <returns></returns>
+    //todo copy this for mesh chunks
     private IEnumerator GenerateChunks(GameObject chunksParent)
     {
         int ChunksCountM = dataGrid.RowsCount / CHUNK_SIZE;
@@ -203,20 +165,5 @@ public class LiveGenerationGri : MonoBehaviour
         }
     }
 
-    private void InitChunksContainer() {
-        chunksContainer = new GameObject();
-        chunksContainer.name = "Chunks container";
-        chunksContainer.transform.parent = transform;
-    }
-
-    private void ResetMeshesContainer() {
-        if (meshesContainer != null)
-            Destroy(meshesContainer);
-
-        meshesContainer = new GameObject();
-        meshesContainer.transform.parent = transform;
-        meshesContainer.name = "Chunk meshes container";
-    }
-    
     #endregion Private Methods
 }

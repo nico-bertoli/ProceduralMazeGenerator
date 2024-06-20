@@ -2,26 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eae620b3-e2b4-4b14-8931-75508c4ce474" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MeshGeneration(to be organized in other folders)/CubeGenerator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MeshGeneration(to be organized in other folders)/CubeGenerator.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MazeGeneration/Cell.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MazeGeneration/Cell.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MazeGeneration/Wall.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MazeGeneration/Wall.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MazeGeneration/liveGenerationGrid.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MazeGeneration/liveGenerationGrid.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MazeGeneration/notLiveGenerationGrid.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MazeGeneration/notLiveGenerationGrid.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjects/MazeGenerationSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ScriptableObjects/MazeGenerationSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/CellObj.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/CellObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/CellObj.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/CellObject.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/AbsGridObj.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/LiveGenerationGri.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/AbsGridObj.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/LiveGenerationGri.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/LiveGenerationGrid.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/LiveGenerationGrid.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/NotLiveGenerationGrid.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/NotLiveGenerationGrid.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Performance/ObjectsPreAllocator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Performance/ObjectsPreAllocator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/LiveGenerationGri.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridObjs/GridObjects/LiveGenerationGri.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +97,7 @@
       <workItem from="1718447655743" duration="5568000" />
       <workItem from="1718528020901" duration="1692000" />
       <workItem from="1718816169018" duration="1326000" />
-      <workItem from="1718904203454" duration="3271000" />
+      <workItem from="1718904203454" duration="3756000" />
     </task>
     <servers />
   </component>
