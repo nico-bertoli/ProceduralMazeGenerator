@@ -8,10 +8,13 @@ public class VoxelGenerator : MonoBehaviour
 {
     [Header("References")] 
     [SerializeField] private VoxelChunk voxelChunkPrototype;
+    [SerializeField] private MarginWallsGenerator marginWallsGenerator;
     
     [Header("Settings")]
     [SerializeField] private Material material;
     [SerializeField] private float wallsHeight = 0.5f;
+
+    private List<VoxelChunk> chunks = new ();
 
     private float wallsWidth => Settings.Instance.mazeGenerationSettings.IngameWallsWidth;
     private int chunkSize => Settings.Instance.mazeGenerationSettings.VoxelChunkSize;
@@ -25,13 +28,13 @@ public class VoxelGenerator : MonoBehaviour
 
         for (int m = 0; m < mChunksCount; m++)
             for (int n = 0; n < nChunksCount; n++)
-                CreateChunk(dataGrid,m*chunkSize,n*chunkSize,chunkSize);
-            
+                chunks.Add(CreateChunk(dataGrid,m*chunkSize,n*chunkSize,chunkSize));
         
+        marginWallsGenerator.InitMargins(dataGrid,wallsWidth);
         OnMeshGenerated?.Invoke();
     }
 
-    private void CreateChunk(DataGrid dataGrid, int mBegin, int nBegin, int chunkSize)
+    private VoxelChunk CreateChunk(DataGrid dataGrid, int mBegin, int nBegin, int chunkSize)
     {
         // create voxel
         List<Vector3> vertices = new List<Vector3>();
@@ -64,10 +67,19 @@ public class VoxelGenerator : MonoBehaviour
         VoxelChunk chunk = Instantiate(voxelChunkPrototype,transform).GetComponent<VoxelChunk>();
         chunk.Init(vertices,triangles,material);
         chunk.gameObject.isStatic = true;
+        return chunk;
     }
     
+    public void Reset()
+    {
+        foreach (VoxelChunk chunk in chunks)
+            Destroy(chunk.gameObject);
+        
+        chunks.Clear();
+        
+        marginWallsGenerator.Reset();
+    }
     
-
     //-------------------------------------------------------------------------------
 
     private void CreateCube(List<Vector3> vertices, List<int> triangles, Vector3 scale, Vector3 position)

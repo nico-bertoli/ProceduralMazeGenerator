@@ -62,6 +62,9 @@ public class Maze : MonoBehaviour {
     public void Reset() {
         if (mazeGenerator != null)
             Destroy(mazeGenerator.gameObject);
+        
+        liveGenGrid.Reset();
+        voxelGenerator.Reset();
     }
 
     public void SetWallsSize(float size) => liveGenGrid.SetWallsWidth(size);

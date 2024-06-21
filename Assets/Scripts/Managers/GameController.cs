@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class GameController : Singleton<GameController>
@@ -33,13 +34,7 @@ public class GameController : Singleton<GameController>
 
         StartCoroutine(Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm));
     }
-    
-    public void Reset() {
-        Maze.Reset();
-        SetGameMode(false);
-        UIManager.Instance.ShowSettingsPanel();
-    }
-    
+
     public void SetLiveGenerationSpeed(float speed) => Maze.SetLiveGenerationSpeed(speed);
 
     public void QuitGame() => Application.Quit();
@@ -68,7 +63,7 @@ public class GameController : Singleton<GameController>
     private void Start() {
         gameObjects.SetActive(false);
         topDownCamera.gameObject.SetActive(true);
-        exitObj.GetComponent<Exit>().OnExitReached += Reset;
+        exitObj.GetComponent<Exit>().OnExitReached += Signal_Reset;
     }
 
     private void SetGameMode(bool active) {
@@ -77,4 +72,14 @@ public class GameController : Singleton<GameController>
     }
     
     #endregion Private Methods
+    #region ============================================================================================ Private Methods
+    
+    [UsedImplicitly]
+    public void Signal_Reset() {
+        Maze.Reset();
+        SetGameMode(false);
+        UIManager.Instance.ShowSettingsPanel();
+    }
+    
+    #endregion Signals
 }

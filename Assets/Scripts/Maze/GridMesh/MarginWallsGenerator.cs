@@ -12,8 +12,6 @@ public class MarginWallsGenerator : MonoBehaviour
 
     public void InitMargins(DataGrid dataGrid, float wallsWidth) {
         
-        Debug.LogError("init margins called");
-        
         leftMargin = Instantiate(marginWallPrefab).GetComponent<WallObject>();
         bottomMargin = Instantiate(marginWallPrefab).GetOrAddComponent<WallObject>();
 
@@ -61,8 +59,6 @@ public class MarginWallsGenerator : MonoBehaviour
     
     public void Reset()
     {
-        Debug.LogError("reset called");
-        
         if(leftMargin != null)
             Destroy(leftMargin.gameObject);
         

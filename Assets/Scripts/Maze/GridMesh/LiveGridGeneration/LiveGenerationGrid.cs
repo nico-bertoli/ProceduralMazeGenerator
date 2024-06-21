@@ -24,8 +24,6 @@ public class LiveGenerationGrid : MonoBehaviour
     #region ============================================================================================= Public Methods
     
     public void Init(DataGrid grid) {
-        
-        Reset();
         dataGrid = grid;
         cellObjs = new CellObject[grid.RowsCount, grid.ColumnsCount];
 
@@ -41,6 +39,18 @@ public class LiveGenerationGrid : MonoBehaviour
         
         SetCellsActive(true);
         SetWallsMeshesActive(true);
+    }
+    
+    public void Reset()
+    {
+        if (cellObjs == null)
+            return; 
+        
+        foreach (CellObject cell in cellObjs)
+            Destroy(cell.gameObject);
+
+        cellObjs = null;
+        marginWallsGenerator.Reset();
     }
 
     public void SetWallsWidth(float width) {
@@ -59,20 +69,15 @@ public class LiveGenerationGrid : MonoBehaviour
     
     private void Start()
     {
-        GameController.Instance.OnGameModeActive += () => SetWallsWidth(Settings.Instance.mazeGenerationSettings.IngameWallsWidth);
+        GameController.Instance.OnGameModeActive += OnGameModeActive;
     }
-    
-    private void Reset()
-    {
-        if (cellObjs == null)
-            return; 
-        
-        foreach (CellObject cell in cellObjs)
-            Destroy(cell.gameObject);
 
-        marginWallsGenerator.Reset();
+    private void OnGameModeActive()
+    {
+        if(cellObjs != null)
+            SetWallsWidth(Settings.Instance.mazeGenerationSettings.IngameWallsWidth);
     }
-    
+
     private void SetCellsActive(bool setActive) {
         for (int m = 0; m < dataGrid.RowsCount; m++) 
             for (int n = 0; n < dataGrid.ColumnsCount; n++) 
