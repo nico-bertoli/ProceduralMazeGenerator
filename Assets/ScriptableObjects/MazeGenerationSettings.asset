@@ -16,3 +16,5 @@ MonoBehaviour:
   <NotLiveGenMaxSideCells>k__BackingField: 1000
   <MinSideCells>k__BackingField: 10
   <LiveGenerationMaxDelay>k__BackingField: 0.4
+  <LiveGenerationWallsWidth>k__BackingField: 0.4
+  <IngameWallsWidth>k__BackingField: 0.1

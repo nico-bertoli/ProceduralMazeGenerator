@@ -20,7 +20,7 @@ public class Maze : MonoBehaviour {
     #endregion Public Properties
     #region ============================================================================================= Private Fields
 
-    [SerializeField] private LiveGenerationGri liveGenGrid;
+    [SerializeField] private LiveGenerationGrid liveGenGrid;
     [SerializeField] private VoxelGenerator voxelGenerator;
 
     private DataGrid dataGrid;

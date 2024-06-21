@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -42,12 +43,13 @@ public class GameController : Singleton<GameController>
     public void SetLiveGenerationSpeed(float speed) => Maze.SetLiveGenerationSpeed(speed);
 
     public void QuitGame() => Application.Quit();
+
+    public Action OnGameModeActive;
     
     public void PlayMaze() {
         UIManager.Instance.ShowLoadingGamePanel();
         
-        if(Maze.IsLiveGenerationActive)
-            Maze.SetWallsSize(gameWallsSize);
+        OnGameModeActive?.Invoke();
 
         SetGameMode(true);
 

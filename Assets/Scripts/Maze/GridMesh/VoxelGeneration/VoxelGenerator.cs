@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 // : https://www.youtube.com/watch?v=b_1ZlHrJZc4&list=PL5KbKbJ6Gf9-d303Lk8TGKCW-t5JsBdtB&index=10
 
@@ -12,26 +11,23 @@ public class VoxelGenerator : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private Material material;
-    [SerializeField] private float wallsThickness = 0.1f;
     [SerializeField] private float wallsHeight = 0.5f;
+
+    private float wallsWidth => Settings.Instance.mazeGenerationSettings.IngameWallsWidth;
+    private int chunkSize => Settings.Instance.mazeGenerationSettings.VoxelChunkSize;
     
     public Action OnMeshGenerated;
 
     public void CreateChunks(DataGrid dataGrid)
     {
-        const int chunkSize = 20;
-
         int mChunksCount = Mathf.CeilToInt(dataGrid.RowsCount / chunkSize);
         int nChunksCount = Mathf.CeilToInt(dataGrid.ColumnsCount / chunkSize);
 
         for (int m = 0; m < mChunksCount; m++)
-        {
             for (int n = 0; n < nChunksCount; n++)
-            {
                 CreateChunk(dataGrid,m*chunkSize,n*chunkSize,chunkSize);
-            }
-        }
-
+            
+        
         OnMeshGenerated?.Invoke();
     }
 
@@ -39,34 +35,38 @@ public class VoxelGenerator : MonoBehaviour
     {
         // create voxel
         List<Vector3> vertices = new List<Vector3>();
-        List<int> trinangles = new List<int>();
+        List<int> triangles = new List<int>();
 
-        Vector3 topWallScale = new Vector3(1, wallsHeight, wallsThickness);
-        Vector3 rightWallScale = new Vector3(wallsThickness, wallsHeight, 1);
+        Vector3 topWallScale = new Vector3(1, wallsHeight, wallsWidth);
+        Vector3 rightWallScale = new Vector3(wallsWidth, wallsHeight, 1);
 
+        float wallsOffsetFromCenter = 0.5f;
+        
         for (int m = mBegin; m < mBegin + chunkSize && m < dataGrid.RowsCount; m++)
         {
             for (int n = nBegin; n < nBegin + chunkSize && n < dataGrid.ColumnsCount; n++)
             {
                 DataCell cell = dataGrid.GetCell(m, n);
-                float wallOffsetFromCenter = 0.5f;
+                
                 if (cell.IsTopWallActive)
                 {
-                    Vector3 topWallPos = new Vector3(cell.PosN - wallOffsetFromCenter, 0, -cell.PosM);
-                    CreateCube(vertices,trinangles,topWallScale * 0.5f,topWallPos);
+                    Vector3 topWallPos = new Vector3(cell.PosN - wallsOffsetFromCenter, 0, -cell.PosM);
+                    CreateCube(vertices,triangles,topWallScale * 0.5f,topWallPos);
                 }
                 if (cell.IsRightWallActive)
                 {
-                    Vector3 rightWallPos = new Vector3(cell.PosN, 0, -cell.PosM - wallOffsetFromCenter);
-                    CreateCube(vertices,trinangles,rightWallScale * 0.5f,rightWallPos);
+                    Vector3 rightWallPos = new Vector3(cell.PosN, 0, -cell.PosM - wallsOffsetFromCenter);
+                    CreateCube(vertices,triangles,rightWallScale * 0.5f,rightWallPos);
                 }
             }
         }
         
         VoxelChunk chunk = Instantiate(voxelChunkPrototype,transform).GetComponent<VoxelChunk>();
-        chunk.Init(vertices,trinangles,material);
+        chunk.Init(vertices,triangles,material);
         chunk.gameObject.isStatic = true;
     }
+    
+    
 
     //-------------------------------------------------------------------------------
 
