@@ -23,8 +23,8 @@ public class VoxelGenerator : MonoBehaviour
 
     public void CreateChunks(DataGrid dataGrid)
     {
-        int mChunksCount = Mathf.CeilToInt(dataGrid.RowsCount / chunkSize);
-        int nChunksCount = Mathf.CeilToInt(dataGrid.ColumnsCount / chunkSize);
+        int mChunksCount = Mathf.CeilToInt(dataGrid.RowsCount / chunkSize) +1;
+        int nChunksCount = Mathf.CeilToInt(dataGrid.ColumnsCount / chunkSize) +1;
 
         for (int m = 0; m < mChunksCount; m++)
             for (int n = 0; n < nChunksCount; n++)
