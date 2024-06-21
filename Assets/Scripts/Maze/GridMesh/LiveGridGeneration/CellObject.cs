@@ -1,20 +1,20 @@
 using UnityEngine;
 
-public class CellObj : MonoBehaviour
+public class CellObject : MonoBehaviour
 {
     #region ============================================================================================= Private Fields
-    [SerializeField] private WallObj topWall;
-    [SerializeField] private WallObj rightWall;
+    [SerializeField] private WallObject topWall;
+    [SerializeField] private WallObject rightWall;
 
     private DataCell dataCell;
-    private WallObj[] walls;
+    private WallObject[] walls;
     
     #endregion Private Fields
     #region ============================================================================================= Public Methods
     public void Init(DataCell _cell) {
         dataCell = _cell;
         transform.position = new Vector3(dataCell.PosN, 0, -dataCell.PosM);
-        walls = new WallObj[] { topWall, rightWall };
+        walls = new WallObject[] { topWall, rightWall };
         
         RefreshWallsActive();
 
@@ -22,12 +22,12 @@ public class CellObj : MonoBehaviour
     }
 
     public void SetWallMeshesActive(bool active) {
-        foreach (WallObj wall in walls)
+        foreach (WallObject wall in walls)
             wall.SetMeshActive(active);
     }
 
     public void SetWallsWidth(float width) {
-        foreach (WallObj wall in walls)
+        foreach (WallObject wall in walls)
             wall.SetWidth(width);
     }
     

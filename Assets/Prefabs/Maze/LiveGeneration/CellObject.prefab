@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 6836719500945033707}
   - component: {fileID: 2763464179319950548}
   m_Layer: 0
-  m_Name: Cell
+  m_Name: CellObject
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6836719500945033707
 Transform:
   m_ObjectHideFlags: 0
@@ -57,7 +57,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7285831972252732108, guid: 514aaf5222b0d5842af545e4c29cf4c0, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7285831972252732110, guid: 514aaf5222b0d5842af545e4c29cf4c0, type: 3}
       propertyPath: m_RootOrder
@@ -134,7 +134,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7285831972252732108, guid: 514aaf5222b0d5842af545e4c29cf4c0, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7285831972252732110, guid: 514aaf5222b0d5842af545e4c29cf4c0, type: 3}
       propertyPath: m_RootOrder

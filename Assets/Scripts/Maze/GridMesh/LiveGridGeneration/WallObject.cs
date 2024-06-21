@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WallObj : MonoBehaviour
+public class WallObject : MonoBehaviour
 {
     #region ============================================================================================= Private Fields
 
