@@ -71,6 +71,8 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
         //adding the step to the path
         resRandomWalk.Add(new Step(randomCell, randomDir));
 
+        float lastTimeFrameShown = Time.realtimeSinceStartup;
+
         while (true) {
 
             Step previousStep = resRandomWalk[resRandomWalk.Count - 1];
@@ -102,10 +104,17 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
                 Debug.Assert(newDirection != null,"newDirection was null generating random walk, this shouldn't happen!");
                 Step newStep = new Step(newCell, (Direction)newDirection);
                 resRandomWalk.Add(newStep);
+
                 if (isLiveGenerationEnabled) {
                     grid.RemoveWall(previousStep.cell, newStep.cell);
                     yield return new WaitForSeconds(liveGenerationDelay);
                 }
+                else if (Time.realtimeSinceStartup - lastTimeFrameShown > 0.1f)
+                {
+                    yield return null;
+                    lastTimeFrameShown = Time.realtimeSinceStartup;
+                }
+                    
             }
 
             //if random walk reached final tree, the random walk can be returned

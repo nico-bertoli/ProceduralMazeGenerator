@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -9,6 +10,8 @@ public class RandDfsIterMazeGenerator : AbsRandDfsMazeGenerator {
 
     protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell)
     {
+        float lastTimeFrameShown = Time.realtimeSinceStartup;
+
         InitVisitedCells(grid.RowsCount, grid.ColumnsCount);
         
         //mark current cell as visited and add it to the stack
@@ -28,7 +31,15 @@ public class RandDfsIterMazeGenerator : AbsRandDfsMazeGenerator {
                 stack.Push(neigh);
 
                 if (isLiveGenerationEnabled)
+                {
                     yield return new WaitForSeconds(liveGenerationDelay);
+                }
+                else if (Time.realtimeSinceStartup - lastTimeFrameShown > 0.1f)
+                {
+                    yield return null;
+                    lastTimeFrameShown = Time.realtimeSinceStartup;
+                }
+                  
             }
         }
     }

@@ -25,17 +25,20 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
         //get all edges
         List<Edge> unvisitedEdges = GetEdges(grid);
 
+        float lastTimeFrameShown = Time.realtimeSinceStartup;
+
         //create a set for each cell containing the cell itself
         HashSet<DataCell>[,] sets = new HashSet<DataCell>[grid.RowsCount, grid.ColumnsCount];
         for (int m = 0; m < grid.RowsCount; m++) {
             for (int n = 0; n < grid.ColumnsCount; n++) {
                 sets[m, n] = new HashSet<DataCell>();
                 sets[m, n].Add(grid.GetCell(m, n));
+
+                if(Time.realtimeSinceStartup - lastTimeFrameShown > 0.1f)
+                    yield return null;
             }
-            yield return null;
         }
 
-        int loopCount = 0;
         //while there are unvisited cells
         while (unvisitedEdges.Count > 0) {
 
@@ -59,13 +62,17 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
                 //remove wall between cells
                 grid.RemoveWall(randomEdge.cell1, randomEdge.cell2);
 
-                if (isLiveGenerationEnabled)
-                    yield return new WaitForSeconds(liveGenerationDelay);
+               
             }
 
-            //prevents application freeze
-            if(loopCount%500==0)yield return null;
-            loopCount++;
+            if (isLiveGenerationEnabled)
+                yield return new WaitForSeconds(liveGenerationDelay);
+            else if (Time.realtimeSinceStartup - lastTimeFrameShown > 0.1f)
+            {
+                yield return null;
+                lastTimeFrameShown = Time.realtimeSinceStartup;
+            }
+               
         }
     }
 
