@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eae620b3-e2b4-4b14-8931-75508c4ce474" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridData/DataGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridData/DataGrid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridMesh/VoxelGeneration/CubeMeshDataGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridMesh/VoxelGeneration/CubeMeshDataGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/GridMesh/VoxelGeneration/VoxelGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/GridMesh/VoxelGeneration/VoxelGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MazeGenAlgorithms/WilsonMazeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MazeGenAlgorithms/WilsonMazeGenerator.cs" afterDir="false" />
-    </list>
+    <list default="true" id="eae620b3-e2b4-4b14-8931-75508c4ce474" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
