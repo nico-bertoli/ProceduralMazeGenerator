@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public class RandDfsIterMazeGenerator : AbsRandDfsMazeGenerator {
 
-    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
-        
+    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell)
+    {
         InitVisitedCells(grid.RowsCount, grid.ColumnsCount);
         
         //mark current cell as visited and add it to the stack

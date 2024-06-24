@@ -40,25 +40,12 @@ public class Maze : MonoBehaviour {
         var centralCell = dataGrid.GetCentralCell();
         return new Vector3(centralCell.PosN, 0, -centralCell.PosM);
     }
-    
-    public IEnumerator Generate(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm) {
 
-        IsLiveGenerationActive = showLiveGeneration;
-
-        dataGrid = new DataGrid(nRows, nColumns);
-
-        if (IsLiveGenerationActive)
-            liveGenGrid.Init(dataGrid);
-
-        InstantiateMazeGenerator(algorithm);
-        OnGenerationStarted?.Invoke();
-        DataCell startCell = dataGrid.GetCentralCell();
-        yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, startCell, showLiveGeneration));
-        OnGenerationEnded?.Invoke();
-        
-        ShowGrid();
+    public void Generate(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm)
+    {
+        StartCoroutine(GenerateCor(nRows,nColumns,showLiveGeneration,algorithm));
     }
-
+    
     public void SetLiveGenerationSpeed(float speed) {
         if (mazeGenerator)
             mazeGenerator.SetLiveGenerationSpeed(speed);
@@ -83,10 +70,27 @@ public class Maze : MonoBehaviour {
     #endregion Public Methods
     
     #region ============================================================================================ Private Methods
-
+    
     private void Start()
     {
         MainController.Instance.OnGameModeActive += OnGameModeActive;
+    }
+    
+    private IEnumerator GenerateCor(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm) {
+        IsLiveGenerationActive = showLiveGeneration;
+
+        dataGrid = new DataGrid(nRows, nColumns);
+
+        if (IsLiveGenerationActive)
+            liveGenGrid.Init(dataGrid);
+
+        InstantiateMazeGenerator(algorithm);
+        OnGenerationStarted?.Invoke();
+        
+        DataCell startCell = dataGrid.GetCentralCell();
+        yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, startCell, showLiveGeneration));
+        OnGenerationEnded?.Invoke();
+        ShowGrid();
     }
 
     private void OnGameModeActive()

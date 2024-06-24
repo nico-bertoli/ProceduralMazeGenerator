@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class MainController : Singleton<MainController>
+public class MainController:Singleton<MainController>
 {
     public Action OnGameModeActive;
     
@@ -29,7 +28,7 @@ public class MainController : Singleton<MainController>
         topDownCamera.CenterPosition(Vector3.zero, nRows, nColumns);
         topDownCamera.AdjustCameraSize(nRows, nColumns);
 
-        StartCoroutine(Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm));
+        Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm);
     }
 
     public void SetLiveGenerationSpeed(float speed) => Maze.SetLiveGenerationSpeed(speed);
