@@ -6,9 +6,6 @@ using UnityEngine;
 public class GameController : Singleton<GameController>
 {
     #region ============================================================================================= Fields
-
-    [Header("Settings")]
-    [SerializeField] private float gameWallsSize = 0.04f;
     
     [field: Header("References")]
     [field:SerializeField] public Maze Maze { get; private set; }

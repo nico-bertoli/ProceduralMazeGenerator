@@ -4852,7 +4852,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c95937c23f28a4195b605ef569cbf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameWallsSize: 0.1
   <Maze>k__BackingField: {fileID: 1674199080}
   playerObj: {fileID: 56123305}
   exitObj: {fileID: 1239864889}

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,23 +28,28 @@ public class VoxelGenerator : MonoBehaviour
 
     #endregion Private Properties
     #region ============================================================================================ Pucblic Methods
-    
-    public void CreateChunks(DataGrid dataGrid)
+
+    public void CreateGrid(DataGrid dataGrid) => StartCoroutine(CreateGridCor(dataGrid));
+
+    #endregion Public Methods
+    #region ============================================================================================ Private Methods
+
+    private IEnumerator CreateGridCor(DataGrid dataGrid)
     {
         int mChunksCount = Mathf.CeilToInt(dataGrid.RowsCount / chunkSize) +1;
         int nChunksCount = Mathf.CeilToInt(dataGrid.ColumnsCount / chunkSize) +1;
 
         for (int m = 0; m < mChunksCount; m++)
-            for (int n = 0; n < nChunksCount; n++)
-                chunks.Add(CreateChunk(dataGrid,m*chunkSize,n*chunkSize,chunkSize));
+        for (int n = 0; n < nChunksCount; n++)
+        {
+            chunks.Add(CreateChunk(dataGrid,m*chunkSize,n*chunkSize,chunkSize));
+            yield return null;
+        }
         
         marginWallsGenerator.InitMargins(dataGrid,wallsWidth);
         OnMeshGenerated?.Invoke();
     }
     
-    #endregion Public Methods
-    #region ============================================================================================ Private Methods
-
     private VoxelChunk CreateChunk(DataGrid dataGrid, int mBegin, int nBegin, int chunkSize)
     {
         // create voxel
