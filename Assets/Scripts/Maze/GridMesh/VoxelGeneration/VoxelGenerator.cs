@@ -20,6 +20,8 @@ public class VoxelGenerator : MonoBehaviour
     [SerializeField] private Material material;
 
     private List<VoxelChunk> chunks = new ();
+
+    private Coroutine generationCor;
     
     #endregion Private Fields
     #region ========================================================================================= Private Properties
@@ -30,10 +32,16 @@ public class VoxelGenerator : MonoBehaviour
     #endregion Private Properties
     #region ============================================================================================ Pucblic Methods
 
-    public void CreateGrid(DataGrid dataGrid) => StartCoroutine(CreateGridCor(dataGrid));
+    public void CreateGrid(DataGrid dataGrid) => generationCor=StartCoroutine(CreateGridCor(dataGrid));
     
     public void Reset()
     {
+        if(generationCor != null)
+        {
+            StopCoroutine(generationCor);
+            generationCor = null;
+        }
+
         foreach (VoxelChunk chunk in chunks)
             Destroy(chunk.gameObject);
         
@@ -51,11 +59,14 @@ public class VoxelGenerator : MonoBehaviour
         int nChunksCount = Mathf.CeilToInt(dataGrid.ColumnsCount / chunkSize) +1;
 
         for (int m = 0; m < mChunksCount; m++)
-        for (int n = 0; n < nChunksCount; n++)
         {
-            chunks.Add(CreateChunk(dataGrid,m*chunkSize,n*chunkSize,chunkSize));
-            yield return null;
+            for (int n = 0; n < nChunksCount; n++)
+            {
+                chunks.Add(CreateChunk(dataGrid, m * chunkSize, n * chunkSize, chunkSize));
+                yield return null;
+            }
         }
+        
         marginWallsGenerator.InitMargins(dataGrid,wallsWidth);
         OnMeshGenerated?.Invoke();
     }
