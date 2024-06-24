@@ -6,7 +6,7 @@ public class PlayerInputReader : MonoBehaviour
     #region ============================================================================================== Public Fields
     
     public Vector2 MoveDirection { get; private set; }
-    public bool IsMoving { get; set; }
+    public bool IsMoving { get; private set; }
     
     #endregion Public Fields
     #region ============================================================================================= Public Methods

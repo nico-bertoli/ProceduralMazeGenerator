@@ -53,17 +53,17 @@ public class UIManager : Singleton<UIManager>
         backButton.SetActive(true);
     }
 
-    public void PlayMaze() =>GameController.Instance.PlayMaze();
+    public void PlayMaze() =>MainController.Instance.PlayMaze();
 
     #endregion Public Methods
     #region ============================================================================================ Monobehaviour
     
     private void Start() {
        
-        GameController.Instance.Maze.OnMazeChunksGenerated += OnGridFinalMeshCreated;
+        MainController.Instance.Maze.OnMazeChunksGenerated += OnGridFinalMeshCreated;
         
-        GameController.Instance.Maze.OnMazeChunksGenerated += OnMazeGridChunksGenerated;
-        GameController.Instance.Maze.OnGenerationStarted += OnMazeGenerationStarted;
+        MainController.Instance.Maze.OnMazeChunksGenerated += OnMazeGridChunksGenerated;
+        MainController.Instance.Maze.OnGenerationStarted += OnMazeGenerationStarted;
 
         loadingPanel.SetActive(false);
         
@@ -129,7 +129,7 @@ public class UIManager : Singleton<UIManager>
 
     private void SendLiveGeneSpeedToGameController() {
         if (isLiveGenerationActive)
-            GameController.Instance.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
+            MainController.Instance.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
     }
 
     #endregion Private Methods
@@ -154,7 +154,7 @@ public class UIManager : Singleton<UIManager>
         }
 
         ShowGenerationPanel();
-        GameController.Instance.GenerateMaze(nRows, nColumns, isLiveGenerationActive, algorithm);
+        MainController.Instance.GenerateMaze(nRows, nColumns, isLiveGenerationActive, algorithm);
     }
     
     #endregion Signals

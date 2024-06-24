@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /// <summary>
@@ -53,7 +52,10 @@ public class LiveGenerationGrid : MonoBehaviour
         marginWallsGenerator.Reset();
     }
 
-    public void SetWallsWidth(float width) {
+    #endregion Public Methods
+    #region ============================================================================================ Private Methods
+
+    private void SetWallsWidth(float width) {
 
         for (int m = 0; m < dataGrid.RowsCount; m++) {
             for (int n = 0; n < dataGrid.ColumnsCount; n++) {
@@ -63,21 +65,7 @@ public class LiveGenerationGrid : MonoBehaviour
 
         marginWallsGenerator.SetWallsWidth(dataGrid, width);
     }
-
-    #endregion Public Methods
-    #region ============================================================================================ Private Methods
     
-    private void Start()
-    {
-        GameController.Instance.OnGameModeActive += OnGameModeActive;
-    }
-
-    private void OnGameModeActive()
-    {
-        if(cellObjs != null)
-            SetWallsWidth(Settings.Instance.mazeGenerationSettings.InGameWallsWidth);
-    }
-
     private void SetCellsActive(bool setActive) {
         for (int m = 0; m < dataGrid.RowsCount; m++) 
             for (int n = 0; n < dataGrid.ColumnsCount; n++) 

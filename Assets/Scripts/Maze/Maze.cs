@@ -19,7 +19,14 @@ public class Maze : MonoBehaviour {
     #endregion Public Properties
     #region ============================================================================================= Private Fields
 
+    /// <summary>
+    /// Used for live generation
+    /// </summary>
     [SerializeField] private LiveGenerationGrid liveGenGrid;
+    
+    /// <summary>
+    /// Used for not live generation
+    /// </summary>
     [SerializeField] private VoxelGenerator voxelGenerator;
 
     private DataGrid dataGrid;
@@ -27,11 +34,10 @@ public class Maze : MonoBehaviour {
     
     #endregion Fields
     #region ============================================================================================= Public Methods
-
+    
     public Vector3 GetCentralCellPosition() 
     {
         var centralCell = dataGrid.GetCentralCell();
-        //for how maze is setup z component must be negative
         return new Vector3(centralCell.PosN, 0, -centralCell.PosM);
     }
     
@@ -78,12 +84,24 @@ public class Maze : MonoBehaviour {
     
     #region ============================================================================================ Private Methods
 
+    private void Start()
+    {
+        MainController.Instance.OnGameModeActive += OnGameModeActive;
+    }
+
+    private void OnGameModeActive()
+    {
+        if (IsLiveGenerationActive)
+        {
+            liveGenGrid.Reset();
+            voxelGenerator.CreateGrid(dataGrid);
+        }
+    }
+    
     private void ShowGrid() {
         if (!IsLiveGenerationActive) {
             voxelGenerator.OnMeshGenerated += OnMazeChunksGenerated;
-            
             UIManager.Instance.SetLoadingPanelText("Loading maze");
-            // StartCoroutine(gridObj.Init(dataGrid));
             voxelGenerator.CreateGrid(dataGrid);
         }
         else

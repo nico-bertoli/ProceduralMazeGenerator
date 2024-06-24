@@ -1,4 +1,3 @@
-using System;
 using Cinemachine.Utility;
 using UnityEngine;
 
@@ -44,9 +43,6 @@ public class Player : MonoBehaviour
         if (Vector3.Angle(moveDir, collisionNormal) > 90)
         {
             Vector3 moveDirectionForcedByWall = moveDir.ProjectOntoPlane(collisionNormal).normalized;
-            // Debug.DrawLine(currentWallCollision.contacts[0].point,
-            //     currentWallCollision.contacts[0].point + moveDirectionForcedByWall * 100 - currentWallCollision.contacts[0].point,Color.red,
-            //     10);
             return moveDirectionForcedByWall;
         }
         return moveDir;

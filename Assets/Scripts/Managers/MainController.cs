@@ -3,7 +3,7 @@ using System.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class GameController : Singleton<GameController>
+public class MainController : Singleton<MainController>
 {
     public Action OnGameModeActive;
     
