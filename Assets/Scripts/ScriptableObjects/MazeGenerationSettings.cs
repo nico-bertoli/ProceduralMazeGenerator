@@ -13,7 +13,7 @@ public class MazeGenerationSettings : ScriptableObject
     [field:Header("Walls Size")]
     [field: SerializeField] public float LiveGenerationWallsWidth { get; private set; } = 0.4f;
     [field: SerializeField] public float InGameWallsWidth { get; private set; } = 0.4f;
-    [field: SerializeField] public float InGameWallsHeight { get; private set; } = 0.5f;
+    [field: SerializeField] public float WallsHeight { get; private set; } = 0.5f;
     
     
     [field:Header("Live Generation")]

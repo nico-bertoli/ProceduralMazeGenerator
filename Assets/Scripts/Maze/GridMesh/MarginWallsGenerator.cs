@@ -20,17 +20,8 @@ public class MarginWallsGenerator : MonoBehaviour
         
         float positionAdjustment = 0.5f - wallsWidth / 2f;
         
-        leftMargin.gameObject.transform.position = new Vector3(
-            -0.5f,
-            transform.position.y,
-            -dataGrid.RowsCount / 2f  + positionAdjustment
-            );
-
-        bottomMargin.gameObject.transform.position = new Vector3(
-            dataGrid.ColumnsCount / 2f  - positionAdjustment - wallsWidth,
-            transform.position.y,
-            -dataGrid.RowsCount + 0.5f
-            );
+        leftMargin.SetPosition(-0.5f,-dataGrid.RowsCount / 2f  + positionAdjustment);
+        bottomMargin.SetPosition(dataGrid.ColumnsCount / 2f  - positionAdjustment - wallsWidth, -dataGrid.RowsCount + 0.5f);
 
         bottomMargin.SetWidth(wallsWidth);
         leftMargin.SetWidth(wallsWidth);

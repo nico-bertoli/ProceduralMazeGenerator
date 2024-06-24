@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class WallObject : MonoBehaviour
@@ -9,9 +10,13 @@ public class WallObject : MonoBehaviour
     
     #endregion Private Fields
     #region ============================================================================================= Public Methods
-
+    
     public void SetWidth(float width) => transform.localScale = new Vector3(localScale.x, localScale.y,width);
     public void SetLength(float length) => transform.localScale = new Vector3(length , localScale.y, localScale.z);
+
+    public void SetHeight(float height) => transform.localScale = new Vector3(localScale.x, height, localScale.z);
+
+    public void SetPosition(float x, float z) => transform.position = new Vector3(x, 0, z);
 
     public void SetMeshActive(bool _active) {
         
@@ -22,4 +27,12 @@ public class WallObject : MonoBehaviour
     }
     
     #endregion Public Methods
+    #region ============================================================================================ Private Methods
+
+    private void Awake()
+    {
+        SetHeight(Settings.Instance.mazeGenerationSettings.WallsHeight);
+    }
+
+    #endregion Private Methods
 }
