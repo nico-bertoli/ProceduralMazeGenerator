@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CubeMeshDataGenerator : MonoBehaviour
 {
-    private enum CubeFaceDirection
+    public enum CubeFaceDirection
     {
         Forward = 0,
         Right = 1,
@@ -36,12 +36,12 @@ public class CubeMeshDataGenerator : MonoBehaviour
         new [] { 3, 2, 7, 6 }
     };
     
-    public static void GetMeshData(List<Vector3> vertices, List<int> triangles, Vector3 scale, Vector3 position, bool createBottomFace = true)
+    public static void GetMeshData(List<Vector3> vertices, List<int> triangles, Vector3 scale, Vector3 position, List<CubeFaceDirection> dontCreateFaces)
     {
         foreach (CubeFaceDirection direction in Enum.GetValues(typeof(CubeFaceDirection)))
         {
             // prevents creating bottom face
-            if(createBottomFace == false && direction == CubeFaceDirection.Bottom)
+            if(dontCreateFaces.Contains(direction))
                 continue;
             
             GetFaceData(vertices,triangles,direction, scale, position);

@@ -19,4 +19,4 @@ MonoBehaviour:
   <InGameWallsWidth>k__BackingField: 0.1
   <WallsHeight>k__BackingField: 0.5
   <LiveGenerationMaxDelay>k__BackingField: 0.4
-  <VoxelChunkSize>k__BackingField: 50
+  <VoxelChunkSize>k__BackingField: 60

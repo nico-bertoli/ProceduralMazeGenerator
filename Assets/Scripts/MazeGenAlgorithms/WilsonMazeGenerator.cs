@@ -10,9 +10,9 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
     
     private class Step {
         public DataCell cell;
-        public eDirection direction;
+        public Direction direction;
 
-        public Step(DataCell _cell, eDirection _direction) {
+        public Step(DataCell _cell, Direction _direction) {
             cell = _cell;
             direction = _direction;
         }
@@ -46,7 +46,7 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
                 // optimization for non live generation: walls are edited only after a complete random walk is found
                 if (!isLiveGenerationEnabled && i!= rWalk.Count-1)
-                    grid.RemoveWall(rWalk[i].cell, grid.GetNeighbourAtDir(rWalk[i].cell, rWalk[i].direction));
+                    grid.RemoveWall(rWalk[i].cell, grid.GetNeighbourAtDirection(rWalk[i].cell, rWalk[i].direction));
             }
         }
     }
@@ -65,8 +65,8 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
         DataCell randomCell = outOfTree.ElementAt(Random.Range(0, outOfTree.Count));
 
         //getting a random direction accessible from the cell
-        List<eDirection> possibleDirections = grid.GetNeighboursDirections(randomCell);
-        eDirection randomDir = possibleDirections[Random.Range(0, possibleDirections.Count)];
+        List<Direction> possibleDirections = grid.GetNeighboursDirections(randomCell);
+        Direction randomDir = possibleDirections[Random.Range(0, possibleDirections.Count)];
 
         //adding the step to the path
         resRandomWalk.Add(new Step(randomCell, randomDir));
@@ -74,11 +74,11 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
         while (true) {
 
             Step previousStep = resRandomWalk[resRandomWalk.Count - 1];
-            DataCell newCell = grid.GetNeighbourAtDir(previousStep.cell, previousStep.direction);
+            DataCell newCell = grid.GetNeighbourAtDirection(previousStep.cell, previousStep.direction);
 
             // get new random direction (direction of the previous cel is excluded)
-            eDirection preventedDirection = GetInverseDirection(previousStep.direction);
-            eDirection? newDirection = grid.GetRandomNeighbourDirection(newCell, new eDirection[] { preventedDirection });
+            Direction preventedDirection = GetInverseDirection(previousStep.direction);
+            Direction? newDirection = grid.GetRandomNeighbourDirection(newCell, new Direction[] { preventedDirection });
             
             bool foundLoop = false;
 
@@ -93,14 +93,14 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
                         resRandomWalk.RemoveAt(j);
                     }
                     if(newDirection != null)
-                        resRandomWalk[i].direction = (eDirection)newDirection;
+                        resRandomWalk[i].direction = (Direction)newDirection;
                     break;
                 }
             }
             //otherwise, the new step is added to randomwalk
             if (!foundLoop) {
                 Debug.Assert(newDirection != null,"newDirection was null generating random walk, this shouldn't happen!");
-                Step newStep = new Step(newCell, (eDirection)newDirection);
+                Step newStep = new Step(newCell, (Direction)newDirection);
                 resRandomWalk.Add(newStep);
                 if (isLiveGenerationEnabled) {
                     grid.RemoveWall(previousStep.cell, newStep.cell);

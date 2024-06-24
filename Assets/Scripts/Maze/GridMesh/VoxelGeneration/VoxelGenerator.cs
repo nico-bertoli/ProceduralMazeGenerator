@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static CubeMeshDataGenerator;
 
 // : https://www.youtube.com/watch?v=b_1ZlHrJZc4&list=PL5KbKbJ6Gf9-d303Lk8TGKCW-t5JsBdtB&index=10
 
@@ -30,6 +31,16 @@ public class VoxelGenerator : MonoBehaviour
     #region ============================================================================================ Pucblic Methods
 
     public void CreateGrid(DataGrid dataGrid) => StartCoroutine(CreateGridCor(dataGrid));
+    
+    public void Reset()
+    {
+        foreach (VoxelChunk chunk in chunks)
+            Destroy(chunk.gameObject);
+        
+        chunks.Clear();
+        
+        marginWallsGenerator.Reset();
+    }
 
     #endregion Public Methods
     #region ============================================================================================ Private Methods
@@ -68,13 +79,15 @@ public class VoxelGenerator : MonoBehaviour
                 
                 if (cell.IsTopWallActive)
                 {
+                    List<CubeFaceDirection> dontCreateFaces = GetNotVisibleFaces(dataGrid,m,n,true);
                     Vector3 topWallPos = new Vector3(cell.PosN - wallsOffsetFromCenter, 0, -cell.PosM);
-                    CubeMeshDataGenerator.GetMeshData(vertices,triangles,topWallScale * 0.5f,topWallPos,false);
+                    CubeMeshDataGenerator.GetMeshData(vertices,triangles,topWallScale * 0.5f,topWallPos,dontCreateFaces);
                 }
                 if (cell.IsRightWallActive)
                 {
+                    List<CubeFaceDirection> preventCreationFaces = GetNotVisibleFaces(dataGrid,m,n,false);
                     Vector3 rightWallPos = new Vector3(cell.PosN, 0, -cell.PosM - wallsOffsetFromCenter);
-                    CubeMeshDataGenerator.GetMeshData(vertices,triangles,rightWallScale * 0.5f,rightWallPos,false);
+                    CubeMeshDataGenerator.GetMeshData(vertices,triangles,rightWallScale * 0.5f,rightWallPos,preventCreationFaces);
                 }
             }
         }
@@ -85,14 +98,35 @@ public class VoxelGenerator : MonoBehaviour
         return chunk;
     }
     
-    public void Reset()
+    private List<CubeFaceDirection> GetNotVisibleFaces(DataGrid dataGrid, int m, int n, bool isTopWall)
     {
-        foreach (VoxelChunk chunk in chunks)
-            Destroy(chunk.gameObject);
+        List<CubeFaceDirection> dontCreateFaces = new List<CubeFaceDirection>() { CubeFaceDirection.Bottom };
+        DataCell cell = dataGrid.GetCell(m, n);
+
+        // top wall
+        if (isTopWall)
+        {
+            DataCell rightCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Right);
+            if(rightCell !=null && rightCell.IsTopWallActive)
+                dontCreateFaces.Add(CubeFaceDirection.Right);
+            
+            DataCell leftCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Back);
+            if(leftCell !=null && leftCell.IsTopWallActive)
+                dontCreateFaces.Add(CubeFaceDirection.Left);
+        }
+        // right wall
+        else
+        {
+            DataCell bottomCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Bottom);
+            if(bottomCell !=null && bottomCell.IsRightWallActive)
+                dontCreateFaces.Add(CubeFaceDirection.Back);
+            
+            DataCell forwardCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Forward);
+            if(forwardCell !=null && forwardCell.IsRightWallActive)
+                dontCreateFaces.Add(CubeFaceDirection.Forward);  
+        }
         
-        chunks.Clear();
-        
-        marginWallsGenerator.Reset();
+        return dontCreateFaces;
     }
     #endregion Private Methods
 }

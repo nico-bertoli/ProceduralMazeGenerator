@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class DataGrid {
     
-    public enum eDirection { TOP, RIGHT, BOTTOM, LEFT};
+    public enum Direction { Forward, Right, Bottom, Back};
     
     #region ===================================================================================================== Fields
     public int ColumnsCount { get; }
@@ -84,9 +84,9 @@ public class DataGrid {
     public DataCell GetCell(int m, int n) =>  cells[m, n];
 
     //todo remove
-    public eDirection? GetRandomNeighbourDirection (DataCell cell, eDirection[] preventDirections) {
-        List<eDirection> possibleDirections = GetNeighboursDirections(cell);
-        foreach(eDirection preventDirection in preventDirections)
+    public Direction? GetRandomNeighbourDirection (DataCell cell, Direction[] preventDirections) {
+        List<Direction> possibleDirections = GetNeighboursDirections(cell);
+        foreach(Direction preventDirection in preventDirections)
             possibleDirections.Remove(preventDirection);
 
         if (possibleDirections.Count == 0) return null;
@@ -96,32 +96,32 @@ public class DataGrid {
     public List<DataCell> GetNeighbours(DataCell cell){
 
         List<DataCell> possibleNeighbours = new List<DataCell>();
-        List<eDirection> directions = GetNeighboursDirections(cell);
-        foreach (eDirection dir in directions)
-            possibleNeighbours.Add(GetNeighbourAtDir(cell,dir));
+        List<Direction> directions = GetNeighboursDirections(cell);
+        foreach (Direction dir in directions)
+            possibleNeighbours.Add(GetNeighbourAtDirection(cell,dir));
 
         return possibleNeighbours;
     }
     
-    public DataCell GetNeighbourAtDir(DataCell cell, eDirection direction){
+    public DataCell GetNeighbourAtDirection(DataCell cell, Direction direction){
         switch (direction)
         {
-            case eDirection.TOP:
+            case Direction.Forward:
                 if (cell.PosM == 0)
                     return null;
                 return cells[cell.PosM - 1, cell.PosN];
             
-            case eDirection.BOTTOM:
+            case Direction.Bottom:
                 if (cell.PosM == RowsCount-1)
                     return null;
                 return cells[cell.PosM + 1, cell.PosN];
 
-            case eDirection.LEFT:
+            case Direction.Back:
                 if (cell.PosN == 0)
                     return null;
                 return cells[cell.PosM, cell.PosN-1];
             
-            case eDirection.RIGHT:
+            case Direction.Right:
                 if (cell.PosN == ColumnsCount-1)
                     return null;
                 return cells[cell.PosM, cell.PosN+1];
@@ -131,14 +131,14 @@ public class DataGrid {
         }
     }
 
-    public List<eDirection> GetNeighboursDirections(DataCell cell) {
-        List<eDirection> ris = GetAllDirections();
+    public List<Direction> GetNeighboursDirections(DataCell cell) {
+        List<Direction> ris = GetAllDirections();
 
-        if (cell.PosN == 0) ris.Remove(eDirection.LEFT);
-        else if (cell.PosN == ColumnsCount - 1) ris.Remove(eDirection.RIGHT);
+        if (cell.PosN == 0) ris.Remove(Direction.Back);
+        else if (cell.PosN == ColumnsCount - 1) ris.Remove(Direction.Right);
 
-        if (cell.PosM == 0) ris.Remove(eDirection.TOP);
-        else if (cell.PosM == RowsCount - 1) ris.Remove(eDirection.BOTTOM);
+        if (cell.PosM == 0) ris.Remove(Direction.Forward);
+        else if (cell.PosM == RowsCount - 1) ris.Remove(Direction.Bottom);
 
         return ris;
     }
@@ -149,12 +149,12 @@ public class DataGrid {
     /// <param name="_dir">Direction you want to get the inverse</param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public static eDirection GetInverseDirection(eDirection direction) {
+    public static Direction GetInverseDirection(Direction direction) {
         switch (direction) {
-            case eDirection.TOP:return eDirection.BOTTOM;
-            case eDirection.BOTTOM: return eDirection.TOP;
-            case eDirection.LEFT: return eDirection.RIGHT;
-            case eDirection.RIGHT: return eDirection.LEFT;
+            case Direction.Forward:return Direction.Bottom;
+            case Direction.Bottom: return Direction.Forward;
+            case Direction.Back: return Direction.Right;
+            case Direction.Right: return Direction.Back;
             default: throw new Exception($"{direction} not recognized");
         }
     }
@@ -163,12 +163,12 @@ public class DataGrid {
     /// Returns a list containing all the possible directions
     /// </summary>
     /// <returns></returns>
-    public static List<eDirection> GetAllDirections() {
-        List<eDirection> allDir = new List<eDirection>();
-        int directionsCount = Enum.GetValues(typeof(eDirection)).Length;
+    public static List<Direction> GetAllDirections() {
+        List<Direction> allDir = new List<Direction>();
+        int directionsCount = Enum.GetValues(typeof(Direction)).Length;
         
         for (int i = 0; i < directionsCount; i++)
-            allDir.Add((eDirection)i);
+            allDir.Add((Direction)i);
         return allDir;
     }
     
