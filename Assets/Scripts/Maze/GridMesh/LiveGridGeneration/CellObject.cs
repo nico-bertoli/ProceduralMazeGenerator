@@ -28,7 +28,11 @@ public class CellObject : MonoBehaviour
 
     public void SetWallsWidth(float width) {
         foreach (WallObject wall in walls)
+        {
             wall.SetWidth(width);
+            wall.SetLength(1f + width);
+        }
+            
     }
     
     #endregion Public Methods
