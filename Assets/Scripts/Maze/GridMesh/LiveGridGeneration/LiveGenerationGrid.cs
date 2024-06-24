@@ -75,7 +75,7 @@ public class LiveGenerationGrid : MonoBehaviour
     private void OnGameModeActive()
     {
         if(cellObjs != null)
-            SetWallsWidth(Settings.Instance.mazeGenerationSettings.IngameWallsWidth);
+            SetWallsWidth(Settings.Instance.mazeGenerationSettings.InGameWallsWidth);
     }
 
     private void SetCellsActive(bool setActive) {

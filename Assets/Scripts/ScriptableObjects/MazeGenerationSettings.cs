@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/MazeGenerationSettings",fileName = "MazeGenerationSettings")]
 public class MazeGenerationSettings : ScriptableObject
@@ -11,7 +10,12 @@ public class MazeGenerationSettings : ScriptableObject
 
     [field: SerializeField] public int MinSideCells { get; private set; } = 10;
 
-
+    [field:Header("Walls Size")]
+    [field: SerializeField] public float LiveGenerationWallsWidth { get; private set; } = 0.4f;
+    [field: SerializeField] public float InGameWallsWidth { get; private set; } = 0.4f;
+    [field: SerializeField] public float InGameWallsHeight { get; private set; } = 0.5f;
+    
+    
     [field:Header("Live Generation")]
     [field: SerializeField] public float LiveGenerationMaxDelay { get; private set; } = 0.4f;
     
@@ -19,8 +23,6 @@ public class MazeGenerationSettings : ScriptableObject
     [field: SerializeField] public int VoxelChunkSize { get; private set; } = 20;
     
     
-    [field:Header("Walls Width")]
-    [field: SerializeField] public float LiveGenerationWallsWidth { get; private set; } = 0.4f;
-    [field: SerializeField] public float IngameWallsWidth { get; private set; } = 0.4f;
+    
 
 }

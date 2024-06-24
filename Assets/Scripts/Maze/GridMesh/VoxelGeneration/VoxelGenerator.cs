@@ -16,14 +16,16 @@ public class VoxelGenerator : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private Material material;
-    [SerializeField] private float wallsHeight = 0.5f;
-    
+
     private List<VoxelChunk> chunks = new ();
     
-    private float wallsWidth => Settings.Instance.mazeGenerationSettings.IngameWallsWidth;
+    #endregion Private Fields
+    #region ========================================================================================= Private Properties
+    private float wallsWidth => Settings.Instance.mazeGenerationSettings.InGameWallsWidth;
+    private float wallsHeight => Settings.Instance.mazeGenerationSettings.InGameWallsHeight;
     private int chunkSize => Settings.Instance.mazeGenerationSettings.VoxelChunkSize;
 
-    #endregion Private Fields
+    #endregion Private Properties
     #region ============================================================================================ Pucblic Methods
     
     public void CreateChunks(DataGrid dataGrid)
@@ -48,8 +50,8 @@ public class VoxelGenerator : MonoBehaviour
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
 
-        Vector3 topWallScale = new Vector3(1, wallsHeight, wallsWidth);
-        Vector3 rightWallScale = new Vector3(wallsWidth, wallsHeight, 1);
+        Vector3 topWallScale = new Vector3(1.1f, wallsHeight, wallsWidth);
+        Vector3 rightWallScale = new Vector3(wallsWidth, wallsHeight, 1.1f);
 
         float wallsOffsetFromCenter = 0.5f;
         
@@ -61,12 +63,12 @@ public class VoxelGenerator : MonoBehaviour
                 
                 if (cell.IsTopWallActive)
                 {
-                    Vector3 topWallPos = new Vector3(cell.PosN - wallsOffsetFromCenter, 0, -cell.PosM);
+                    Vector3 topWallPos = new Vector3(cell.PosN - wallsOffsetFromCenter, wallsHeight/2f, -cell.PosM);
                     CubeMeshDataGenerator.GetMeshData(vertices,triangles,topWallScale * 0.5f,topWallPos,false);
                 }
                 if (cell.IsRightWallActive)
                 {
-                    Vector3 rightWallPos = new Vector3(cell.PosN, 0, -cell.PosM - wallsOffsetFromCenter);
+                    Vector3 rightWallPos = new Vector3(cell.PosN, wallsHeight/2f, -cell.PosM - wallsOffsetFromCenter);
                     CubeMeshDataGenerator.GetMeshData(vertices,triangles,rightWallScale * 0.5f,rightWallPos,false);
                 }
             }
