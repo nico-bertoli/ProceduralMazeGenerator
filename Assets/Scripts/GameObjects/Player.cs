@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Cinemachine.Utility;
 using UnityEngine;
 
@@ -7,6 +9,7 @@ public class Player : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 2f;
 
     [Header("References")]
     [SerializeField] private Rigidbody rigidBody;
@@ -14,16 +17,54 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerInputReader inputReader;
     
     private Collision currentWallCollision;
+    private Coroutine rotationCor;
 
     #endregion Private Fields
     #region ============================================================================================ Private Methods
 
-    private void Update() => HandleMovement();
+    private void OnEnable()
+    {
+        rotationCor = null;
+    }
 
+    private void Update()
+    {
+        HandleMovement();
+        HandleRotation();
+    }
+
+    private void HandleRotation()
+    {
+        if (inputReader.IsRotating && rotationCor == null)
+            rotationCor = StartCoroutine(RotateCor(inputReader.RotateDirection > 0));
+    }
+
+    private IEnumerator RotateCor(bool rotateRight)
+    {
+        float rotateDirection = rotateRight ? 1 : -1;
+        
+        float totalRotation = 0;
+
+        while (totalRotation < 90)
+        {
+            float frameRotation = rotationSpeed * Time.deltaTime;
+
+            if (totalRotation + frameRotation > 90)
+                frameRotation = 90 - totalRotation;
+            
+            transform.RotateAround(transform.position, Vector3.up, frameRotation * rotateDirection);
+
+            totalRotation += frameRotation;
+            yield return null;
+        }
+
+        rotationCor = null;
+    }
+    
     private void HandleMovement() {
         if (inputReader.IsMoving)
         {
-            Vector3 moveDir = (-Vector3.forward * inputReader.MoveDirection.y - Vector3.right * inputReader.MoveDirection.x).normalized;
+            Vector3 moveDir = (-transform.forward * inputReader.MoveDirection.y - transform.right * inputReader.MoveDirection.x).normalized;
             moveDir = RotateMoveDirectionAlongCollidingWall(moveDir);
             rigidBody.velocity = moveDir * moveSpeed;
         }
