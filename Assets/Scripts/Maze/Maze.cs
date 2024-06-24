@@ -66,8 +66,6 @@ public class Maze : MonoBehaviour {
         voxelGenerator.Reset();
     }
 
-    public void SetWallsSize(float size) => liveGenGrid.SetWallsWidth(size);
-
     public Vector3 GetExitPosition()
     {
         return dataGrid.GetExitPosition();

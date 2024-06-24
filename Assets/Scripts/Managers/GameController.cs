@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GameController : Singleton<GameController>
 {
+    public Action OnGameModeActive;
+    
     #region ============================================================================================= Fields
     
     [field: Header("References")]
@@ -23,9 +25,7 @@ public class GameController : Singleton<GameController>
     #region ============================================================================================= Public Methods
     
     public void GenerateMaze(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {
-
-        // Debug.Log($"generating maze, rows:{nRows}, columns:{nColumns}, algorithm:{algorithm} live generation:{showLiveGeneration} ");
-
+        
         topDownCamera.CenterPosition(Vector3.zero, nRows, nColumns);
         topDownCamera.AdjustCameraSize(nRows, nColumns);
 
@@ -34,28 +34,29 @@ public class GameController : Singleton<GameController>
 
     public void SetLiveGenerationSpeed(float speed) => Maze.SetLiveGenerationSpeed(speed);
 
-    public void QuitGame() => Application.Quit();
-
-    public Action OnGameModeActive;
-    
     public void PlayMaze() {
-        UIManager.Instance.ShowLoadingGamePanel();
         
+        UIManager.Instance.ShowLoadingGamePanel();
         OnGameModeActive?.Invoke();
-
+        
         SetGameMode(true);
-
-        Vector3 mazeCentralPos = Maze.GetCentralCellPosition();
-        playerObj.transform.position = new Vector3(mazeCentralPos.x, playerObj.transform.position.y,mazeCentralPos.z);
-        playerObj.transform.forward = -transform.forward;
-
-        exitObj.transform.position = Maze.GetExitPosition();
+        SetupPlayerPosition();
+        SetupExitPosition();
         
         UIManager.Instance.DisableLoadingPanel();
     }
 
     #endregion Public Methods
     #region ============================================================================================ Private Methods
+
+    private void SetupPlayerPosition()
+    {
+        Vector3 mazeCentralPos = Maze.GetCentralCellPosition();
+        playerObj.transform.position = new Vector3(mazeCentralPos.x, playerObj.transform.position.y,mazeCentralPos.z);
+        playerObj.transform.forward = -transform.forward;
+    }
+    
+    private void SetupExitPosition() => exitObj.transform.position = Maze.GetExitPosition();
     
     private void Start() {
         gameObjects.SetActive(false);
@@ -77,6 +78,9 @@ public class GameController : Singleton<GameController>
         SetGameMode(false);
         UIManager.Instance.ShowSettingsPanel();
     }
+    
+    [UsedImplicitly]
+    public void Signal_QuitGame() => Application.Quit();
     
     #endregion Signals
 }
