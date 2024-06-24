@@ -36,11 +36,13 @@ public class Player : MonoBehaviour
     private void HandleRotation()
     {
         if (inputReader.IsRotating && rotationCor == null)
-            rotationCor = StartCoroutine(RotateCor());
+            rotationCor = StartCoroutine(RotateCor(inputReader.RotateDirection > 0));
     }
 
-    private IEnumerator RotateCor()
+    private IEnumerator RotateCor(bool rotateRight)
     {
+        float rotateDirection = rotateRight ? 1 : -1;
+        
         float totalRotation = 0;
 
         while (totalRotation < 90)
@@ -50,9 +52,8 @@ public class Player : MonoBehaviour
             if (totalRotation + frameRotation > 90)
                 frameRotation = 90 - totalRotation;
             
-            transform.RotateAround(transform.position, Vector3.up, frameRotation);
-            Debug.LogError($"total rotation: {totalRotation}");
-            
+            transform.RotateAround(transform.position, Vector3.up, frameRotation * rotateDirection);
+
             totalRotation += frameRotation;
             yield return null;
         }
@@ -63,7 +64,7 @@ public class Player : MonoBehaviour
     private void HandleMovement() {
         if (inputReader.IsMoving)
         {
-            Vector3 moveDir = (-Vector3.forward * inputReader.MoveDirection.y - Vector3.right * inputReader.MoveDirection.x).normalized;
+            Vector3 moveDir = (-transform.forward * inputReader.MoveDirection.y - transform.right * inputReader.MoveDirection.x).normalized;
             moveDir = RotateMoveDirectionAlongCollidingWall(moveDir);
             rigidBody.velocity = moveDir * moveSpeed;
         }

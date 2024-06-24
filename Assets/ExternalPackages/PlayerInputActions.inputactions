@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "RotateLeft",
+                    "name": "Rotate",
                     "type": "Value",
                     "id": "f5f2a0ca-a3af-432d-a6f2-54414ed85622",
                     "expectedControlType": "Axis",
@@ -164,29 +164,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RotateLeft",
+                    "action": "Rotate",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Negative",
+                    "name": "positive",
                     "id": "9a77b9e3-1252-4f2b-9778-38f593034b59",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RotateLeft",
+                    "action": "Rotate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Positive",
+                    "name": "negative",
                     "id": "ba30764b-d378-411b-9006-643a1d5dc70b",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RotateLeft",
+                    "action": "Rotate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

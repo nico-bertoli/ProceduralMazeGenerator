@@ -52,7 +52,6 @@ public class MainController:Singleton<MainController>
     {
         Vector3 mazeCentralPos = Maze.GetCentralCellPosition();
         playerObj.transform.position = new Vector3(mazeCentralPos.x, playerObj.transform.position.y,mazeCentralPos.z);
-        playerObj.transform.forward = -transform.forward;
     }
     
     private void SetupExitPosition() => exitObj.transform.position = Maze.GetExitPosition();
