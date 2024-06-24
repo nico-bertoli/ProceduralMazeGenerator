@@ -55,8 +55,8 @@ public class VoxelGenerator : MonoBehaviour
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
 
-        Vector3 topWallScale = new Vector3(1.1f, wallsHeight, wallsWidth);
-        Vector3 rightWallScale = new Vector3(wallsWidth, wallsHeight, 1.1f);
+        Vector3 topWallScale = new Vector3(1f + wallsWidth, wallsHeight, wallsWidth);
+        Vector3 rightWallScale = new Vector3(wallsWidth, wallsHeight, 1f + wallsWidth);
 
         float wallsOffsetFromCenter = 0.5f;
         
