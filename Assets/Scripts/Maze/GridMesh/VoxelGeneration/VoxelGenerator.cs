@@ -45,7 +45,6 @@ public class VoxelGenerator : MonoBehaviour
             chunks.Add(CreateChunk(dataGrid,m*chunkSize,n*chunkSize,chunkSize));
             yield return null;
         }
-        
         marginWallsGenerator.InitMargins(dataGrid,wallsWidth);
         OnMeshGenerated?.Invoke();
     }

@@ -17,16 +17,20 @@ public class MarginWallsGenerator : MonoBehaviour
 
         leftMargin.gameObject.name = "Left margin";
         bottomMargin.gameObject.name = "Bottom margin";
-
+        
+        float positionAdjustment = 0.5f - wallsWidth / 2f;
+        
         leftMargin.gameObject.transform.position = new Vector3(
             -0.5f,
             transform.position.y,
-            -dataGrid.RowsCount / 2f + 0.5f);
+            -dataGrid.RowsCount / 2f  + positionAdjustment
+            );
 
         bottomMargin.gameObject.transform.position = new Vector3(
-            dataGrid.ColumnsCount / 2f - 0.5f,
+            dataGrid.ColumnsCount / 2f  - positionAdjustment - wallsWidth,
             transform.position.y,
-            -dataGrid.RowsCount + 0.5f);
+            -dataGrid.RowsCount + 0.5f
+            );
 
         bottomMargin.SetWidth(wallsWidth);
         leftMargin.SetWidth(wallsWidth);
