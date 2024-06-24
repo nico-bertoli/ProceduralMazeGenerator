@@ -3,8 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="eae620b3-e2b4-4b14-8931-75508c4ce474" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MazeProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ExternalPackages/PlayerInputActions.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ExternalPackages/PlayerInputActions.inputactions" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maze/Maze.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjects/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameObjects/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/PlayerInputReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/PlayerInputReader.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,5 +121,24 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameObjects/Player.cs</url>
+          <line>50</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/GameObjects/Player.cs" initialLine="50" containingFunctionPresentation="method 'RotateCor'">
+            <startOffsets>
+              <option value="1335" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1370" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

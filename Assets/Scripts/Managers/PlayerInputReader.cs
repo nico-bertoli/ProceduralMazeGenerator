@@ -8,6 +8,9 @@ public class PlayerInputReader : MonoBehaviour
     public Vector2 MoveDirection { get; private set; }
     public bool IsMoving { get; private set; }
     
+    public float RotateDirection { get; private set; }
+    public bool IsRotating { get; private set; }
+    
     #endregion Public Fields
     #region ============================================================================================= Public Methods
     
@@ -18,6 +21,17 @@ public class PlayerInputReader : MonoBehaviour
         }
         else if (context.canceled) {
             IsMoving = false;
+        }
+    }
+
+    public void Rotate(InputAction.CallbackContext context)
+    {
+        if (context.performed) {
+            IsRotating = true;
+            RotateDirection = context.ReadValue<float>();
+        }
+        else if (context.canceled) {
+            IsRotating = false;
         }
     }
     
