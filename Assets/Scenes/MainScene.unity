@@ -865,6 +865,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 706468ca87b18c24e8678311d403e6ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &222305704 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6801457391901566195, guid: 72e5874d225b1432b82cdc89ef876c40, type: 3}
+  m_PrefabInstance: {fileID: 6801457391983537777}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &226530392
 GameObject:
   m_ObjectHideFlags: 0
@@ -2855,7 +2860,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 278.2068}
+  m_SizeDelta: {x: 0, y: 242.1113}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &996903638
 CanvasRenderer:
@@ -3970,7 +3975,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GENERATION SETTINGS
+  m_text: maze generator
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b990e7b9ce43cf441a8a107a84dfff2d, type: 2}
   m_sharedMaterial: {fileID: 7426252383981991299, guid: b990e7b9ce43cf441a8a107a84dfff2d, type: 2}
@@ -3997,12 +4002,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 120
+  m_fontSize: 102.3
   m_fontSizeBase: 120
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 120
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -4400,6 +4405,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 780941460}
     m_Modifications:
+    - target: {fileID: 6369310552649473399, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -4.9999695
+      objectReference: {fileID: 0}
     - target: {fileID: 6369310552903979428, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4442,7 +4451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 248.4414
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_SizeDelta.y
@@ -4478,7 +4487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -0.0024108887
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5354,7 +5363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 248.4414
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_SizeDelta.y
@@ -5390,7 +5399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -0.0024108887
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5564,7 +5573,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 0.4392157, g: 0.9372549, b: 1, a: 1}
     m_HighlightedColor: {r: 0.4392157, g: 0.9372549, b: 1, a: 1}
-    m_PressedColor: {r: 0.4392157, g: 0.9372549, b: 1, a: 1}
+    m_PressedColor: {r: 0.28751335, g: 0.6270367, b: 0.6698113, a: 1}
     m_SelectedColor: {r: 0.4392157, g: 0.9372549, b: 1, a: 1}
     m_DisabledColor: {r: 0.4392157, g: 0.9372549, b: 1, a: 1}
     m_ColorMultiplier: 1
@@ -5697,8 +5706,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 100
     m_Right: 100
-    m_Top: 0
-    m_Bottom: 0
+    m_Top: 50
+    m_Bottom: 50
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -6154,6 +6163,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Exit
       objectReference: {fileID: 0}
+    - target: {fileID: 2285584344747458071, guid: 91d29be7e54ea49c4b2da748b01696e3, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 222305704}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91d29be7e54ea49c4b2da748b01696e3, type: 3}
 --- !u!222 &872213326515520361
