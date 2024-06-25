@@ -147,7 +147,7 @@ public class UIManager : Singleton<UIManager>
         playGameButton.SetActive(false);
         if (isLiveGenerationActive) {
             genSpeedSlider.gameObject.SetActive(true);
-            genSpeedSlider.value = 0;
+            genSpeedSlider.value = Settings.Instance.mazeGenerationSettings.LiveGenerationStartingSpeedSliderValue;
         }
         else {
             genSpeedSlider.gameObject.SetActive(false);
