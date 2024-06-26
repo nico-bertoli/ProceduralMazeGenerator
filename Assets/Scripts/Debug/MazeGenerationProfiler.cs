@@ -35,6 +35,7 @@ public class MazeGenerationProfiler : MonoBehaviour
             return;
         
         Debug.Log($"Maze mesh generation took {Time.time - generationEndTime} seconds");
+        Debug.Log($"Total generation took {Time.time - generationStartTime} seconds");
     }
     #endif
 }
