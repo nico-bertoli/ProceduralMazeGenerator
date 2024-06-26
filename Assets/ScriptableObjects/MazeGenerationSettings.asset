@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9921a910c2f6c45f5ba597abb9c317ad, type: 3}
   m_Name: MazeGenerationSettings
   m_EditorClassIdentifier: 
-  <LiveGenMaxSideCells>k__BackingField: 30
-  <NotLiveGenMaxSideCells>k__BackingField: 2000
   <MinSideCells>k__BackingField: 10
+  <LiveGenMaxSideCells>k__BackingField: 30
+  <NotLiveGenDFSMaxSideCells>k__BackingField: 2000
+  <NotLiveGenKruskalMaxSideCells>k__BackingField: 300
+  <NotLiveGenWilsonMaxSideCells>k__BackingField: 200
   <LiveGenerationWallsWidth>k__BackingField: 0.5
   <InGameWallsWidth>k__BackingField: 0.1
   <WallsHeight>k__BackingField: 0.5

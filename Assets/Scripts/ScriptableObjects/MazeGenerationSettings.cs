@@ -4,11 +4,13 @@ using UnityEngine;
 public class MazeGenerationSettings : ScriptableObject
 {
     [field:Header("Maze Size")]
-    
-    [field:SerializeField] public int LiveGenMaxSideCells { get; private set; } = 40;
-    [field:SerializeField] public int NotLiveGenMaxSideCells { get; private set; } = 400;
 
-    [field: SerializeField] public int MinSideCells { get; private set; } = 10;
+    [field: SerializeField] public int MinSideCells { get; private set; } = 5;
+    [field:SerializeField] public int LiveGenMaxSideCells { get; private set; } = 40;
+    [field:SerializeField] public int NotLiveGenDFSMaxSideCells { get; private set; } = 2000;
+    [field: SerializeField] public int NotLiveGenKruskalMaxSideCells { get; private set; } = 400;
+    [field: SerializeField] public int NotLiveGenWilsonMaxSideCells { get; private set; } = 200;
+
 
     [field:Header("Walls Size")]
     [field: SerializeField] public float LiveGenerationWallsWidth { get; private set; } = 0.4f;

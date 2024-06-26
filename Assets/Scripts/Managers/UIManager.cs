@@ -112,19 +112,36 @@ public class UIManager : Singleton<UIManager>
 
     private void RefreshGridSizeText()
     {
-        if (isLiveGenerationActive)
-        {
-            nColumns = (int)(columnsSlider.value * (mazeGenSettings.LiveGenMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
-            nRows = (int)(rowsSlider.value * (mazeGenSettings.LiveGenMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
-        }
-        else
-        {
-            nColumns = (int)(columnsSlider.value * (mazeGenSettings.NotLiveGenMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
-            nRows = (int)(rowsSlider.value * (mazeGenSettings.NotLiveGenMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
-        }
+        int mazeMaxSideCells = GetCurrentMaxSideCells();
+
+        nColumns = (int)(columnsSlider.value * (mazeMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
+        nRows = (int)(rowsSlider.value * (mazeMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
 
         widthText.text = "Columns: " + nColumns;
         heightText.text = "Rows: " + nRows;
+    }
+
+    private int GetCurrentMaxSideCells()
+    {
+        if (isLiveGenerationActive == false)
+        {
+            switch (algorithm)
+            {
+                case eAlgorithms.DFSiterative:
+                    return mazeGenSettings.NotLiveGenDFSMaxSideCells;
+                case eAlgorithms.Willson:
+                    return mazeGenSettings.NotLiveGenWilsonMaxSideCells;
+                case eAlgorithms.Kruskal:
+                    return mazeGenSettings.NotLiveGenKruskalMaxSideCells;
+                default:
+                    Debug.LogError($"current algorithm not recognized: {algorithm}");
+                    return -1;
+            }
+        }
+        else
+        {
+            return mazeGenSettings.NotLiveGenDFSMaxSideCells;
+        }
     }
 
     private void SendLiveGeneSpeedToGameController() {
@@ -141,13 +158,14 @@ public class UIManager : Singleton<UIManager>
 
     public void Signal_RefreshAlgorithm() {
         algorithm = (eAlgorithms)algorithmDropdown.value;
+        RefreshGridSizeText();
     }
     
     public void Signal_StartGeneration() {
         playGameButton.SetActive(false);
         if (isLiveGenerationActive) {
             genSpeedSlider.gameObject.SetActive(true);
-            genSpeedSlider.value = Settings.Instance.mazeGenerationSettings.LiveGenerationStartingSpeedSliderValue;
+            genSpeedSlider.value = mazeGenSettings.LiveGenerationStartingSpeedSliderValue;
         }
         else {
             genSpeedSlider.gameObject.SetActive(false);
