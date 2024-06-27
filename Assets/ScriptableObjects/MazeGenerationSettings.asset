@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: MazeGenerationSettings
   m_EditorClassIdentifier: 
   <MinSideCells>k__BackingField: 10
-  <LiveGenMaxSideCells>k__BackingField: 30
+  <LiveGenMaxSideCells>k__BackingField: 50
   <NotLiveGenDFSMaxSideCells>k__BackingField: 2000
   <NotLiveGenKruskalMaxSideCells>k__BackingField: 250
-  <NotLiveGenWilsonMaxSideCells>k__BackingField: 500
+  <NotLiveGenWilsonMaxSideCells>k__BackingField: 400
   <LiveGenerationWallsWidth>k__BackingField: 0.5
   <InGameWallsWidth>k__BackingField: 0.1
   <WallsHeight>k__BackingField: 0.5

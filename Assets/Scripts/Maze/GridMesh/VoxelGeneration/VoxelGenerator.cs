@@ -121,18 +121,18 @@ public class VoxelGenerator : MonoBehaviour
             if(rightCell !=null && rightCell.IsTopWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Right);
             
-            DataCell leftCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Back);
+            DataCell leftCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Left);
             if(leftCell !=null && leftCell.IsTopWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Left);
         }
         // right wall
         else
         {
-            DataCell bottomCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Bottom);
+            DataCell bottomCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Down);
             if(bottomCell !=null && bottomCell.IsRightWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Back);
             
-            DataCell forwardCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Forward);
+            DataCell forwardCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Up);
             if(forwardCell !=null && forwardCell.IsRightWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Forward);  
         }

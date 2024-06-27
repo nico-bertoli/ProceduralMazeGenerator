@@ -71,7 +71,7 @@ public class UIManager : Singleton<UIManager>
     }
     
     private void Update() {
-        RefreshGridSizeText();
+        RefreshGridPossibleSize();
         SendLiveGeneSpeedToGameController();
     }
     
@@ -110,7 +110,7 @@ public class UIManager : Singleton<UIManager>
         genSpeedSlider.gameObject.SetActive(false);
     }
 
-    private void RefreshGridSizeText()
+    private void RefreshGridPossibleSize()
     {
         int mazeMaxSideCells = GetCurrentMaxSideCells();
 
@@ -140,7 +140,7 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            return mazeGenSettings.NotLiveGenDFSMaxSideCells;
+            return mazeGenSettings.LiveGenMaxSideCells;
         }
     }
 
@@ -154,11 +154,12 @@ public class UIManager : Singleton<UIManager>
     
     public void Signal_ToggleLiveGeneration() {
         isLiveGenerationActive = !isLiveGenerationActive;
+        RefreshGridPossibleSize();
     }
 
     public void Signal_RefreshAlgorithm() {
         algorithm = (eAlgorithms)algorithmDropdown.value;
-        RefreshGridSizeText();
+        RefreshGridPossibleSize();
     }
     
     public void Signal_StartGeneration() {

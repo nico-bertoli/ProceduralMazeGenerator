@@ -38,7 +38,9 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
             }
         }
 
-
+        List<Step> firstRandomWalk = new List<Step>();
+        yield return StartCoroutine(GetFirstRandomWalkCor(dataGrid, startingCell, firstRandomWalk));
+        MergeRandomWalkInFinalTree(dataGrid, finalTreeCells, notInFinalTreeCells, firstRandomWalk);
 
         //while there are not connected cells...
         while (notInFinalTreeCells.Count > 0) {
@@ -69,32 +71,57 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
         }
     }
 
-    private IEnumerator GetFirstRandomWalkCor(DataGrid grid, HashSet<DataCell> finalTreeCells, HashSet<DataCell> notInFinalTreeCells, List<Step> outRandomWalk)
+    private IEnumerator GetFirstRandomWalkCor(DataGrid grid, DataCell startingCell, List<Step> outRandomWalk)
     {
-        yield break;
-    }
+        int firstRandomWalkLength = grid.GetShorterSideCellsCount()-3;
+        HashSet<DataCell> visitedCells = new HashSet<DataCell>() { startingCell };
+        Direction allwaysPreventedDirection = (Direction)Random.Range(0,System.Enum.GetValues(typeof(Direction)).Length);
 
-    private IEnumerator RandomWalkCor (DataGrid grid, HashSet<DataCell> finalTreeCells, HashSet<DataCell> notInFinalTreeCells, List<Step> outRandomWalk) {
+        Direction randomDirection = (Direction)grid.GetRandomNeighbourDirection(startingCell, new Direction[] { allwaysPreventedDirection });
+        outRandomWalk.Add(new Step(startingCell, randomDirection));
 
-        //finding random cell out of the final tree
-        DataCell randomCell = notInFinalTreeCells.ElementAt(Random.Range(0, notInFinalTreeCells.Count));
-
-        //getting a random direction accessible from the cell
-        //List<Direction> possibleDirections = grid.GetNeighboursDirections(randomCell);
-        //Direction randomDir = possibleDirections[Random.Range(0, possibleDirections.Count)];
-        Direction randomDir = (Direction)grid.GetRandomNeighbourDirection(randomCell,null);
-
-        //adding the step to the path
-        outRandomWalk.Add(new Step(randomCell, randomDir));
-
-        while (true) {
-
+        for (int i = 0; i< firstRandomWalkLength; i++)
+        {
             Step previousStep = outRandomWalk[outRandomWalk.Count - 1];
             DataCell newCell = grid.GetNeighbourAtDirection(previousStep.cell, previousStep.direction);
 
             // get new random direction (direction of the previous cel is excluded)
-            Direction preventedDirection = GetInverseDirection(previousStep.direction);
-            Direction? newDirection = grid.GetRandomNeighbourDirection(newCell, new Direction[] { preventedDirection });
+            Direction previousCellDirection = GetInverseDirection(previousStep.direction);
+            Direction? newDirection;
+
+            do
+            {
+                newDirection = grid.GetRandomNeighbourDirection(newCell, new Direction[] { previousCellDirection, allwaysPreventedDirection });
+            }
+            while (visitedCells.Contains(newCell));
+            
+
+            Step newStep = new Step(newCell, (Direction)newDirection);
+            outRandomWalk.Add(newStep);
+            visitedCells.Add(newCell);
+
+            if (isLiveGenerationEnabled)
+            {
+                grid.RemoveWall(previousStep.cell, newStep.cell);
+                yield return new WaitForSeconds(liveGenerationDelay);
+            }
+        }
+    }
+
+    private IEnumerator RandomWalkCor (DataGrid grid, HashSet<DataCell> finalTreeCells, HashSet<DataCell> notInFinalTreeCells, List<Step> outRandomWalk)
+    {
+        DataCell randomStartingCell = notInFinalTreeCells.ElementAt(Random.Range(0, notInFinalTreeCells.Count));
+        Direction randomDirection = grid.GetRandomNeighbourDirection(randomStartingCell);
+
+        outRandomWalk.Add(new Step(randomStartingCell, randomDirection));
+
+        while (true) {
+            Step previousStep = outRandomWalk[outRandomWalk.Count - 1];
+            DataCell newCell = grid.GetNeighbourAtDirection(previousStep.cell, previousStep.direction);
+
+            // get new random direction (direction of the previous cel is excluded)
+            Direction previousCellDirection = GetInverseDirection(previousStep.direction);
+            Direction? newDirection = grid.GetRandomNeighbourDirection(newCell, new Direction[] { previousCellDirection });
             
             bool foundLoop = false;
 
@@ -113,6 +140,7 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
                     break;
                 }
             }
+
             //otherwise, the new step is added to randomwalk
             if (!foundLoop) {
                 Debug.Assert(newDirection != null,"newDirection was null generating random walk, this shouldn't happen!");

@@ -5,17 +5,20 @@ using static DataCell;
 using Random = UnityEngine.Random;
 
 public class DataGrid {
-    
-    public enum Direction { Forward, Right, Bottom, Back};
+    //public enum eDirection { TOP, RIGHT, BOTTOM, LEFT };
+    public enum Direction { Up, Right, Down, Left};
     
     #region ===================================================================================================== Fields
     public int ColumnsCount { get; }
     public int RowsCount { get; }
+    public int CellsCount => ColumnsCount * RowsCount;
     
     private readonly DataCell[,] cells;
 
     #endregion  Fields
     #region ============================================================================================= Public Methods
+
+    public int GetShorterSideCellsCount() => ColumnsCount < RowsCount ? ColumnsCount : RowsCount;
 
     public Vector3 GetExitPosition()
     {
@@ -84,19 +87,32 @@ public class DataGrid {
     public DataCell GetCell(int m, int n) =>  cells[m, n];
 
     //todo remove
-    public Direction? GetRandomNeighbourDirection (DataCell cell, Direction[] preventDirections = null) {
+    public Direction? GetRandomNeighbourDirection (DataCell cell, Direction[] preventDirections)
+    {
+        Debug.Assert(preventDirections.Length > 0, $"{nameof(GetRandomNeighbourDirection)} called passing empty {nameof(preventDirections)} list!" +
+            $"Consider using method version without this parameter");
+
         List<Direction> possibleDirections = GetNeighboursDirections(cell);
 
-        if (preventDirections != null && preventDirections.Length > 0)
+        if (preventDirections.Length > 0)
         {
             foreach (Direction preventDirection in preventDirections)
                 possibleDirections.Remove(preventDirection);
         }
        
-        if (possibleDirections.Count == 0) return null;
+        if (possibleDirections.Count == 0)
+            return null;
+
         return possibleDirections[Random.Range(0, possibleDirections.Count)];
     }
-    
+
+    public Direction GetRandomNeighbourDirection(DataCell cell)
+    {
+        List<Direction> possibleDirections = GetNeighboursDirections(cell);
+        return possibleDirections[Random.Range(0, possibleDirections.Count)];
+    }
+
+
     public List<DataCell> GetNeighbours(DataCell cell){
 
         List<DataCell> possibleNeighbours = new List<DataCell>();
@@ -110,17 +126,17 @@ public class DataGrid {
     public DataCell GetNeighbourAtDirection(DataCell cell, Direction direction){
         switch (direction)
         {
-            case Direction.Forward:
+            case Direction.Up:
                 if (cell.PosM == 0)
                     return null;
                 return cells[cell.PosM - 1, cell.PosN];
             
-            case Direction.Bottom:
+            case Direction.Down:
                 if (cell.PosM == RowsCount-1)
                     return null;
                 return cells[cell.PosM + 1, cell.PosN];
 
-            case Direction.Back:
+            case Direction.Left:
                 if (cell.PosN == 0)
                     return null;
                 return cells[cell.PosM, cell.PosN-1];
@@ -138,11 +154,11 @@ public class DataGrid {
     public List<Direction> GetNeighboursDirections(DataCell cell) {
         List<Direction> ris = GetAllDirections();
 
-        if (cell.PosN == 0) ris.Remove(Direction.Back);
+        if (cell.PosN == 0) ris.Remove(Direction.Left);
         else if (cell.PosN == ColumnsCount - 1) ris.Remove(Direction.Right);
 
-        if (cell.PosM == 0) ris.Remove(Direction.Forward);
-        else if (cell.PosM == RowsCount - 1) ris.Remove(Direction.Bottom);
+        if (cell.PosM == 0) ris.Remove(Direction.Up);
+        else if (cell.PosM == RowsCount - 1) ris.Remove(Direction.Down);
 
         return ris;
     }
@@ -155,10 +171,10 @@ public class DataGrid {
     /// <exception cref="Exception"></exception>
     public static Direction GetInverseDirection(Direction direction) {
         switch (direction) {
-            case Direction.Forward:return Direction.Bottom;
-            case Direction.Bottom: return Direction.Forward;
-            case Direction.Back: return Direction.Right;
-            case Direction.Right: return Direction.Back;
+            case Direction.Up:return Direction.Down;
+            case Direction.Down: return Direction.Up;
+            case Direction.Left: return Direction.Right;
+            case Direction.Right: return Direction.Left;
             default: throw new Exception($"{direction} not recognized");
         }
     }
