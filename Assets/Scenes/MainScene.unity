@@ -786,7 +786,6 @@ GameObject:
   - component: {fileID: 203668942}
   - component: {fileID: 203668944}
   - component: {fileID: 203668943}
-  - component: {fileID: 203668945}
   m_Layer: 5
   m_Name: LoadingPanel
   m_TagString: Untagged
@@ -853,18 +852,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203668941}
   m_CullTransparentMesh: 1
---- !u!114 &203668945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203668941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 706468ca87b18c24e8678311d403e6ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &222305704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6801457391901566195, guid: 72e5874d225b1432b82cdc89ef876c40, type: 3}
@@ -4487,7 +4474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.0024108887
+      value: -0.0024414062
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5399,7 +5386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.0024108887
+      value: -0.0024414062
       objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_AnchoredPosition.y

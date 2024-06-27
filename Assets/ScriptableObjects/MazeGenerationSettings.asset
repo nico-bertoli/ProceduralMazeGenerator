@@ -16,7 +16,7 @@ MonoBehaviour:
   <LiveGenMaxSideCells>k__BackingField: 30
   <NotLiveGenDFSMaxSideCells>k__BackingField: 2000
   <NotLiveGenKruskalMaxSideCells>k__BackingField: 250
-  <NotLiveGenWilsonMaxSideCells>k__BackingField: 200
+  <NotLiveGenWilsonMaxSideCells>k__BackingField: 500
   <LiveGenerationWallsWidth>k__BackingField: 0.5
   <InGameWallsWidth>k__BackingField: 0.1
   <WallsHeight>k__BackingField: 0.5

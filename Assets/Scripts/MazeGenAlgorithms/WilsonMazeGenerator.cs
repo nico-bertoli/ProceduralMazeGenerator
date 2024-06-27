@@ -18,7 +18,14 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
         }
     }
 
-    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
+    /// <summary>
+    /// Used to grant minimum framerate when generation is heavy
+    /// </summary>
+    float lastTimeFrameShown;
+
+    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell)
+    {
+        lastTimeFrameShown = Time.realtimeSinceStartup;
 
         HashSet<DataCell> finalTree = new HashSet<DataCell>();
         finalTree.Add(startCell);
@@ -37,10 +44,15 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
             //fin a random walk
             List<Step> rWalk = new List<Step>();
-            yield return RandomWalk(grid, finalTree, outOfTree, rWalk);
+
+
+        // yields for coroutine running it in current frame
+        IEnumerator nested = RandomWalkCor(grid, finalTree, outOfTree, rWalk);
+        while (nested.MoveNext())
+            yield return nested.Current;
 
             //add random walk cells to the final tree (and remove them from out of tree set)
-            for(int i = 0;i < rWalk.Count;i++){
+            for (int i = 0;i < rWalk.Count;i++){
                 finalTree.Add(rWalk[i].cell);
                 outOfTree.Remove(rWalk[i].cell);
 
@@ -59,7 +71,7 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
     /// <param name="outOfTree">Cells out of tree</param>
     /// <param name="resRandomWalk">Random walk list to edit</param>
     /// <returns></returns>
-    private IEnumerator RandomWalk(DataGrid grid, HashSet<DataCell> finalTree, HashSet<DataCell> outOfTree, List<Step> resRandomWalk) {
+    private IEnumerator RandomWalkCor (DataGrid grid, HashSet<DataCell> finalTree, HashSet<DataCell> outOfTree, List<Step> resRandomWalk) {
 
         //finding random cell out of the final tree
         DataCell randomCell = outOfTree.ElementAt(Random.Range(0, outOfTree.Count));
@@ -70,8 +82,6 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
         //adding the step to the path
         resRandomWalk.Add(new Step(randomCell, randomDir));
-
-        float lastTimeFrameShown = Time.realtimeSinceStartup;
 
         while (true) {
 
@@ -114,7 +124,6 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
                     yield return null;
                     lastTimeFrameShown = Time.realtimeSinceStartup;
                 }
-                    
             }
 
             //if random walk reached final tree, the random walk can be returned
