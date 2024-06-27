@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -114,8 +115,11 @@ public class UIManager : Singleton<UIManager>
     {
         int mazeMaxSideCells = GetCurrentMaxSideCells();
 
-        nColumns = (int)(columnsSlider.value * (mazeMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
-        nRows = (int)(rowsSlider.value * (mazeMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells);
+        float nColumnsRow = columnsSlider.value * (mazeMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells;
+        float nRowsRow = rowsSlider.value * (mazeMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells;
+
+        nColumns = (int)(Mathf.Round(nColumnsRow / 5f) * 5);
+        nRows = (int)(Mathf.Round(nRowsRow / 5f) * 5);
 
         widthText.text = "Columns: " + nColumns;
         heightText.text = "Rows: " + nRows;
