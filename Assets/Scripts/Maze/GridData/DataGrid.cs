@@ -84,11 +84,15 @@ public class DataGrid {
     public DataCell GetCell(int m, int n) =>  cells[m, n];
 
     //todo remove
-    public Direction? GetRandomNeighbourDirection (DataCell cell, Direction[] preventDirections) {
+    public Direction? GetRandomNeighbourDirection (DataCell cell, Direction[] preventDirections = null) {
         List<Direction> possibleDirections = GetNeighboursDirections(cell);
-        foreach(Direction preventDirection in preventDirections)
-            possibleDirections.Remove(preventDirection);
 
+        if (preventDirections != null && preventDirections.Length > 0)
+        {
+            foreach (Direction preventDirection in preventDirections)
+                possibleDirections.Remove(preventDirection);
+        }
+       
         if (possibleDirections.Count == 0) return null;
         return possibleDirections[Random.Range(0, possibleDirections.Count)];
     }
