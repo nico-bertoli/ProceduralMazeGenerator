@@ -22,7 +22,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private GameObject playGameButton;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject loadingPanel;
-    [SerializeField] private LoadingText loadingText;
+    [SerializeField] private TextMeshProUGUI loadingText;
     
     private int nColumns;
     private int nRows;
@@ -45,7 +45,7 @@ public class UIManager : Singleton<UIManager>
         SetLoadingPanelText("Loading");
     }
 
-    public void SetLoadingPanelText(string text) => loadingText.Text = text;
+    public void SetLoadingPanelText(string text) => loadingText.text = text;
 
     public void DisableLoadingPanel() {
         loadingPanel.gameObject.SetActive(false);
@@ -81,9 +81,9 @@ public class UIManager : Singleton<UIManager>
     private void ShowGenerationPanel() {
         
         if (isLiveGenerationActive)
-            loadingText.Text = "Loading maze";
+            loadingText.text = "Loading maze";
         else
-            loadingText.Text = "Algorithm is working";
+            loadingText.text = "Algorithm is working";
 
         loadingPanel.gameObject.SetActive(true);
         settingsPanel.SetActive(false);
