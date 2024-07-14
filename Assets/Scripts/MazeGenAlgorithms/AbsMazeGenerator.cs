@@ -24,7 +24,7 @@ public abstract class AbsMazeGenerator : MonoBehaviour
     #endregion Protected Fields
     #region =========================================================================================== Private Properties
 
-    private float liveGenerationMaxDelay => Settings.Instance.mazeGenerationSettings.LiveGenerationMaxDelay;
+    private float liveGenerationMaxDelay => Settings.Instance.MazeGenerationSettings.LiveGenerationMaxDelay;
 
     #endregion Private Properties
     #region ============================================================================================= Public Methods

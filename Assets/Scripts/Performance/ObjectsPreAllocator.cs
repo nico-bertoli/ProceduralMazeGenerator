@@ -28,7 +28,7 @@
 //     protected override void Awake() {
 //         base.Awake();
 //
-//         int mazeSideMaxCells = Settings.Instance.mazeGenerationSettings.LiveGenMaxSideCells;
+//         int mazeSideMaxCells = Settings.Instance.MazeGenerationSettings.LiveGenMaxSideCells;
 //         int preallocatedObjectsCount = mazeSideMaxCells * mazeSideMaxCells;
 //
 //         for (int i = 0; i < preallocatedObjectsCount; i++) {

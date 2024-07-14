@@ -5,7 +5,7 @@ using static AbsMazeGenerator;
 
 public class UIManager : Singleton<UIManager>
 {
-    private MazeGenerationSettings mazeGenSettings => Settings.Instance.mazeGenerationSettings;
+    private MazeGenerationSettings mazeGenSettings => Settings.Instance.MazeGenerationSettings;
     
     #region ============================================================================================= Private Fields
 

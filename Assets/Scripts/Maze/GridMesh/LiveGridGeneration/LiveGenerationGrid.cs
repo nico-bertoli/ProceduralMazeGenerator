@@ -17,7 +17,7 @@ public class LiveGenerationGrid : MonoBehaviour
     private GameObject meshesContainer;
     private GameObject chunksContainer;
     
-    private float liveGenWallsWidth => Settings.Instance.mazeGenerationSettings.LiveGenerationWallsWidth;
+    private float liveGenWallsWidth => Settings.Instance.MazeGenerationSettings.LiveGenerationWallsWidth;
     
     #endregion Private Fields
     #region ============================================================================================= Public Methods

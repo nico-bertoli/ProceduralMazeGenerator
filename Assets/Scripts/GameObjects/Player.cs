@@ -6,11 +6,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     #region ============================================================================================= Private Fields
-    
-    [Header("Settings")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float rotationSpeed = 2f;
 
+    private float rotationSpeed => Settings.Instance.PlayerSettings.rotationSpeed;
+    private float moveSpeed => Settings.Instance.PlayerSettings.moveSpeed;
+    
     [Header("References")]
     [SerializeField] private Rigidbody rigidBody;
 

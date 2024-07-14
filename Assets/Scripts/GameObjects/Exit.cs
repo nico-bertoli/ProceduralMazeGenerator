@@ -7,4 +7,5 @@ public class Exit : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         OnExitReached();
     }
+    
 }

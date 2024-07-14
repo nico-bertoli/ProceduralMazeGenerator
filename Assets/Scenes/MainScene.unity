@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366753, g: 0.48427093, b: 0.5645238, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2240,7 +2240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4814054a118b479c8f65c1747150748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <mazeGenerationSettings>k__BackingField: {fileID: 11400000, guid: b3a54aa6dc1304d5e8231a92bf1f50dc, type: 2}
+  <MazeGenerationSettings>k__BackingField: {fileID: 11400000, guid: b3a54aa6dc1304d5e8231a92bf1f50dc, type: 2}
+  <PlayerSettings>k__BackingField: {fileID: 11400000, guid: f7b96c180651b4ff98b78705fe7a09c3, type: 2}
 --- !u!1 &719066837
 GameObject:
   m_ObjectHideFlags: 0

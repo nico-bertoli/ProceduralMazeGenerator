@@ -31,7 +31,7 @@ public class WallObject : MonoBehaviour
 
     private void Awake()
     {
-        SetHeight(Settings.Instance.mazeGenerationSettings.WallsHeight);
+        SetHeight(Settings.Instance.MazeGenerationSettings.WallsHeight);
     }
 
     #endregion Private Methods
