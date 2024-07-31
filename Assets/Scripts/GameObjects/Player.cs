@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     private PlayerSettings playerSettings => Settings.Instance.PlayerSettings;
 
     #region ============================================================================================= Private Fields
@@ -21,10 +20,7 @@ public class Player : MonoBehaviour
     private void OnCollisionStay(Collision collision) => currentWallCollision = collision;
     private void OnCollisionExit(Collision other) => currentWallCollision = null;
 
-    private void OnEnable()
-    {
-        rotationCor = null;
-    }
+    private void OnEnable() => rotationCor = null;
 
     private void Update()
     {
@@ -38,10 +34,10 @@ public class Player : MonoBehaviour
     private void HandleRotation()
     {
         if (inputReader.IsRotating && rotationCor == null)
-            rotationCor = StartCoroutine(RotateCor(inputReader.RotateDirection > 0));
+            rotationCor = StartCoroutine(RotationCor(inputReader.RotateDirection > 0));
     }
 
-    private IEnumerator RotateCor(bool rotateRight)
+    private IEnumerator RotationCor(bool rotateRight)
     {
         float rotateDirection = rotateRight ? 1 : -1;
         

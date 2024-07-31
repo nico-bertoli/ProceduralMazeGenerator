@@ -73,7 +73,7 @@ public class Maze : MonoBehaviour {
     private void Start()
     {
         voxelGenerator.OnMeshGenerated += OnMazeFinalMeshGenerated;
-        SceneManager.Instance.OnPlayModeActivated += OnGameModeActivated;
+        SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
     }
     
     private IEnumerator GenerateCor(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm)
@@ -96,7 +96,7 @@ public class Maze : MonoBehaviour {
         ShowGrid();
     }
 
-    private void OnGameModeActivated()
+    private void OnEscapeMazePhaseStarted()
     {
         if (IsLiveGenerationActive)
         {

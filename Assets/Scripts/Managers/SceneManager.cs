@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SceneManager:Singleton<SceneManager>
 {
-    public event Action OnPlayModeActivated;
+    public event Action OnEscapeMazePhaseStarted;
     private enum GamePhase
     {
         MazeGeneration,
@@ -37,7 +37,7 @@ public class SceneManager:Singleton<SceneManager>
         EnableObjects(GamePhase.EscapeMaze);
         SetupPlayerPosition();
         SetupExitPosition();
-        OnPlayModeActivated?.Invoke();
+        OnEscapeMazePhaseStarted?.Invoke();
     }
 
     #endregion Public Methods
