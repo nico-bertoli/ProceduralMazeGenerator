@@ -1718,7 +1718,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: loading maze
+  m_text: Algorithm is working
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 49082cc6f2120454c96e55e2737bca12, type: 2}
   m_sharedMaterial: {fileID: 7426252383981991299, guid: 49082cc6f2120454c96e55e2737bca12, type: 2}
@@ -2620,18 +2620,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   columnsSlider: {fileID: 1845717841}
-  widthText: {fileID: 872213327102972962}
   rowsSlider: {fileID: 1487036153}
-  heightText: {fileID: 1133015005}
-  liveGenToggle: {fileID: 1889807211}
-  algorithmDropdown: {fileID: 1435849417}
   genSpeedSlider: {fileID: 569025116}
+  widthText: {fileID: 872213327102972962}
+  heightText: {fileID: 1133015005}
+  loadingText: {fileID: 456556601}
+  btnStartEscape: {fileID: 345886693}
+  btnBack: {fileID: 1405594436}
   settingsPanel: {fileID: 1948529876}
   gamePanel: {fileID: 447857857}
-  btnStartEscape: {fileID: 345886693}
-  backButton: {fileID: 1405594436}
   loadingPanel: {fileID: 203668941}
-  loadingText: {fileID: 456556601}
+  liveGenToggle: {fileID: 1889807211}
+  algorithmDropdown: {fileID: 1435849417}
   maze: {fileID: 1674199080}
 --- !u!1 &996903635
 GameObject:

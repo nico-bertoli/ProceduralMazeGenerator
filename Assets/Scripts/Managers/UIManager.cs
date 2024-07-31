@@ -10,20 +10,25 @@ public class UIManager : Singleton<UIManager>
     
     #region ============================================================================================= Private Fields
 
-    [Header("References")]
+    [Header("UI References")]
     [SerializeField] private Slider columnsSlider;
-    [SerializeField] private TextMeshProUGUI widthText;
     [SerializeField] private Slider rowsSlider;
-    [SerializeField] private TextMeshProUGUI heightText;
-    [SerializeField] private Toggle liveGenToggle;
-    [SerializeField] private TMP_Dropdown algorithmDropdown;
     [SerializeField] private Slider genSpeedSlider;
+    [Space]
+    [SerializeField] private TextMeshProUGUI widthText;
+    [SerializeField] private TextMeshProUGUI heightText;
+    [Space]
+    [SerializeField] private GameObject btnStartEscape;
+    [SerializeField] private GameObject btnBack;
+    [Space]
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject gamePanel;
-    [SerializeField] private GameObject btnStartEscape;
-    [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject loadingPanel;
-    [SerializeField] private TextMeshProUGUI loadingText;
+    [Space]
+    [SerializeField] private Toggle liveGenToggle;
+    [SerializeField] private TMP_Dropdown algorithmDropdown;
+
+    [Header("Other References")]
     [SerializeField] private Maze maze;
     
     private int nColumns;
@@ -50,28 +55,21 @@ public class UIManager : Singleton<UIManager>
         maze.OnLiveGenerationMeshGenerated += OnLiveGenerationMeshGenerated;
 
         loadingPanel.SetActive(false);
-        
-        liveGenToggle.isOn = isLiveGenerationActive = false;
+        liveGenToggle.isOn = false;
+        isLiveGenerationActive = false;
     }
     
     private void Update()
     {
         RefreshGridPossibleSize();
-        SendLiveGeneSpeedToGameController();
+        UpdateLiveGenerationSpeed();
     }
 
     #endregion
-
     #region ============================================================================================ Private Methods
 
     private void ShowGenerationPanel()
     {
-        
-        if (isLiveGenerationActive)
-            loadingText.text = "Loading maze";
-        else
-            loadingText.text = "Algorithm is working";
-
         if(isLiveGenerationActive==false)
             loadingPanel.SetActive(true);
 
@@ -128,7 +126,7 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    private void SendLiveGeneSpeedToGameController()
+    private void UpdateLiveGenerationSpeed()
     {
         if (isLiveGenerationActive)
             maze.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
@@ -183,7 +181,7 @@ public class UIManager : Singleton<UIManager>
         Debug.Log("Quitting application");
 #endif
         Application.Quit();
-    } 
+    }
 
     #endregion Signals
 }

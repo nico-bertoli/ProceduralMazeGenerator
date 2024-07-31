@@ -30,7 +30,8 @@ public abstract class AbsMazeGenerator : MonoBehaviour
     #region ============================================================================================= Public Methods
 
 
-    public IEnumerator GenerateMaze(DataGrid grid, DataCell startCell,bool isLiveGenerationEnabled) {
+    public IEnumerator GenerateMaze(DataGrid grid, DataCell startCell,bool isLiveGenerationEnabled)
+    {
         this.isLiveGenerationEnabled = isLiveGenerationEnabled;
 
         //live generation always starts at min speed
@@ -43,7 +44,8 @@ public abstract class AbsMazeGenerator : MonoBehaviour
     /// Sets generation step delay between 0 and max delay
     /// </summary>
     /// <param name="speed">Generation speed [0-100]</param>
-    public void SetLiveGenerationSpeed(float speed) {
+    public void SetLiveGenerationSpeed(float speed)
+    {
         if (isLiveGenerationEnabled)
         {
             speed = Mathf.Clamp(speed, 0, 100);

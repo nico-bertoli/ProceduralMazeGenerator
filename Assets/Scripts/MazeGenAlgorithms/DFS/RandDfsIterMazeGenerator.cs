@@ -19,10 +19,12 @@ public class RandDfsIterMazeGenerator : AbsRandDfsMazeGenerator {
         Stack<DataCell> stack = new Stack<DataCell>();
         stack.Push(startCell);
 
-        while (stack.Count > 0) {
+        while (stack.Count > 0)
+        {
             DataCell current = stack.Pop ();
             List<DataCell> neighbours = GetUnvisitedNeighbours(grid,current);
-            if (neighbours.Count > 0) {
+            if (neighbours.Count > 0)
+            {
                 //get random unvisited neighbour
                 DataCell neigh = neighbours[Random.Range(0, neighbours.Count)];
                 grid.RemoveWall(current, neigh);
