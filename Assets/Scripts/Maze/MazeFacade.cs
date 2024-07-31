@@ -35,7 +35,7 @@ public class MazeFacade : MonoBehaviour {
         return new Vector3(centralCell.PosN, 0, -centralCell.PosM);
     }
 
-    public void Generate(int nRows, int nColumns, bool showLiveGeneration, eMazeGenStrategy eMazeGenStategy)
+    public void Generate(int nRows, int nColumns, bool showLiveGeneration, MazeGenStrategy eMazeGenStategy)
     {
         StartCoroutine(GenerateCor(nRows,nColumns,showLiveGeneration,eMazeGenStategy));
     }
@@ -64,7 +64,7 @@ public class MazeFacade : MonoBehaviour {
         SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
     }
     
-    private IEnumerator GenerateCor(int nRows, int nColumns, bool showLiveGeneration, eMazeGenStrategy eStrategy)
+    private IEnumerator GenerateCor(int nRows, int nColumns, bool showLiveGeneration, MazeGenStrategy eStrategy)
     {
         yield return null;
         
@@ -91,15 +91,15 @@ public class MazeFacade : MonoBehaviour {
             OnLiveGenerationMeshGenerated?.Invoke();
     }
 
-    private AbsMazeGenStrategy GetStrategyFromEnum(eMazeGenStrategy enumStrategy)
+    private AbsMazeGenStrategy GetStrategyFromEnum(MazeGenStrategy enumStrategy)
     {
         switch (enumStrategy)
         {
-            case eMazeGenStrategy.DFSiterative:
+            case MazeGenStrategy.DFSiterative:
                 return new RandDfsIterMazeGenStrategy();
-            case eMazeGenStrategy.Willson:
+            case MazeGenStrategy.Willson:
                 return new WillsonMazeGenStrategy();
-            case eMazeGenStrategy.Kruskal:
+            case MazeGenStrategy.Kruskal:
                 return new KruskalMazeGenStrategy();
 
             default:

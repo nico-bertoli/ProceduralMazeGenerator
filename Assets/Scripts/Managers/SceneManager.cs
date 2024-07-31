@@ -27,7 +27,7 @@ public class SceneManager:Singleton<SceneManager>
     #endregion Private Fields
     #region ============================================================================================= Public Methods
     
-    public void ShowMazeGeneration(int nRows,int nColumns, bool showLiveGeneration, eMazeGenStrategy mazeGenStrategy)
+    public void ShowMazeGeneration(int nRows,int nColumns, bool showLiveGeneration, MazeGenStrategy mazeGenStrategy)
     {
         Vector3 mazeTopLeftPosition = new Vector3(-0.5f, 0f, 0.5f);
         mazeGenerationCamera.LookAtRectangularObject(mazeTopLeftPosition, nRows, nColumns);

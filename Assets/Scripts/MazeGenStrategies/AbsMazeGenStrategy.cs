@@ -7,14 +7,12 @@ using UnityEngine;
 /// </summary>
 public abstract class AbsMazeGenStrategy
 {
-    public enum eMazeGenStrategy
+    public enum MazeGenStrategy
     {
         DFSiterative,
         Willson,
         Kruskal
     }
-
-   
 
     #region =========================================================================================== Fields
 
@@ -33,7 +31,7 @@ public abstract class AbsMazeGenStrategy
     private MazeGenerationSettings genSettings => Settings.Instance.MazeGenerationSettings;
    
     #endregion Properties
-    #region ============================================================================================= Public Methods
+    #region ============================================================================================= PublicMethods
 
     public IEnumerator GenerateMaze(DataGrid grid, DataCell startCell, bool isLiveGenerationEnabled, MonoBehaviour coroutiner)
     {

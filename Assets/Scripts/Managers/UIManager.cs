@@ -34,7 +34,7 @@ public class UIManager : Singleton<UIManager>
     private int nColumns;
     private int nRows;
     private bool isLiveGenerationActive;
-    private eMazeGenStrategy mazeGenStrategy;
+    private MazeGenStrategy mazeGenStrategy;
 
     #endregion Private Fields
     #region ============================================================================================= Public Methods
@@ -112,11 +112,11 @@ public class UIManager : Singleton<UIManager>
         {
             switch (mazeGenStrategy)
             {
-                case eMazeGenStrategy.DFSiterative:
+                case MazeGenStrategy.DFSiterative:
                     return mazeGenSettings.NotLiveGenDFSMaxSideCells;
-                case eMazeGenStrategy.Willson:
+                case MazeGenStrategy.Willson:
                     return mazeGenSettings.NotLiveGenWilsonMaxSideCells;
-                case eMazeGenStrategy.Kruskal:
+                case MazeGenStrategy.Kruskal:
                     return mazeGenSettings.NotLiveGenKruskalMaxSideCells;
                 default:
                     Debug.LogError($"current algorithm not recognized: {mazeGenStrategy}");
@@ -152,7 +152,7 @@ public class UIManager : Singleton<UIManager>
     [UsedImplicitly]
     public void Signal_RefreshAlgorithm()
     {
-        mazeGenStrategy = (eMazeGenStrategy)algorithmDropdown.value;
+        mazeGenStrategy = (MazeGenStrategy)algorithmDropdown.value;
         RefreshGridPossibleSize();
     }
 

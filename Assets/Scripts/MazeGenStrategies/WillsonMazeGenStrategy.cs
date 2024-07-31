@@ -5,19 +5,17 @@ using UnityEngine;
 using static DataGrid;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/20/maze-generation-wilson-s-algorithm.html
-
 public class WillsonMazeGenStrategy : AbsMazeGenStrategy
-{
-    
+{  
     private class Step
     {
         public DataCell cell;
         public Direction direction;
 
-        public Step(DataCell _cell, Direction _direction)
+        public Step(DataCell cell, Direction direction)
         {
-            cell = _cell;
-            direction = _direction;
+            this.cell = cell;
+            this.direction = direction;
         }
     }
 
