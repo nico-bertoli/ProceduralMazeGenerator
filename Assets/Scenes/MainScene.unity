@@ -1152,6 +1152,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: LiveGenSpeedSlider
       objectReference: {fileID: 0}
+    - target: {fileID: 6369310554104200430, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6369310554104200430, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6369310554104200430, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 982381020}
+    - target: {fileID: 6369310554104200430, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6369310554104200430, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Signal_UpdateLiveGenerationSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6369310554104200430, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6369310554104200430, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6369310554104200431, guid: ae569ca07679041c58125d81846a6ce6, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -2624,7 +2652,6 @@ MonoBehaviour:
   genSpeedSlider: {fileID: 569025116}
   widthText: {fileID: 872213327102972962}
   heightText: {fileID: 1133015005}
-  loadingText: {fileID: 456556601}
   btnStartEscape: {fileID: 345886693}
   btnBack: {fileID: 1405594436}
   settingsPanel: {fileID: 1948529876}

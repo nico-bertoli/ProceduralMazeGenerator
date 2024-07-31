@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,7 +63,6 @@ public class UIManager : Singleton<UIManager>
     private void Update()
     {
         RefreshGridPossibleSize();
-        UpdateLiveGenerationSpeed();
     }
 
     #endregion
@@ -126,14 +126,11 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    private void UpdateLiveGenerationSpeed()
-    {
-        if (isLiveGenerationActive)
-            maze.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
-    }
-
     #endregion Private Methods
     #region ============================================================================================ Signals
+
+    [UsedImplicitly]
+    public void Signal_UpdateLiveGenerationSpeed() => maze.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
 
     [UsedImplicitly]
     public void Signal_StartEscapePhase()
