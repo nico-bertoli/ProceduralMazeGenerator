@@ -29,7 +29,7 @@ public class MazeGenerationProfiler : MonoBehaviour
             return;
         
         generationEndTime = Time.time;
-        Debug.Log($"Generation took {Time.time - generationStartTime} seconds");
+        Debug.Log($"Maze structure generation required: {Time.time - generationStartTime} seconds");
     }
 
     private void OnMazeChunksGenerated()
@@ -37,8 +37,8 @@ public class MazeGenerationProfiler : MonoBehaviour
         if (canShowDebugLog == false)
             return;
         
-        Debug.Log($"Maze mesh generation took {Time.time - generationEndTime} seconds");
-        Debug.Log($"Total generation took {Time.time - generationStartTime} seconds");
+        Debug.Log($"Mesh generation required: {Time.time - generationEndTime} seconds");
+        Debug.Log($"Total generation required: {Time.time - generationStartTime} seconds");
     }
 #endif
 }
