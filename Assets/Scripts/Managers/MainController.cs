@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainController:Singleton<MainController>
 {
-    public event Action OnGameModeActive;
+    public event Action OnPlayModeActivated;
     
     #region ============================================================================================= Fields
     
@@ -13,12 +13,9 @@ public class MainController:Singleton<MainController>
     [SerializeField] private GameObject playerObj;
     [SerializeField] private GameObject exitObj;
 
-    /// <summary>
-    /// Used during maze preview
-    /// </summary>
-    [SerializeField] private TopDownCamera topDownCamera;
-    [SerializeField] private GameObject gameObjects;
-    [SerializeField] private GameObject mazeGenerationObjects;
+    [SerializeField] private TopDownCamera mazeGenerationCamera;
+    [SerializeField] private GameObject gameObjectsContainer;
+    [SerializeField] private GameObject mazeGenerationObjectsContainer;
 
     #endregion Fields
     #region ============================================================================================= Public Methods
@@ -26,7 +23,7 @@ public class MainController:Singleton<MainController>
     public void GenerateMaze(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {
 
         Vector3 mazeTopLeftPosition = new Vector3(-0.5f, 0f, 0.5f);
-        topDownCamera.LookAtRectangularObject(mazeTopLeftPosition, nRows, nColumns);
+        mazeGenerationCamera.LookAtRectangularObject(mazeTopLeftPosition, nRows, nColumns);
         Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm);
 
     }
@@ -36,7 +33,7 @@ public class MainController:Singleton<MainController>
     public void PlayMaze() {
         
         UIManager.Instance.ShowLoadingGamePanel();
-        OnGameModeActive?.Invoke();
+        OnPlayModeActivated?.Invoke();
         
         SetGameMode(true);
         SetupPlayerPosition();
@@ -58,14 +55,14 @@ public class MainController:Singleton<MainController>
     private void SetupExitPosition() => exitObj.transform.position = Maze.GetExitPosition();
     
     private void Start() {
-        gameObjects.SetActive(false);
-        topDownCamera.gameObject.SetActive(true);
+        gameObjectsContainer.SetActive(false);
+        mazeGenerationCamera.gameObject.SetActive(true);
         exitObj.GetComponent<TriggerDetector>().OnTriggerEnterCalled += Signal_Reset;
     }
 
     private void SetGameMode(bool active) {
-        gameObjects.SetActive(active);
-        mazeGenerationObjects.SetActive(active == false);
+        gameObjectsContainer.SetActive(active);
+        mazeGenerationObjectsContainer.SetActive(active == false);
     }
     
     #endregion Private Methods

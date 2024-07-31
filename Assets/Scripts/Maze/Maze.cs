@@ -73,7 +73,7 @@ public class Maze : MonoBehaviour {
     
     private void Start()
     {
-        MainController.Instance.OnGameModeActive += OnGameModeActive;
+        MainController.Instance.OnPlayModeActivated += OnGameModeActivated;
     }
     
     private IEnumerator GenerateCor(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm)
@@ -96,7 +96,7 @@ public class Maze : MonoBehaviour {
         ShowGrid();
     }
 
-    private void OnGameModeActive()
+    private void OnGameModeActivated()
     {
         if (IsLiveGenerationActive)
         {
