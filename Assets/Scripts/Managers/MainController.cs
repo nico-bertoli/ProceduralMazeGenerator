@@ -60,7 +60,7 @@ public class MainController:Singleton<MainController>
     private void Start() {
         gameObjects.SetActive(false);
         topDownCamera.gameObject.SetActive(true);
-        exitObj.GetComponent<Exit>().OnExitReached += Signal_Reset;
+        exitObj.GetComponent<TriggerDetector>().OnTriggerEnterCalled += Signal_Reset;
     }
 
     private void SetGameMode(bool active) {

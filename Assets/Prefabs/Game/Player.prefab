@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1493797995}
   - component: {fileID: 1493797994}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerInputReader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 7921265232312400520}
   - component: {fileID: 7921265232312400527}
   - component: {fileID: 7921265232312400526}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,8 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 990e9e0f0997b3c4db17997190a0763a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
-  rotationSpeed: 200
   rigidBody: {fileID: 7921265232312400520}
   inputReader: {fileID: 1493797994}
 --- !u!114 &7921265232312400526
@@ -226,7 +224,7 @@ GameObject:
   - component: {fileID: 7921265233304954918}
   - component: {fileID: 7921265233304954919}
   - component: {fileID: 1198513214633648317}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
