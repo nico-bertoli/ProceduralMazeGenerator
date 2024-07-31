@@ -88,7 +88,11 @@ public class MazeFacade : MonoBehaviour {
         DataCell startCell = dataGrid.GetCentralCell();
         yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, startCell, showLiveGeneration));
         OnMazeDataStructureGenerated?.Invoke();
-        ShowGrid();
+
+        if (IsLiveGenerationActive == false)
+            voxelGenerator.CreateGrid(dataGrid);
+        else
+            OnLiveGenerationMeshGenerated?.Invoke();
     }
 
     private void OnEscapeMazePhaseStarted()
@@ -98,13 +102,6 @@ public class MazeFacade : MonoBehaviour {
             liveGenGrid.Reset();
             voxelGenerator.CreateGrid(dataGrid);
         }
-    }
-    
-    private void ShowGrid() {
-        if (IsLiveGenerationActive == false)
-            voxelGenerator.CreateGrid(dataGrid);
-        else
-            OnLiveGenerationMeshGenerated?.Invoke();
     }
 
     private AbsMazeGenerator CreateMazeGenerator(eAlgorithms algorithm)
