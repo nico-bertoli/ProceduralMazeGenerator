@@ -25,22 +25,19 @@ public class SceneManager:Singleton<SceneManager>
     #endregion Private Fields
     #region ============================================================================================= Public Methods
     
-    public void ShowMazeGeneration(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {
+    public void ShowMazeGeneration(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm)
+    {
         Vector3 mazeTopLeftPosition = new Vector3(-0.5f, 0f, 0.5f);
         mazeGenerationCamera.LookAtRectangularObject(mazeTopLeftPosition, nRows, nColumns);
         Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm);
     }
 
-    public void PlayMaze() {
-        
-        UIManager.Instance.ShowLoadingGamePanel();
-        OnPlayModeActivated?.Invoke();
-        
+    public void PlayMaze()
+    {
         EnableObjects(GamePhase.EscapeMaze);
         SetupPlayerPosition();
         SetupExitPosition();
-        
-        UIManager.Instance.DisableLoadingPanel();
+        OnPlayModeActivated?.Invoke();
     }
 
     #endregion Public Methods
@@ -55,13 +52,15 @@ public class SceneManager:Singleton<SceneManager>
     
     private void SetupExitPosition() => exitObj.transform.position = Maze.GetExitPosition();
     
-    private void Start() {
+    private void Start() 
+    {
         escapePhaseObjectsContainer.SetActive(false);
         mazeGenerationCamera.gameObject.SetActive(true);
         exitObj.GetComponent<TriggerDetector>().OnTriggerEnterCalled += Signal_Reset;
     }
 
-    private void EnableObjects(GamePhase gamePhase) {
+    private void EnableObjects(GamePhase gamePhase)
+    {
         escapePhaseObjectsContainer.SetActive(gamePhase == GamePhase.EscapeMaze);
         generationPhaseObjectsContainer.SetActive(gamePhase == GamePhase.MazeGeneration);
     }
@@ -70,7 +69,8 @@ public class SceneManager:Singleton<SceneManager>
     #region ============================================================================================ Private Methods
     
     [UsedImplicitly]
-    public void Signal_Reset() {
+    public void Signal_Reset() 
+    {
         Maze.Reset();
         EnableObjects(GamePhase.MazeGeneration);
         UIManager.Instance.ShowSettingsPanel();

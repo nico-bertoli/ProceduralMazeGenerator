@@ -20,7 +20,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Slider genSpeedSlider;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject gamePanel;
-    [SerializeField] private GameObject playGameButton;
+    [SerializeField] private GameObject btnStartEscape;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject loadingPanel;
     [SerializeField] private TextMeshProUGUI loadingText;
@@ -38,47 +38,31 @@ public class UIManager : Singleton<UIManager>
         gamePanel.SetActive(false);
         settingsPanel.SetActive(true);
     }
-    
-    public void ShowLoadingGamePanel() {
-        genSpeedSlider.gameObject.SetActive(false);
-        playGameButton.SetActive(false);
-        backButton.SetActive(false);
-        loadingPanel.SetActive(true);
-        SetLoadingPanelText("Loading");
-    }
-
-    public void SetLoadingPanelText(string text) => loadingText.text = text;
-
-    public void DisableLoadingPanel() {
-        loadingPanel.gameObject.SetActive(false);
-        backButton.SetActive(true);
-    }
-
-    public void PlayMaze() =>SceneManager.Instance.PlayMaze();
 
     #endregion Public Methods
     #region ============================================================================================ Monobehaviour
     
-    private void Start() {
-       
-        maze.OnMazeChunksGenerated += OnGridFinalMeshCreated;
-        maze.OnMazeChunksGenerated += OnMazeGridChunksGenerated;
-        maze.OnGenerationStarted += OnMazeGenerationStarted;
+    private void Start()
+    {
+        maze.OnMazeDataStructureGenerated += () => loadingPanel.SetActive(false);
+        maze.OnMazeFinalMeshGenerated += OnMazeFinalMeshGenerated;
+        maze.OnLiveGenerationMeshGenerated += OnLiveGenerationMeshGenerated;
 
         loadingPanel.SetActive(false);
         
         liveGenToggle.isOn = isLiveGenerationActive = false;
     }
     
-    private void Update() {
+    private void Update()
+    {
         RefreshGridPossibleSize();
         SendLiveGeneSpeedToGameController();
     }
-    
+
     #endregion
-    
+
     #region ============================================================================================ Private Methods
-    
+
     private void ShowGenerationPanel() {
         
         if (isLiveGenerationActive)
@@ -86,27 +70,22 @@ public class UIManager : Singleton<UIManager>
         else
             loadingText.text = "Algorithm is working";
 
-        loadingPanel.gameObject.SetActive(true);
+        if(isLiveGenerationActive==false)
+            loadingPanel.SetActive(true);
+
         settingsPanel.SetActive(false);
         gamePanel.SetActive(true);
     }
-    
-    private void OnMazeGridChunksGenerated()
+
+    private void OnMazeFinalMeshGenerated()
     {
         if(isLiveGenerationActive == false)
-            DisableLoadingPanel();
+            btnStartEscape.SetActive(true);
     }
 
-    private void OnMazeGenerationStarted()
+    private void OnLiveGenerationMeshGenerated()
     {
-        if(isLiveGenerationActive)
-            DisableLoadingPanel();
-    }
-
-    private void OnGridFinalMeshCreated()
-    {
-        playGameButton.SetActive(true);
-        loadingPanel.gameObject.SetActive(false);
+        btnStartEscape.SetActive(true);
         genSpeedSlider.gameObject.SetActive(false);
     }
 
@@ -154,20 +133,31 @@ public class UIManager : Singleton<UIManager>
 
     #endregion Private Methods
     #region ============================================================================================ Signals
-    
+
+    [UsedImplicitly]
+    public void Signal_StartEscapePhase()
+    {
+        genSpeedSlider.gameObject.SetActive(false);
+        btnStartEscape.SetActive(false);
+        SceneManager.Instance.PlayMaze();
+    }
+
+    [UsedImplicitly]
     public void Signal_ToggleLiveGeneration() {
         isLiveGenerationActive = !isLiveGenerationActive;
         RefreshGridPossibleSize();
     }
 
+    [UsedImplicitly]
     public void Signal_RefreshAlgorithm() {
         algorithm = (eAlgorithms)algorithmDropdown.value;
         RefreshGridPossibleSize();
     }
-    
-    public void Signal_StartGeneration() {
 
-        playGameButton.SetActive(false);
+    [UsedImplicitly]
+    public void Signal_StartGeneration()
+    {
+        btnStartEscape.SetActive(false);
 
         if (isLiveGenerationActive) {
             genSpeedSlider.gameObject.SetActive(true);

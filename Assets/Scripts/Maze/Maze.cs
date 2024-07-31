@@ -7,9 +7,10 @@ public class Maze : MonoBehaviour {
 
     #region ============================================================================================== Public Events
 
-    public event Action OnMazeChunksGenerated;
+    public event Action OnLiveGenerationMeshGenerated;
+    public event Action OnMazeFinalMeshGenerated;
     public event Action OnGenerationStarted;
-    public event Action OnGenerationEnded;
+    public event Action OnMazeDataStructureGenerated;
     
     #endregion Public Events
     #region ========================================================================================== Public Properties
@@ -71,6 +72,7 @@ public class Maze : MonoBehaviour {
     
     private void Start()
     {
+        voxelGenerator.OnMeshGenerated += OnMazeFinalMeshGenerated;
         SceneManager.Instance.OnPlayModeActivated += OnGameModeActivated;
     }
     
@@ -90,7 +92,7 @@ public class Maze : MonoBehaviour {
         
         DataCell startCell = dataGrid.GetCentralCell();
         yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, startCell, showLiveGeneration));
-        OnGenerationEnded?.Invoke();
+        OnMazeDataStructureGenerated?.Invoke();
         ShowGrid();
     }
 
@@ -104,15 +106,12 @@ public class Maze : MonoBehaviour {
     }
     
     private void ShowGrid() {
-        if (!IsLiveGenerationActive) {
-            voxelGenerator.OnMeshGenerated += OnMazeChunksGenerated;
-            UIManager.Instance.SetLoadingPanelText("Loading maze");
+        if (IsLiveGenerationActive == false) {
+            //voxelGenerator.OnMeshGenerated += OnMazeMeshGenerated;
             voxelGenerator.CreateGrid(dataGrid);
         }
         else
-        {
-            OnMazeChunksGenerated?.Invoke();
-        }
+            OnLiveGenerationMeshGenerated?.Invoke();
     }
 
     private void InstantiateMazeGenerator(eAlgorithms algorithm) {

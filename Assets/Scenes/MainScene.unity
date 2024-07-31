@@ -1257,7 +1257,7 @@ GameObject:
   - component: {fileID: 345886695}
   - component: {fileID: 345886698}
   m_Layer: 5
-  m_Name: Play game button
+  m_Name: btnStartEscape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1330,7 +1330,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 982381020}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: PlayMaze
+        m_MethodName: Signal_StartEscapePhase
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2628,7 +2628,7 @@ MonoBehaviour:
   genSpeedSlider: {fileID: 569025116}
   settingsPanel: {fileID: 1948529876}
   gamePanel: {fileID: 447857857}
-  playGameButton: {fileID: 345886693}
+  btnStartEscape: {fileID: 345886693}
   backButton: {fileID: 1405594436}
   loadingPanel: {fileID: 203668941}
   loadingText: {fileID: 456556601}
@@ -3514,7 +3514,7 @@ GameObject:
   - component: {fileID: 1405594438}
   - component: {fileID: 1405594441}
   m_Layer: 5
-  m_Name: Back Button
+  m_Name: btnBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
