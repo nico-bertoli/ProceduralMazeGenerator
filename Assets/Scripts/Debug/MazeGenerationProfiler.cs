@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MazeGenerationProfiler : MonoBehaviour
 {
-    #if UNITY_EDITOR
-    private bool showDebugLog => MainController.Instance.Maze.IsLiveGenerationActive == false;
+#if UNITY_EDITOR
+    private bool canShowDebugLog => MainController.Instance.Maze.IsLiveGenerationActive == false;
     
     private float generationStartTime;
     private float generationEndTime;
@@ -17,7 +17,7 @@ public class MazeGenerationProfiler : MonoBehaviour
 
     private void OnGenerationStarted()
     {
-        if (showDebugLog == false)
+        if (canShowDebugLog == false)
             return;
         
         generationStartTime = Time.time;
@@ -25,7 +25,7 @@ public class MazeGenerationProfiler : MonoBehaviour
 
     private void OnGenerationEnded()
     {
-        if (showDebugLog == false)
+        if (canShowDebugLog == false)
             return;
         
         generationEndTime = Time.time;
@@ -34,11 +34,11 @@ public class MazeGenerationProfiler : MonoBehaviour
 
     private void OnMazeChunksGenerated()
     {
-        if (showDebugLog == false)
+        if (canShowDebugLog == false)
             return;
         
         Debug.Log($"Maze mesh generation took {Time.time - generationEndTime} seconds");
         Debug.Log($"Total generation took {Time.time - generationStartTime} seconds");
     }
-    #endif
+#endif
 }
