@@ -22,6 +22,9 @@ public class MazeGenerationSettings : ScriptableObject
     [field: SerializeField] public float LiveGenerationMaxDelay { get; private set; } = 0.4f;
     [field: SerializeField] public float LiveGenerationStartingSpeedSliderValue { get; private set; } = 0.95f;
 
+    [field: Header("Hidden Generation")]
+    [field: SerializeField] public float MaxTimeWithoutRefreshingScreenDuringHiddenGen { get; private set; } = 0.3f;
+
     [field:Header("Voxel Generation")]
     [field: SerializeField] public int VoxelChunkSize { get; private set; } = 20;
 }

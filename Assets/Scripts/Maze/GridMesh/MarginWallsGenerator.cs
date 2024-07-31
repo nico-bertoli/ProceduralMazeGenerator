@@ -54,10 +54,10 @@ public class MarginWallsGenerator : MonoBehaviour
     
     public void Reset()
     {
-        if(leftMargin != null)
+        if(leftMargin != null && leftMargin.gameObject != null)
             Destroy(leftMargin.gameObject);
         
-        if(bottomMargin != null)
+        if(bottomMargin != null && bottomMargin.gameObject != null)
             Destroy(bottomMargin.gameObject);
     }
 }

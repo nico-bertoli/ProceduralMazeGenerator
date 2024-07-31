@@ -5,29 +5,22 @@ using UnityEngine;
 using static DataGrid;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/20/maze-generation-wilson-s-algorithm.html
-
-public class WilsonMazeGenerator : AbsMazeGenerator {
-    
-    private class Step {
+public class WillsonMazeGenStrategy : AbsMazeGenStrategy
+{  
+    private class Step
+    {
         public DataCell cell;
         public Direction direction;
 
-        public Step(DataCell _cell, Direction _direction)
+        public Step(DataCell cell, Direction direction)
         {
-            cell = _cell;
-            direction = _direction;
+            this.cell = cell;
+            this.direction = direction;
         }
     }
 
-    /// <summary>
-    /// Used to grant minimum framerate when generation is heavy
-    /// </summary>
-    float lastTimeFrameShown;
-
     protected override IEnumerator GenerateMazeImplementation(DataGrid dataGrid, DataCell startingCell)
     {
-        lastTimeFrameShown = Time.realtimeSinceStartup;
-
         HashSet<DataCell> finalTreeCells = new HashSet<DataCell>() {startingCell};
 
         //cells out of final tree
@@ -39,7 +32,7 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
 
         List<Step> firstRandomWalk = new List<Step>();
-        yield return StartCoroutine(GetFirstRandomWalkCor(dataGrid, startingCell, firstRandomWalk));
+        yield return Coroutiner.Instance.StartCoroutine(GetFirstRandomWalkCor(dataGrid, startingCell, firstRandomWalk));
         MergeRandomWalkInFinalTree(dataGrid, finalTreeCells, notInFinalTreeCells, firstRandomWalk);
 
         //while there are not connected cells...
@@ -157,11 +150,8 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
                     grid.RemoveWall(previousStep.cell, newStep.cell);
                     yield return new WaitForSeconds(liveGenerationDelay);
                 }
-                else if (Time.realtimeSinceStartup - lastTimeFrameShown > 0.1f)
-                {
-                    yield return null;
-                    lastTimeFrameShown = Time.realtimeSinceStartup;
-                }
+                else if (MustRefreshScreen)
+                    yield return coroutiner.StartCoroutine(RefreshScreenCor());
             }
 
             //if random walk reached final tree, the random walk can be returned

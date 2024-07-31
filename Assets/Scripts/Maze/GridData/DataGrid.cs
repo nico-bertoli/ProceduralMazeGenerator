@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static DataCell;
 using Random = UnityEngine.Random;
 
 public class DataGrid {
-    //public enum eDirection { TOP, RIGHT, BOTTOM, LEFT };
     public enum Direction { Up, Right, Down, Left};
     
     #region ===================================================================================================== Fields
-    public int ColumnsCount { get; }
-    public int RowsCount { get; }
+    public int ColumnsCount { get; private set; }
+    public int RowsCount { get; private set; }
     public int CellsCount => ColumnsCount * RowsCount;
     
     private readonly DataCell[,] cells;

@@ -22,4 +22,5 @@ MonoBehaviour:
   <WallsHeight>k__BackingField: 0.5
   <LiveGenerationMaxDelay>k__BackingField: 0.4
   <LiveGenerationStartingSpeedSliderValue>k__BackingField: 0.2
+  <MaxTimeWithoutRefreshingScreenDuringHiddenGen>k__BackingField: 0.2
   <VoxelChunkSize>k__BackingField: 60

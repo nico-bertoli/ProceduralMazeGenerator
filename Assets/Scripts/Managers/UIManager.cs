@@ -2,9 +2,9 @@ using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static AbsMazeGenerator;
+using static AbsMazeGenStrategy;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
     private MazeGenerationSettings mazeGenSettings => Settings.Instance.MazeGenerationSettings;
     
@@ -29,12 +29,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown algorithmDropdown;
 
     [Header("Other References")]
-    [SerializeField] private Maze maze;
+    [SerializeField] private MazeFacade maze;
     
     private int nColumns;
     private int nRows;
     private bool isLiveGenerationActive;
-    private eAlgorithms algorithm;
+    private MazeGenStrategy mazeGenStrategy;
 
     #endregion Private Fields
     #region ============================================================================================= Public Methods
@@ -43,6 +43,8 @@ public class UIManager : MonoBehaviour
     {
         gamePanel.SetActive(false);
         settingsPanel.SetActive(true);
+        btnStartEscape.gameObject.SetActive(false);
+        genSpeedSlider.gameObject.SetActive(false);
     }
 
     #endregion Public Methods
@@ -57,6 +59,8 @@ public class UIManager : MonoBehaviour
         loadingPanel.SetActive(false);
         liveGenToggle.isOn = false;
         isLiveGenerationActive = false;
+
+        ShowSettingsPanel();
     }
     
     private void Update()
@@ -106,16 +110,16 @@ public class UIManager : MonoBehaviour
     {
         if (isLiveGenerationActive == false)
         {
-            switch (algorithm)
+            switch (mazeGenStrategy)
             {
-                case eAlgorithms.DFSiterative:
+                case MazeGenStrategy.DFSiterative:
                     return mazeGenSettings.NotLiveGenDFSMaxSideCells;
-                case eAlgorithms.Willson:
+                case MazeGenStrategy.Willson:
                     return mazeGenSettings.NotLiveGenWilsonMaxSideCells;
-                case eAlgorithms.Kruskal:
+                case MazeGenStrategy.Kruskal:
                     return mazeGenSettings.NotLiveGenKruskalMaxSideCells;
                 default:
-                    Debug.LogError($"current algorithm not recognized: {algorithm}");
+                    Debug.LogError($"current algorithm not recognized: {mazeGenStrategy}");
                     return -1;
             }
         }
@@ -134,7 +138,6 @@ public class UIManager : MonoBehaviour
     [UsedImplicitly]
     public void Signal_StartEscapePhase()
     {
-        genSpeedSlider.gameObject.SetActive(false);
         btnStartEscape.SetActive(false);
         SceneManager.Instance.PlayMaze();
     }
@@ -149,25 +152,23 @@ public class UIManager : MonoBehaviour
     [UsedImplicitly]
     public void Signal_RefreshAlgorithm()
     {
-        algorithm = (eAlgorithms)algorithmDropdown.value;
+        mazeGenStrategy = (MazeGenStrategy)algorithmDropdown.value;
         RefreshGridPossibleSize();
     }
 
     [UsedImplicitly]
     public void Signal_StartGeneration()
     {
-        btnStartEscape.SetActive(false);
+        //btnStartEscape.SetActive(false);
 
         if (isLiveGenerationActive)
         {
             genSpeedSlider.gameObject.SetActive(true);
             genSpeedSlider.value = mazeGenSettings.LiveGenerationStartingSpeedSliderValue;
         }
-        else
-            genSpeedSlider.gameObject.SetActive(false);
 
         ShowGenerationPanel();
-        SceneManager.Instance.ShowMazeGeneration(nRows, nColumns, isLiveGenerationActive, algorithm);
+        SceneManager.Instance.ShowMazeGeneration(nRows, nColumns, isLiveGenerationActive, mazeGenStrategy);
     }
 
     [UsedImplicitly]
@@ -180,7 +181,7 @@ public class UIManager : MonoBehaviour
     }
 
     [UsedImplicitly]
-    public void Signal_GoBackToGenerationSettings()
+    public void Signal_ShowGenerationSettings()
     {
         ShowSettingsPanel();
         SceneManager.Instance.ResetScene();
