@@ -4,9 +4,9 @@ using UnityEngine;
 using static AbsMazeGenerator;
 
 public class Maze : MonoBehaviour {
-    
+
     #region ============================================================================================== Public Events
-    
+
     public event Action OnMazeChunksGenerated;
     public event Action OnGenerationStarted;
     public event Action OnGenerationEnded;
@@ -63,8 +63,6 @@ public class Maze : MonoBehaviour {
     {
         return dataGrid.GetExitPosition();
     }
-
-    private bool isCullingEnabled = false;
     
     
     #endregion Public Methods

@@ -3,16 +3,17 @@ using UnityEngine;
 public class MazeGenerationProfiler : MonoBehaviour
 {
 #if UNITY_EDITOR
-    private bool canShowDebugLog => MainController.Instance.Maze.IsLiveGenerationActive == false;
+    [SerializeField] private Maze maze;
+    private bool canShowDebugLog => maze.IsLiveGenerationActive == false;
     
     private float generationStartTime;
     private float generationEndTime;
     
     private void Start()
     {
-        MainController.Instance.Maze.OnGenerationStarted += OnGenerationStarted;
-        MainController.Instance.Maze.OnGenerationEnded += OnGenerationEnded;
-        MainController.Instance.Maze.OnMazeChunksGenerated += OnMazeChunksGenerated;
+        maze.OnGenerationStarted += OnGenerationStarted;
+        maze.OnGenerationEnded += OnGenerationEnded;
+        maze.OnMazeChunksGenerated += OnMazeChunksGenerated;
     }
 
     private void OnGenerationStarted()

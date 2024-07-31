@@ -23,6 +23,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject loadingPanel;
     [SerializeField] private TextMeshProUGUI loadingText;
+    [SerializeField] private Maze maze;
     
     private int nColumns;
     private int nRows;
@@ -59,10 +60,9 @@ public class UIManager : Singleton<UIManager>
     
     private void Start() {
        
-        MainController.Instance.Maze.OnMazeChunksGenerated += OnGridFinalMeshCreated;
-        
-        MainController.Instance.Maze.OnMazeChunksGenerated += OnMazeGridChunksGenerated;
-        MainController.Instance.Maze.OnGenerationStarted += OnMazeGenerationStarted;
+        maze.OnMazeChunksGenerated += OnGridFinalMeshCreated;
+        maze.OnMazeChunksGenerated += OnMazeGridChunksGenerated;
+        maze.OnGenerationStarted += OnMazeGenerationStarted;
 
         loadingPanel.SetActive(false);
         

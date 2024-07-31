@@ -5,11 +5,11 @@ using UnityEngine;
 public class MainController:Singleton<MainController>
 {
     public event Action OnPlayModeActivated;
-    
+
     #region ============================================================================================= Fields
-    
+
     [field: Header("References")]
-    [field:SerializeField] public Maze Maze { get; private set; }
+    [SerializeField] private Maze Maze;
     [SerializeField] private GameObject playerObj;
     [SerializeField] private GameObject exitObj;
 
