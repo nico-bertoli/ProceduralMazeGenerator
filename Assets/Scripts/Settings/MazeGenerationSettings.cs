@@ -24,8 +24,4 @@ public class MazeGenerationSettings : ScriptableObject
 
     [field:Header("Voxel Generation")]
     [field: SerializeField] public int VoxelChunkSize { get; private set; } = 20;
-    
-    
-    
-
 }
