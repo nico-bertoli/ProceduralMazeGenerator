@@ -4,7 +4,7 @@ using UnityEngine;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
 
-public class KruskalMazeGenerator : MazeGenerationStrategy {
+public class KruskalMazeGenStrategy : AbsMazeGenStrategy {
     
     /// <summary>
     /// Edge between two cells

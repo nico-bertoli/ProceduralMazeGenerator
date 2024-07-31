@@ -6,7 +6,7 @@ using static DataGrid;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/20/maze-generation-wilson-s-algorithm.html
 
-public class WilsonMazeGenerator : MazeGenerationStrategy {
+public class WillsonMazeGenStrategy : AbsMazeGenStrategy {
     
     private class Step {
         public DataCell cell;

@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Modifies a DataGrid to create a maze
 /// </summary>
-public abstract class MazeGenerationStrategy
+public abstract class AbsMazeGenStrategy
 {
     public enum eMazeGenStrategy
     {
@@ -13,12 +13,9 @@ public abstract class MazeGenerationStrategy
         Kruskal
     }
 
-    #region =========================================================================================== Private Fields
-
-    #endregion Private Fields
     #region =========================================================================================== Protected Fields
 
-    protected float liveGenerationDelay ;
+    protected float liveGenerationDelay;
     protected bool isLiveGenerationEnabled;
 
     #endregion Protected Fields
@@ -29,8 +26,7 @@ public abstract class MazeGenerationStrategy
     #endregion Private Properties
     #region ============================================================================================= Public Methods
 
-
-    public IEnumerator GenerateMaze(DataGrid grid, DataCell startCell,bool isLiveGenerationEnabled)
+    public IEnumerator GenerateMaze(DataGrid grid, DataCell startCell, bool isLiveGenerationEnabled)
     {
         this.isLiveGenerationEnabled = isLiveGenerationEnabled;
 
@@ -40,24 +36,16 @@ public abstract class MazeGenerationStrategy
         yield return Coroutiner.Instance.StartCoroutine(GenerateMazeImplementation(grid, startCell));
     }
     
-    /// <summary>
-    /// Sets generation step delay between 0 and max delay
-    /// </summary>
-    /// <param name="speed">Generation speed [0-100]</param>
     public void SetLiveGenerationSpeed(float speed)
     {
-        if (isLiveGenerationEnabled)
-        {
-            speed = Mathf.Clamp(speed, 0, 100);
-            liveGenerationDelay = liveGenerationMaxDelay / 100 * Mathf.Abs(speed - 100);
-        }
+        speed = Mathf.Clamp(speed, 0, 100);
+        liveGenerationDelay = liveGenerationMaxDelay / 100 * Mathf.Abs(speed - 100);
     }
     
     #endregion PublicMethods
-    
     #region ========================================================================================== Protected Methods
 
     protected abstract IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell);
-    
+
     #endregion Protected Methods
 }

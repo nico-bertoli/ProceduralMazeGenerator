@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static MazeGenerationStrategy;
+using static AbsMazeGenStrategy;
 
 public class UIManager : Singleton<UIManager>
 {

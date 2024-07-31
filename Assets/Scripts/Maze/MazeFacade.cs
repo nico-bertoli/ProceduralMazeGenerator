@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using static MazeGenerationStrategy;
+using static AbsMazeGenStrategy;
 
 public class MazeFacade : MonoBehaviour {
 
@@ -24,7 +24,7 @@ public class MazeFacade : MonoBehaviour {
     [SerializeField] private VoxelGenerator voxelGenerator;
 
     private DataGrid dataGrid;
-    private MazeGenerationStrategy mazeGenStrategy;
+    private AbsMazeGenStrategy mazeGenStrategy;
     
     #endregion Fields
     #region ============================================================================================= Public Methods
@@ -91,16 +91,16 @@ public class MazeFacade : MonoBehaviour {
             OnLiveGenerationMeshGenerated?.Invoke();
     }
 
-    private MazeGenerationStrategy GetStrategyFromEnum(eMazeGenStrategy enumStrategy)
+    private AbsMazeGenStrategy GetStrategyFromEnum(eMazeGenStrategy enumStrategy)
     {
         switch (enumStrategy)
         {
             case eMazeGenStrategy.DFSiterative:
-                return new RandDfsIterMazeGenerator();
+                return new RandDfsIterMazeGenStrategy();
             case eMazeGenStrategy.Willson:
-                return new WilsonMazeGenerator();
+                return new WillsonMazeGenStrategy();
             case eMazeGenStrategy.Kruskal:
-                return new KruskalMazeGenerator();
+                return new KruskalMazeGenStrategy();
 
             default:
                 Debug.LogError($"Maze generation strategy enum value not recognized: {enumStrategy}");

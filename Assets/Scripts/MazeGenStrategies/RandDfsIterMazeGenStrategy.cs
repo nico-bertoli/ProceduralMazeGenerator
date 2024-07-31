@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Iterative implementation of randomizedDFS
 /// </summary>
-public class RandDfsIterMazeGenerator : AbsRandDfsMazeGenerator {
+public class RandDfsIterMazeGenStrategy : AbsRandDfsMazeGenStrategy {
 
     protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell)
     {
