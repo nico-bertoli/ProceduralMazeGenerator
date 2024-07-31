@@ -5,12 +5,11 @@ using UnityEngine;
 /// <summary>
 /// Iterative implementation of randomizedDFS
 /// </summary>
-public class RandDfsIterMazeGenStrategy : AbsRandDfsMazeGenStrategy {
+public class RandDfsIterMazeGenStrategy : AbsRandDfsMazeGenStrategy
+{
 
     protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell)
     {
-        float lastTimeFrameShown = Time.realtimeSinceStartup;
-
         InitVisitedCells(grid.RowsCount, grid.ColumnsCount);
         
         //mark current cell as visited and add it to the stack
@@ -32,15 +31,11 @@ public class RandDfsIterMazeGenStrategy : AbsRandDfsMazeGenStrategy {
                 stack.Push(neigh);
 
                 if (isLiveGenerationEnabled)
-                {
                     yield return new WaitForSeconds(liveGenerationDelay);
-                }
-                else if (Time.realtimeSinceStartup - lastTimeFrameShown > 0.1f)
-                {
-                    yield return null;
-                    lastTimeFrameShown = Time.realtimeSinceStartup;
-                }
-                  
+                
+                else if (MustRefreshScreen)
+                    yield return coroutiner.StartCoroutine(RefreshScreenCor());
+
             }
         }
     }

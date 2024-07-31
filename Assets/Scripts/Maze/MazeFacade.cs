@@ -81,7 +81,7 @@ public class MazeFacade : MonoBehaviour {
         
         DataCell startCell = dataGrid.GetCentralCell();
 
-        yield return Coroutiner.Instance.StartCoroutine(mazeGenStrategy.GenerateMaze(dataGrid, startCell, showLiveGeneration));
+        yield return Coroutiner.Instance.StartCoroutine(mazeGenStrategy.GenerateMaze(dataGrid, startCell, showLiveGeneration, Coroutiner.Instance));
 
         OnMazeDataStructureGenerated?.Invoke();
 

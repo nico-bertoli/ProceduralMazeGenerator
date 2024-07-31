@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -13,37 +14,53 @@ public abstract class AbsMazeGenStrategy
         Kruskal
     }
 
-    #region =========================================================================================== Protected Fields
+   
+
+    #region =========================================================================================== Fields
 
     protected float liveGenerationDelay;
     protected bool isLiveGenerationEnabled;
+    protected MonoBehaviour coroutiner;
 
-    #endregion Protected Fields
-    #region =========================================================================================== Private Properties
+    private float lastScreenRefreshTime;
 
-    private float liveGenerationMaxDelay => Settings.Instance.MazeGenerationSettings.LiveGenerationMaxDelay;
+    #endregion Fields
+    #region =========================================================================================== Properties
 
-    #endregion Private Properties
+    protected bool MustRefreshScreen =>
+       Time.realtimeSinceStartup - lastScreenRefreshTime > genSettings.MaxTimeWithoutRefreshingScreenDuringHiddenGen;
+
+    private MazeGenerationSettings genSettings => Settings.Instance.MazeGenerationSettings;
+   
+    #endregion Properties
     #region ============================================================================================= Public Methods
 
-    public IEnumerator GenerateMaze(DataGrid grid, DataCell startCell, bool isLiveGenerationEnabled)
+    public IEnumerator GenerateMaze(DataGrid grid, DataCell startCell, bool isLiveGenerationEnabled, MonoBehaviour coroutiner)
     {
         this.isLiveGenerationEnabled = isLiveGenerationEnabled;
+        this.coroutiner = coroutiner;
 
         //live generation always starts at min speed
-        liveGenerationDelay = liveGenerationMaxDelay;
+        liveGenerationDelay = genSettings.LiveGenerationMaxDelay;
 
-        yield return Coroutiner.Instance.StartCoroutine(GenerateMazeImplementation(grid, startCell));
+        lastScreenRefreshTime = Time.realtimeSinceStartup;
+        yield return coroutiner.StartCoroutine(GenerateMazeImplementation(grid, startCell));
     }
     
     public void SetLiveGenerationSpeed(float speed)
     {
         speed = Mathf.Clamp(speed, 0, 100);
-        liveGenerationDelay = liveGenerationMaxDelay / 100 * Mathf.Abs(speed - 100);
+        liveGenerationDelay = genSettings.LiveGenerationMaxDelay / 100 * Mathf.Abs(speed - 100);
     }
-    
+
     #endregion PublicMethods
     #region ========================================================================================== Protected Methods
+
+    protected IEnumerator RefreshScreenCor()
+    {
+        yield return null;
+        lastScreenRefreshTime = Time.realtimeSinceStartup;
+    }
 
     protected abstract IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell);
 

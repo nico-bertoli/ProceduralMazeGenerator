@@ -4,12 +4,14 @@ using UnityEngine;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
 
-public class KruskalMazeGenStrategy : AbsMazeGenStrategy {
+public class KruskalMazeGenStrategy : AbsMazeGenStrategy
+{
     
     /// <summary>
     /// Edge between two cells
     /// </summary>
-    private class Edge {
+    private class Edge
+    {
 
         public DataCell cell1;
         public DataCell cell2;
@@ -26,19 +28,16 @@ public class KruskalMazeGenStrategy : AbsMazeGenStrategy {
         //get all edges
         List<Edge> unvisitedEdges = GetEdges(grid);
 
-        float lastTimeFrameShown = Time.realtimeSinceStartup;
-
         //create a set for each cell containing the cell itself
         HashSet<DataCell>[,] sets = new HashSet<DataCell>[grid.RowsCount, grid.ColumnsCount];
         for (int m = 0; m < grid.RowsCount; m++)
         {
             for (int n = 0; n < grid.ColumnsCount; n++)
             {
-                sets[m, n] = new HashSet<DataCell>();
-                sets[m, n].Add(grid.GetCell(m, n));
+                sets[m, n] = new HashSet<DataCell> { grid.GetCell(m, n)};
 
-                if(Time.realtimeSinceStartup - lastTimeFrameShown > 0.1f)
-                    yield return null;
+               if (MustRefreshScreen)
+                    yield return coroutiner.StartCoroutine(RefreshScreenCor());
             }
         }
 
@@ -68,12 +67,8 @@ public class KruskalMazeGenStrategy : AbsMazeGenStrategy {
 
             if (isLiveGenerationEnabled)
                 yield return new WaitForSeconds(liveGenerationDelay);
-            else if (Time.realtimeSinceStartup - lastTimeFrameShown > 0.1f)
-            {
-                yield return null;
-                lastTimeFrameShown = Time.realtimeSinceStartup;
-            }
-               
+            else if (MustRefreshScreen)
+                yield return coroutiner.StartCoroutine(RefreshScreenCor());
         }
     }
 

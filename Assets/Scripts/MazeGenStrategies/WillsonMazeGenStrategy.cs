@@ -6,9 +6,11 @@ using static DataGrid;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/20/maze-generation-wilson-s-algorithm.html
 
-public class WillsonMazeGenStrategy : AbsMazeGenStrategy {
+public class WillsonMazeGenStrategy : AbsMazeGenStrategy
+{
     
-    private class Step {
+    private class Step
+    {
         public DataCell cell;
         public Direction direction;
 
@@ -19,15 +21,8 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy {
         }
     }
 
-    /// <summary>
-    /// Used to grant minimum framerate when generation is heavy
-    /// </summary>
-    float lastTimeFrameShown;
-
     protected override IEnumerator GenerateMazeImplementation(DataGrid dataGrid, DataCell startingCell)
     {
-        lastTimeFrameShown = Time.realtimeSinceStartup;
-
         HashSet<DataCell> finalTreeCells = new HashSet<DataCell>() {startingCell};
 
         //cells out of final tree
@@ -157,11 +152,8 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy {
                     grid.RemoveWall(previousStep.cell, newStep.cell);
                     yield return new WaitForSeconds(liveGenerationDelay);
                 }
-                else if (Time.realtimeSinceStartup - lastTimeFrameShown > 0.1f)
-                {
-                    yield return null;
-                    lastTimeFrameShown = Time.realtimeSinceStartup;
-                }
+                else if (MustRefreshScreen)
+                    yield return coroutiner.StartCoroutine(RefreshScreenCor());
             }
 
             //if random walk reached final tree, the random walk can be returned
