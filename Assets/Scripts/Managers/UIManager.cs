@@ -43,6 +43,8 @@ public class UIManager : Singleton<UIManager>
     {
         gamePanel.SetActive(false);
         settingsPanel.SetActive(true);
+        btnStartEscape.gameObject.SetActive(false);
+        genSpeedSlider.gameObject.SetActive(false);
     }
 
     #endregion Public Methods
@@ -57,6 +59,8 @@ public class UIManager : Singleton<UIManager>
         loadingPanel.SetActive(false);
         liveGenToggle.isOn = false;
         isLiveGenerationActive = false;
+
+        ShowSettingsPanel();
     }
     
     private void Update()
@@ -134,7 +138,6 @@ public class UIManager : Singleton<UIManager>
     [UsedImplicitly]
     public void Signal_StartEscapePhase()
     {
-        genSpeedSlider.gameObject.SetActive(false);
         btnStartEscape.SetActive(false);
         SceneManager.Instance.PlayMaze();
     }
@@ -156,15 +159,13 @@ public class UIManager : Singleton<UIManager>
     [UsedImplicitly]
     public void Signal_StartGeneration()
     {
-        btnStartEscape.SetActive(false);
+        //btnStartEscape.SetActive(false);
 
         if (isLiveGenerationActive)
         {
             genSpeedSlider.gameObject.SetActive(true);
             genSpeedSlider.value = mazeGenSettings.LiveGenerationStartingSpeedSliderValue;
         }
-        else
-            genSpeedSlider.gameObject.SetActive(false);
 
         ShowGenerationPanel();
         SceneManager.Instance.ShowMazeGeneration(nRows, nColumns, isLiveGenerationActive, mazeGenStrategy);
