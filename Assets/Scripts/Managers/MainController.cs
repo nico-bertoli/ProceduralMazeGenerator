@@ -25,9 +25,7 @@ public class MainController:Singleton<MainController>
     
     public void GenerateMaze(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {
         
-        topDownCamera.CenterPosition(Vector3.zero, nRows, nColumns);
-        topDownCamera.AdjustCameraSize(nRows, nColumns);
-
+        topDownCamera.LookAtRectangularObject(Vector3.zero, nRows, nColumns);
         Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm);
     }
 
