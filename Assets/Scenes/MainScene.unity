@@ -1056,7 +1056,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1607155379}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: Signal_QuitGame
         m_Mode: 1
@@ -3585,7 +3585,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1607155379}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: Signal_Reset
         m_Mode: 1
@@ -4989,7 +4989,7 @@ GameObject:
   - component: {fileID: 1607155378}
   - component: {fileID: 1607155379}
   m_Layer: 0
-  m_Name: MainController
+  m_Name: SceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5019,7 +5019,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1607155377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2c95937c23f28a4195b605ef569cbf4, type: 3}
+  m_Script: {fileID: 11500000, guid: 254b9d2c3a043a64288a456badeddc01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Maze: {fileID: 1674199080}

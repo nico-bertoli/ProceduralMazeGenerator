@@ -53,7 +53,7 @@ public class UIManager : Singleton<UIManager>
         backButton.SetActive(true);
     }
 
-    public void PlayMaze() =>MainController.Instance.PlayMaze();
+    public void PlayMaze() =>SceneManager.Instance.PlayMaze();
 
     #endregion Public Methods
     #region ============================================================================================ Monobehaviour
@@ -148,7 +148,7 @@ public class UIManager : Singleton<UIManager>
 
     private void SendLiveGeneSpeedToGameController() {
         if (isLiveGenerationActive)
-            MainController.Instance.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
+            SceneManager.Instance.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
     }
 
     #endregion Private Methods
@@ -175,7 +175,7 @@ public class UIManager : Singleton<UIManager>
         }
 
         ShowGenerationPanel();
-        MainController.Instance.GenerateMaze(nRows, nColumns, isLiveGenerationActive, algorithm);
+        SceneManager.Instance.GenerateMaze(nRows, nColumns, isLiveGenerationActive, algorithm);
     }
     
     #endregion Signals

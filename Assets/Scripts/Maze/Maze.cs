@@ -71,7 +71,7 @@ public class Maze : MonoBehaviour {
     
     private void Start()
     {
-        MainController.Instance.OnPlayModeActivated += OnGameModeActivated;
+        SceneManager.Instance.OnPlayModeActivated += OnGameModeActivated;
     }
     
     private IEnumerator GenerateCor(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm)

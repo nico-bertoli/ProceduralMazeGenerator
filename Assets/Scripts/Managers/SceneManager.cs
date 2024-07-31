@@ -2,7 +2,7 @@ using System;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class MainController:Singleton<MainController>
+public class SceneManager:Singleton<SceneManager>
 {
     public event Action OnPlayModeActivated;
 
