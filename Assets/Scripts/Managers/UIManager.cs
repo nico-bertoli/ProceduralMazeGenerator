@@ -1,11 +1,10 @@
 using JetBrains.Annotations;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static AbsMazeGenerator;
 
-public class UIManager : Singleton<UIManager>
+public class UIManager : MonoBehaviour
 {
     private MazeGenerationSettings mazeGenSettings => Settings.Instance.MazeGenerationSettings;
     
@@ -91,7 +90,7 @@ public class UIManager : Singleton<UIManager>
 
     private void RefreshGridPossibleSize()
     {
-        int mazeMaxSideCells = GetCurrentMaxSideCells();
+        int mazeMaxSideCells = GetCurrentAlgorithmMaxSideCells();
 
         float nColumnsRow = columnsSlider.value * (mazeMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells;
         float nRowsRow = rowsSlider.value * (mazeMaxSideCells - mazeGenSettings.MinSideCells) + mazeGenSettings.MinSideCells;
@@ -103,7 +102,7 @@ public class UIManager : Singleton<UIManager>
         heightText.text = "Rows: " + nRows;
     }
 
-    private int GetCurrentMaxSideCells()
+    private int GetCurrentAlgorithmMaxSideCells()
     {
         if (isLiveGenerationActive == false)
         {
@@ -178,6 +177,13 @@ public class UIManager : Singleton<UIManager>
         Debug.Log("Quitting application");
 #endif
         Application.Quit();
+    }
+
+    [UsedImplicitly]
+    public void Signal_GoBackToGenerationSettings()
+    {
+        ShowSettingsPanel();
+        SceneManager.Instance.ResetScene();
     }
 
     #endregion Signals

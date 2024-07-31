@@ -5,6 +5,7 @@ using UnityEngine;
 public class SceneManager:Singleton<SceneManager>
 {
     public event Action OnEscapeMazePhaseStarted;
+
     private enum GamePhase
     {
         MazeGeneration,
@@ -32,6 +33,12 @@ public class SceneManager:Singleton<SceneManager>
         Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm);
     }
 
+    public void ResetScene()
+    {
+        Maze.Reset();
+        EnableObjects(GamePhase.MazeGeneration);
+    }
+
     public void PlayMaze()
     {
         EnableObjects(GamePhase.EscapeMaze);
@@ -56,7 +63,7 @@ public class SceneManager:Singleton<SceneManager>
     {
         escapePhaseObjectsContainer.SetActive(false);
         mazeGenerationCamera.gameObject.SetActive(true);
-        exitObj.GetComponent<TriggerDetector>().OnTriggerEnterCalled += Signal_Reset;
+        exitObj.GetComponent<TriggerDetector>().OnTriggerEnterCalled += ResetScene;
     }
 
     private void EnableObjects(GamePhase gamePhase)
@@ -66,15 +73,4 @@ public class SceneManager:Singleton<SceneManager>
     }
     
     #endregion Private Methods
-    #region ============================================================================================ Private Methods
-    
-    [UsedImplicitly]
-    public void Signal_Reset() 
-    {
-        Maze.Reset();
-        EnableObjects(GamePhase.MazeGeneration);
-        UIManager.Instance.ShowSettingsPanel();
-    }
-    
-    #endregion Signals
 }
