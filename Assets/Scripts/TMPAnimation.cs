@@ -12,7 +12,7 @@ public class TMPAnimation : MonoBehaviour
     
     [SerializeField] private float animationFramesDelay = 0.3f;
 
-    TextMeshProUGUI tf;
+    private TextMeshProUGUI tf;
 
     #endregion Private Fields
     #region ============================================================================================= Methods
@@ -35,8 +35,5 @@ public class TMPAnimation : MonoBehaviour
         }
     }
     
-    #endregion Methods
-
-    
-    
+    #endregion Methods 
 }
