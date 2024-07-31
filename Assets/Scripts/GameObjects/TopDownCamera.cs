@@ -12,7 +12,7 @@ public class TopDownCamera : MonoBehaviour {
     #region ============================================================================================= Public Methods
     
     public void LookAtRectangularObject(Vector3 topLeftPosition, int height, int width) {
-        transform.position = new Vector3(topLeftPosition.x + width / 2f - 0.5f, transform.position.y, topLeftPosition.z - height / 2f + 0.5f);
+        transform.position = new Vector3(topLeftPosition.x + width / 2f, transform.position.y, topLeftPosition.z - height / 2f);
         AdjustCameraSize(height, width);
     }
 

@@ -24,9 +24,11 @@ public class MainController:Singleton<MainController>
     #region ============================================================================================= Public Methods
     
     public void GenerateMaze(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm) {
-        
-        topDownCamera.LookAtRectangularObject(Vector3.zero, nRows, nColumns);
+
+        Vector3 mazeTopLeftPosition = new Vector3(-0.5f, 0f, 0.5f);
+        topDownCamera.LookAtRectangularObject(mazeTopLeftPosition, nRows, nColumns);
         Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm);
+
     }
 
     public void SetLiveGenerationSpeed(float speed) => Maze.SetLiveGenerationSpeed(speed);
