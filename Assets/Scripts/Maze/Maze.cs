@@ -89,7 +89,7 @@ public class Maze : MonoBehaviour {
         if (IsLiveGenerationActive)
             liveGenGrid.Init(dataGrid);
 
-        InstantiateMazeGenerator(algorithm);
+        mazeGenerator = CreateMazeGenerator(algorithm);
         OnGenerationStarted?.Invoke();
         
         DataCell startCell = dataGrid.GetCentralCell();
@@ -114,26 +114,28 @@ public class Maze : MonoBehaviour {
             OnLiveGenerationMeshGenerated?.Invoke();
     }
 
-    private void InstantiateMazeGenerator(eAlgorithms algorithm)
+    private AbsMazeGenerator CreateMazeGenerator(eAlgorithms algorithm)
     {
+        AbsMazeGenerator res;
         switch (algorithm)
         {
             case eAlgorithms.DFSiterative:
-                mazeGenerator = new GameObject().AddComponent<RandDfsIterMazeGenerator>();
-                mazeGenerator.gameObject.name = "DFSIter Maze Generator";
+                res = new GameObject().AddComponent<RandDfsIterMazeGenerator>();
+                res.gameObject.name = "DFSIter Maze Generator";
                 break;
             case eAlgorithms.Willson:
-                mazeGenerator = new GameObject().AddComponent<WilsonMazeGenerator>();
-                mazeGenerator.gameObject.name = "Wilson Maze Generator";
+                res = new GameObject().AddComponent<WilsonMazeGenerator>();
+                res.gameObject.name = "Wilson Maze Generator";
                 break;
             case eAlgorithms.Kruskal:
-                mazeGenerator = new GameObject().AddComponent<KruskalMazeGenerator>();
-                mazeGenerator.gameObject.name = "Kruskal Maze Generator";
+                res = new GameObject().AddComponent<KruskalMazeGenerator>();
+                res.gameObject.name = "Kruskal Maze Generator";
                 break;
             default:
-                Debug.LogError($"{algorithm} not recognized! {nameof(InstantiateMazeGenerator)} failed");
-                break;
+                Debug.LogError($"{algorithm} not recognized! {nameof(CreateMazeGenerator)} failed");
+                return null;
         }
+        return res;
     }
 
     #endregion Private Methods
