@@ -25,17 +25,15 @@ public class DataGrid {
         return new Vector3(ColumnsCount-1, 0, -RowsCount+1);
     }
     
-    public DataGrid (int rowsCount,int columnsCount) {
-
+    public DataGrid (int rowsCount,int columnsCount)
+    {
         RowsCount = rowsCount;
         ColumnsCount = columnsCount;
         cells = new DataCell[RowsCount,ColumnsCount];
 
-        for (int m = 0; m < rowsCount; m++) {
-            for (int n = 0; n < columnsCount; n++) {
+        for (int m = 0; m < rowsCount; m++)
+            for (int n = 0; n < columnsCount; n++)
                 cells[m, n] = new DataCell(this, m, n);
-            }
-        }
     }
 
     public DataCell GetCentralCell()
@@ -113,8 +111,8 @@ public class DataGrid {
     }
 
 
-    public List<DataCell> GetNeighbours(DataCell cell){
-
+    public List<DataCell> GetNeighbours(DataCell cell)
+    {
         List<DataCell> possibleNeighbours = new List<DataCell>();
         List<Direction> directions = GetNeighboursDirections(cell);
         foreach (Direction dir in directions)
@@ -123,7 +121,8 @@ public class DataGrid {
         return possibleNeighbours;
     }
     
-    public DataCell GetNeighbourAtDirection(DataCell cell, Direction direction){
+    public DataCell GetNeighbourAtDirection(DataCell cell, Direction direction)
+    {
         switch (direction)
         {
             case Direction.Up:
@@ -151,7 +150,8 @@ public class DataGrid {
         }
     }
 
-    public List<Direction> GetNeighboursDirections(DataCell cell) {
+    public List<Direction> GetNeighboursDirections(DataCell cell)
+    {
         List<Direction> ris = GetAllDirections();
 
         if (cell.PosN == 0) ris.Remove(Direction.Left);
@@ -169,8 +169,10 @@ public class DataGrid {
     /// <param name="_dir">Direction you want to get the inverse</param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public static Direction GetInverseDirection(Direction direction) {
-        switch (direction) {
+    public static Direction GetInverseDirection(Direction direction)
+    {
+        switch (direction)
+        {
             case Direction.Up:return Direction.Down;
             case Direction.Down: return Direction.Up;
             case Direction.Left: return Direction.Right;
@@ -183,7 +185,8 @@ public class DataGrid {
     /// Returns a list containing all the possible directions
     /// </summary>
     /// <returns></returns>
-    public static List<Direction> GetAllDirections() {
+    public static List<Direction> GetAllDirections()
+    {
         List<Direction> allDir = new List<Direction>();
         int directionsCount = Enum.GetValues(typeof(Direction)).Length;
         

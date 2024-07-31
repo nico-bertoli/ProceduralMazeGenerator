@@ -14,12 +14,13 @@ public class MeshesCombiner : MonoBehaviour
     /// </summary>
     /// <param name="objToCombineMeshes">Object whose child you want to combine the meshes</param>
     /// <returns></returns>
-    public GameObject CombineMeshes(GameObject objToCombineMeshes) {
-
+    public GameObject CombineMeshes(GameObject objToCombineMeshes)
+    {
         MeshFilter[] meshFilters = objToCombineMeshes.GetComponentsInChildren<MeshFilter>();
         CombineInstance[] allCombiners = new CombineInstance[meshFilters.Length];
 
-        for (int i = 0; i < meshFilters.Length; i++) {
+        for (int i = 0; i < meshFilters.Length; i++)
+        {
             allCombiners[i].subMeshIndex = 0;
             allCombiners[i].mesh = meshFilters[i].sharedMesh;
             allCombiners[i].transform = meshFilters[i].transform.localToWorldMatrix;
@@ -43,14 +44,16 @@ public class MeshesCombiner : MonoBehaviour
     /// </summary>
     /// <param name="_obj"></param>
     /// <returns></returns>
-    //public GameObject CombineMeshesNoSizeLimit(GameObject _obj) {
+    //public GameObject CombineMeshesNoSizeLimit(GameObject _obj)
+    //{
 
     //    MeshFilter[] meshFilters = _obj.GetComponentsInChildren<MeshFilter>();
 
     //    List<CombineInstance[]> combinersChunks = new List<CombineInstance[]>();
     //    CombineInstance[] allCombiners = new CombineInstance[meshFilters.Length];
 
-    //    for (int i = 0; i < meshFilters.Length; i++) {
+    //    for (int i = 0; i < meshFilters.Length; i++)
+    //    {
     //        allCombiners[i].subMeshIndex = 0;
     //        allCombiners[i].mesh = meshFilters[i].sharedMesh;
     //        allCombiners[i].transform = meshFilters[i].transform.localToWorldMatrix;
@@ -59,7 +62,8 @@ public class MeshesCombiner : MonoBehaviour
     //    int lastiBack = 0;
 
 
-    //    for (int iBack = 0, iForw = chunkSize; iForw < allCombiners.Length; iBack += chunkSize, iForw += chunkSize) {
+    //    for (int iBack = 0, iForw = chunkSize; iForw < allCombiners.Length; iBack += chunkSize, iForw += chunkSize)
+    //    {
     //        CombineInstance[] combinersChunk = new CombineInstance[chunkSize];
     //        Array.Copy(allCombiners, iBack, combinersChunk, 0, chunkSize);
     //        combinersChunks.Add(combinersChunk);
@@ -69,14 +73,16 @@ public class MeshesCombiner : MonoBehaviour
     //    // copy of the last elements that didn't fit in a chunk
     //    if (lastiBack != 0) lastiBack += chunkSize;
     //    List<CombineInstance> lastCombChunk = new List<CombineInstance>();
-    //    for (int i = lastiBack; i < allCombiners.Length; i++) {
+    //    for (int i = lastiBack; i < allCombiners.Length; i++)
+    //    {
     //        lastCombChunk.Add(allCombiners[i]);
     //    }
     //    combinersChunks.Add(lastCombChunk.ToArray());
 
     //    GameObject chunksContainer = new GameObject();
     //    chunksContainer.transform.position = _obj.transform.position;
-    //    foreach (CombineInstance[] chunk in combinersChunks) {
+    //    foreach (CombineInstance[] chunk in combinersChunks)
+    //    {
     //        Mesh finalMesh = new Mesh();
     //        finalMesh.CombineMeshes(chunk);
     //        GameObject obj = Instantiate(meshChunkPrefab, transform.position, Quaternion.identity);

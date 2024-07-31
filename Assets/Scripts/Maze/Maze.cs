@@ -47,12 +47,14 @@ public class Maze : MonoBehaviour {
         StartCoroutine(GenerateCor(nRows,nColumns,showLiveGeneration,algorithm));
     }
     
-    public void SetLiveGenerationSpeed(float speed) {
+    public void SetLiveGenerationSpeed(float speed)
+    {
         if (mazeGenerator)
             mazeGenerator.SetLiveGenerationSpeed(speed);
     }
 
-    public void Reset() {
+    public void Reset()
+    {
         if (mazeGenerator != null)
             Destroy(mazeGenerator.gameObject);
         
@@ -106,16 +108,16 @@ public class Maze : MonoBehaviour {
     }
     
     private void ShowGrid() {
-        if (IsLiveGenerationActive == false) {
-            //voxelGenerator.OnMeshGenerated += OnMazeMeshGenerated;
+        if (IsLiveGenerationActive == false)
             voxelGenerator.CreateGrid(dataGrid);
-        }
         else
             OnLiveGenerationMeshGenerated?.Invoke();
     }
 
-    private void InstantiateMazeGenerator(eAlgorithms algorithm) {
-        switch (algorithm) {
+    private void InstantiateMazeGenerator(eAlgorithms algorithm)
+    {
+        switch (algorithm)
+        {
             case eAlgorithms.DFSiterative:
                 mazeGenerator = new GameObject().AddComponent<RandDfsIterMazeGenerator>();
                 mazeGenerator.gameObject.name = "DFSIter Maze Generator";

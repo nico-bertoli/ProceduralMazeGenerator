@@ -34,7 +34,8 @@ public class UIManager : Singleton<UIManager>
     #endregion Private Fields
     #region ============================================================================================= Public Methods
     
-    public void ShowSettingsPanel() {
+    public void ShowSettingsPanel()
+    {
         gamePanel.SetActive(false);
         settingsPanel.SetActive(true);
     }
@@ -63,7 +64,8 @@ public class UIManager : Singleton<UIManager>
 
     #region ============================================================================================ Private Methods
 
-    private void ShowGenerationPanel() {
+    private void ShowGenerationPanel()
+    {
         
         if (isLiveGenerationActive)
             loadingText.text = "Loading maze";
@@ -126,7 +128,8 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    private void SendLiveGeneSpeedToGameController() {
+    private void SendLiveGeneSpeedToGameController()
+    {
         if (isLiveGenerationActive)
             maze.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
     }
@@ -143,13 +146,15 @@ public class UIManager : Singleton<UIManager>
     }
 
     [UsedImplicitly]
-    public void Signal_ToggleLiveGeneration() {
+    public void Signal_ToggleLiveGeneration()
+    {
         isLiveGenerationActive = !isLiveGenerationActive;
         RefreshGridPossibleSize();
     }
 
     [UsedImplicitly]
-    public void Signal_RefreshAlgorithm() {
+    public void Signal_RefreshAlgorithm()
+    {
         algorithm = (eAlgorithms)algorithmDropdown.value;
         RefreshGridPossibleSize();
     }
@@ -159,7 +164,8 @@ public class UIManager : Singleton<UIManager>
     {
         btnStartEscape.SetActive(false);
 
-        if (isLiveGenerationActive) {
+        if (isLiveGenerationActive)
+        {
             genSpeedSlider.gameObject.SetActive(true);
             genSpeedSlider.value = mazeGenSettings.LiveGenerationStartingSpeedSliderValue;
         }

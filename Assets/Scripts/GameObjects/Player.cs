@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay(Collision collision) => currentWallCollision = collision;
     private void OnCollisionExit(Collision other) => currentWallCollision = null;
-
     private void OnEnable() => rotationCor = null;
 
     private void Update()

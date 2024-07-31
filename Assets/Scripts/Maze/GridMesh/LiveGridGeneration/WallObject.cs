@@ -18,8 +18,8 @@ public class WallObject : MonoBehaviour
 
     public void SetPosition(float x, float z) => transform.position = new Vector3(x, 0, z);
 
-    public void SetMeshActive(bool _active) {
-        
+    public void SetMeshActive(bool _active)
+    {
         if (meshRenderer == null)
             meshRenderer = GetComponent<MeshRenderer>();
         

@@ -10,7 +10,8 @@ public class MarginWallsGenerator : MonoBehaviour
     private WallObject leftMargin;
     private WallObject bottomMargin;
 
-    public void InitMargins(DataGrid dataGrid, float wallsWidth) {
+    public void InitMargins(DataGrid dataGrid, float wallsWidth)
+    {
         
         leftMargin = Instantiate(marginWallPrefab).GetComponent<WallObject>();
         bottomMargin = Instantiate(marginWallPrefab).GetOrAddComponent<WallObject>();

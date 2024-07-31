@@ -11,7 +11,8 @@ public class CellObject : MonoBehaviour
     
     #endregion Private Fields
     #region ============================================================================================= Public Methods
-    public void Init(DataCell _cell) {
+    public void Init(DataCell _cell)
+    {
         dataCell = _cell;
         transform.position = new Vector3(dataCell.PosN, 0, -dataCell.PosM);
         walls = new WallObject[] { topWall, rightWall };
@@ -21,18 +22,19 @@ public class CellObject : MonoBehaviour
         dataCell.OnWallBuiltOrDestroyed += RefreshWallsActive;
     }
 
-    public void SetWallMeshesActive(bool active) {
+    public void SetWallMeshesActive(bool active)
+    {
         foreach (WallObject wall in walls)
             wall.SetMeshActive(active);
     }
 
-    public void SetWallsWidth(float width) {
+    public void SetWallsWidth(float width)
+    {
         foreach (WallObject wall in walls)
         {
             wall.SetWidth(width);
             wall.SetLength(1f + width);
-        }
-            
+        }   
     }
     
     #endregion Public Methods

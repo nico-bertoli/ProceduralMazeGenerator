@@ -60,7 +60,8 @@ public class DataCell
     
     public override string ToString() => "[" + PosM.ToString() + "," + PosN + "]";
     public override int GetHashCode() => PosM * grid.ColumnsCount + PosN;
-    public override bool Equals(object obj) {
+    public override bool Equals(object obj)
+    {
         DataCell otherCell = obj as DataCell;
         
         if (otherCell == null || otherCell.PosN != PosN || otherCell.PosM != PosM)

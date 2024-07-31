@@ -22,17 +22,21 @@ public class LiveGenerationGrid : MonoBehaviour
     #endregion Private Fields
     #region ============================================================================================= Public Methods
     
-    public void Init(DataGrid grid) {
+    public void Init(DataGrid grid)
+    {
         dataGrid = grid;
         cellObjs = new CellObject[grid.RowsCount, grid.ColumnsCount];
 
-        for (int m = 0; m < grid.RowsCount; m++) {
-            for (int n = 0; n < grid.ColumnsCount; n++) {
+        for (int m = 0; m < grid.RowsCount; m++)
+        {
+            for (int n = 0; n < grid.ColumnsCount; n++)
+            {
                 CellObject cellObject = Instantiate(cellObjectPrefab, transform).GetComponent<CellObject>();
                 cellObjs[m, n] = cellObject;
                 cellObjs[m, n].Init(dataGrid.GetCell(m, n));
             }
         }
+
         SetWallsWidth(liveGenWallsWidth);
         marginWallsGenerator.InitMargins(dataGrid,liveGenWallsWidth);
         
@@ -55,24 +59,24 @@ public class LiveGenerationGrid : MonoBehaviour
     #endregion Public Methods
     #region ============================================================================================ Private Methods
 
-    private void SetWallsWidth(float width) {
-
-        for (int m = 0; m < dataGrid.RowsCount; m++) {
-            for (int n = 0; n < dataGrid.ColumnsCount; n++) {
+    private void SetWallsWidth(float width)
+    {
+        for (int m = 0; m < dataGrid.RowsCount; m++)
+            for (int n = 0; n < dataGrid.ColumnsCount; n++)
                 cellObjs[m, n].SetWallsWidth(width);
-            }
-        }
 
         marginWallsGenerator.SetWallsWidth(dataGrid, width);
     }
     
-    private void SetCellsActive(bool setActive) {
+    private void SetCellsActive(bool setActive)
+    {
         for (int m = 0; m < dataGrid.RowsCount; m++) 
             for (int n = 0; n < dataGrid.ColumnsCount; n++) 
                 cellObjs[m, n].gameObject.SetActive(setActive);
     }
     
-    private void SetWallsMeshesActive(bool setActive) {
+    private void SetWallsMeshesActive(bool setActive)
+    {
         for (int m = 0; m < dataGrid.RowsCount; m++)
             for (int n = 0; n < dataGrid.ColumnsCount; n++) 
                 cellObjs[m, n].SetWallMeshesActive(setActive);

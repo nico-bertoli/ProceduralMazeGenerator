@@ -14,14 +14,15 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
         public DataCell cell1;
         public DataCell cell2;
 
-        public Edge(DataCell cell1, DataCell cell2) {
+        public Edge(DataCell cell1, DataCell cell2)
+        {
             this.cell1 = cell1;
             this.cell2 = cell2;
         }
     }
     
-    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
-
+    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell)
+    {
         //get all edges
         List<Edge> unvisitedEdges = GetEdges(grid);
 
@@ -29,8 +30,10 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
 
         //create a set for each cell containing the cell itself
         HashSet<DataCell>[,] sets = new HashSet<DataCell>[grid.RowsCount, grid.ColumnsCount];
-        for (int m = 0; m < grid.RowsCount; m++) {
-            for (int n = 0; n < grid.ColumnsCount; n++) {
+        for (int m = 0; m < grid.RowsCount; m++)
+        {
+            for (int n = 0; n < grid.ColumnsCount; n++)
+            {
                 sets[m, n] = new HashSet<DataCell>();
                 sets[m, n].Add(grid.GetCell(m, n));
 
@@ -40,8 +43,8 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
         }
 
         //while there are unvisited cells
-        while (unvisitedEdges.Count > 0) {
-
+        while (unvisitedEdges.Count > 0)
+        {
             //get a random edge
             int randomIndex = Random.Range(0, unvisitedEdges.Count);
             Edge randomEdge = unvisitedEdges[randomIndex];
@@ -52,8 +55,8 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
             HashSet<DataCell> set2 = sets[randomEdge.cell2.PosM, randomEdge.cell2.PosN];
 
             // if the sets are different
-            if (!set2.Contains(randomEdge.cell1)) {
-
+            if (!set2.Contains(randomEdge.cell1))
+            {
                 //put cells in same set
                 set1.UnionWith(set2);
                 foreach (DataCell cell in set1)
@@ -61,8 +64,6 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
 
                 //remove wall between cells
                 grid.RemoveWall(randomEdge.cell1, randomEdge.cell2);
-
-               
             }
 
             if (isLiveGenerationEnabled)
@@ -81,12 +82,14 @@ public class KruskalMazeGenerator : AbsMazeGenerator {
     /// </summary>
     /// <param name="grid"></param>
     /// <returns></returns>
-    private List<Edge> GetEdges(DataGrid grid) {
-
+    private List<Edge> GetEdges(DataGrid grid)
+    {
         List<Edge> ris = new List<Edge>();
 
-        for (int m = 0; m < grid.RowsCount; m++){
-            for (int n = 0; n < grid.ColumnsCount; n++) {
+        for (int m = 0; m < grid.RowsCount; m++)
+        {
+            for (int n = 0; n < grid.ColumnsCount; n++)
+            {
                 if(n+1 < grid.ColumnsCount)
                     ris.Add(new Edge(grid.GetCell(m, n), grid.GetCell(m, n + 1)));
                 if(m+1 < grid.RowsCount)

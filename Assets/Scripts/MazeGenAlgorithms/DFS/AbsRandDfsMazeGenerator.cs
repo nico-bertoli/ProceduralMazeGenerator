@@ -15,10 +15,12 @@ public abstract class AbsRandDfsMazeGenerator : AbsMazeGenerator {
     
     #region ========================================================================================== Methods
     
-    protected List<DataCell> GetUnvisitedNeighbours(DataGrid grid, DataCell cell) {
+    protected List<DataCell> GetUnvisitedNeighbours(DataGrid grid, DataCell cell)
+    {
         List<DataCell> unvisitedNeighbours = grid.GetNeighbours(cell);
 
-        for(int i = unvisitedNeighbours.Count-1; i >= 0; i--) {
+        for(int i = unvisitedNeighbours.Count-1; i >= 0; i--)
+        {
             if (visitedCells[unvisitedNeighbours[i].PosM, unvisitedNeighbours[i].PosN])
                 unvisitedNeighbours.RemoveAt(i);
         }

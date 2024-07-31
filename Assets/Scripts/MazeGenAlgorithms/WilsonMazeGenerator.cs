@@ -12,7 +12,8 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
         public DataCell cell;
         public Direction direction;
 
-        public Step(DataCell _cell, Direction _direction) {
+        public Step(DataCell _cell, Direction _direction)
+        {
             cell = _cell;
             direction = _direction;
         }
@@ -31,20 +32,19 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
         //cells out of final tree
         HashSet<DataCell> notInFinalTreeCells = new HashSet<DataCell>();
-        for (int m = 0; m < dataGrid.RowsCount; m++) {
-            for (int n = 0; n < dataGrid.ColumnsCount; n++) {
+        for (int m = 0; m < dataGrid.RowsCount; m++)
+            for (int n = 0; n < dataGrid.ColumnsCount; n++)
                 if(dataGrid.GetCell(m,n).Equals(startingCell) == false)
                     notInFinalTreeCells.Add(dataGrid.GetCell(m, n));
-            }
-        }
+
 
         List<Step> firstRandomWalk = new List<Step>();
         yield return StartCoroutine(GetFirstRandomWalkCor(dataGrid, startingCell, firstRandomWalk));
         MergeRandomWalkInFinalTree(dataGrid, finalTreeCells, notInFinalTreeCells, firstRandomWalk);
 
         //while there are not connected cells...
-        while (notInFinalTreeCells.Count > 0) {
-
+        while (notInFinalTreeCells.Count > 0)
+        {
             //fin a random walk
             List<Step> randomWalk = new List<Step>();
 
@@ -115,7 +115,8 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
         outRandomWalk.Add(new Step(randomStartingCell, randomDirection));
 
-        while (true) {
+        while (true)
+        {
             Step previousStep = outRandomWalk[outRandomWalk.Count - 1];
             DataCell newCell = grid.GetNeighbourAtDirection(previousStep.cell, previousStep.direction);
 
@@ -126,10 +127,13 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
             bool foundLoop = false;
 
             // if the new step creates a loop in path, the loop is cut
-            for (int i = 0; i < outRandomWalk.Count; i++) {
-                if (outRandomWalk[i].cell == newCell) {
+            for (int i = 0; i < outRandomWalk.Count; i++)
+            {
+                if (outRandomWalk[i].cell == newCell)
+                {
                     foundLoop = true;
-                    for (int j = outRandomWalk.Count - 1; j > i; j--) {
+                    for (int j = outRandomWalk.Count - 1; j > i; j--)
+                    {
 
                         if (isLiveGenerationEnabled)
                             grid.BuildWall(outRandomWalk[j].cell, outRandomWalk[j - 1].cell);
@@ -142,12 +146,14 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
             }
 
             //otherwise, the new step is added to randomwalk
-            if (!foundLoop) {
+            if (!foundLoop)
+            {
                 Debug.Assert(newDirection != null,"newDirection was null generating random walk, this shouldn't happen!");
                 Step newStep = new Step(newCell, (Direction)newDirection);
                 outRandomWalk.Add(newStep);
 
-                if (isLiveGenerationEnabled) {
+                if (isLiveGenerationEnabled)
+                {
                     grid.RemoveWall(previousStep.cell, newStep.cell);
                     yield return new WaitForSeconds(liveGenerationDelay);
                 }

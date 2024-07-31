@@ -7,7 +7,8 @@ using UnityEngine;
 /// </summary>
 public class RandDfsRecMazeGenerator : AbsRandDfsMazeGenerator {
 
-    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell) {
+    protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell)
+    {
 
         InitVisitedCells(grid.RowsCount, grid.ColumnsCount);
         
@@ -20,8 +21,8 @@ public class RandDfsRecMazeGenerator : AbsRandDfsMazeGenerator {
         List<DataCell> unvisitedNeighbours = GetUnvisitedNeighbours(grid, startCell);
 
         //while there are unvisited neighbours
-        while (unvisitedNeighbours.Count > 0) {
-
+        while (unvisitedNeighbours.Count > 0)
+        {
             DataCell randUnvisitedNeigh = unvisitedNeighbours[Random.Range(0, unvisitedNeighbours.Count)];
             grid.RemoveWall(startCell, randUnvisitedNeigh);
 

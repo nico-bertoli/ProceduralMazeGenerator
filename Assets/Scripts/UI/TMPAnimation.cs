@@ -21,7 +21,8 @@ public class TMPAnimation : MonoBehaviour
 
     private void OnEnable() => StartCoroutine(AnimationCor());
 
-    private IEnumerator AnimationCor() {
+    private IEnumerator AnimationCor()
+    {
         int i = 0;
         while (true)
         {
