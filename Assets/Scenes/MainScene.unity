@@ -506,7 +506,7 @@ GameObject:
   m_Component:
   - component: {fileID: 125070819}
   m_Layer: 0
-  m_Name: MazeGenObjects
+  m_Name: GenerationPhaseObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1056,8 +1056,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+      - m_Target: {fileID: 982381020}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: Signal_QuitGame
         m_Mode: 1
         m_Arguments:
@@ -3325,7 +3325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1299070576}
   m_Layer: 0
-  m_Name: GameModeObjects
+  m_Name: EscapePhaseObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3585,8 +3585,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+      - m_Target: {fileID: 1607155379}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
         m_MethodName: Signal_Reset
         m_Mode: 1
         m_Arguments:
@@ -5026,8 +5026,8 @@ MonoBehaviour:
   playerObj: {fileID: 56123305}
   exitObj: {fileID: 1239864889}
   mazeGenerationCamera: {fileID: 963194229}
-  gameObjectsContainer: {fileID: 1299070575}
-  mazeGenerationObjectsContainer: {fileID: 125070818}
+  escapePhaseObjectsContainer: {fileID: 1299070575}
+  generationPhaseObjectsContainer: {fileID: 125070818}
 --- !u!1 &1674199079
 GameObject:
   m_ObjectHideFlags: 0

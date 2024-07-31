@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -148,7 +149,7 @@ public class UIManager : Singleton<UIManager>
 
     private void SendLiveGeneSpeedToGameController() {
         if (isLiveGenerationActive)
-            SceneManager.Instance.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
+            maze.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
     }
 
     #endregion Private Methods
@@ -165,18 +166,28 @@ public class UIManager : Singleton<UIManager>
     }
     
     public void Signal_StartGeneration() {
+
         playGameButton.SetActive(false);
+
         if (isLiveGenerationActive) {
             genSpeedSlider.gameObject.SetActive(true);
             genSpeedSlider.value = mazeGenSettings.LiveGenerationStartingSpeedSliderValue;
         }
-        else {
+        else
             genSpeedSlider.gameObject.SetActive(false);
-        }
 
         ShowGenerationPanel();
-        SceneManager.Instance.GenerateMaze(nRows, nColumns, isLiveGenerationActive, algorithm);
+        SceneManager.Instance.ShowMazeGeneration(nRows, nColumns, isLiveGenerationActive, algorithm);
     }
-    
+
+    [UsedImplicitly]
+    public void Signal_QuitGame()
+    {
+#if UNITY_EDITOR
+        Debug.Log("Quitting application");
+#endif
+        Application.Quit();
+    } 
+
     #endregion Signals
 }
