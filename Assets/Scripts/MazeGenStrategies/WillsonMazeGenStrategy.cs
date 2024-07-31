@@ -42,7 +42,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
             List<Step> randomWalk = new List<Step>();
 
             //yields for coroutine launching it during current frame
-            IEnumerator coroutineToCallDuringFrame = RandomWalkCor(dataGrid, finalTreeCells, notInFinalTreeCells, randomWalk);
+            IEnumerator coroutineToCallDuringFrame = GetRandomWalkCor(dataGrid, finalTreeCells, notInFinalTreeCells, randomWalk);
             while (coroutineToCallDuringFrame.MoveNext())
                 yield return coroutineToCallDuringFrame.Current;
 
@@ -101,7 +101,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
         }
     }
 
-    private IEnumerator RandomWalkCor (DataGrid grid, HashSet<DataCell> finalTreeCells, HashSet<DataCell> notInFinalTreeCells, List<Step> outRandomWalk)
+    private IEnumerator GetRandomWalkCor (DataGrid grid, HashSet<DataCell> finalTreeCells, HashSet<DataCell> notInFinalTreeCells, List<Step> outRandomWalk)
     {
         DataCell randomStartingCell = notInFinalTreeCells.ElementAt(Random.Range(0, notInFinalTreeCells.Count));
         Direction randomDirection = grid.GetRandomNeighbourDirection(randomStartingCell);
