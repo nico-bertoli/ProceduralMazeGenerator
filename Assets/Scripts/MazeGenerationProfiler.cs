@@ -3,7 +3,7 @@ using UnityEngine;
 public class MazeGenerationProfiler : MonoBehaviour
 {
 #if UNITY_EDITOR
-    [SerializeField] private Maze maze;
+    [SerializeField] private MazeFacade maze;
     private bool canShowDebugLog => maze.IsLiveGenerationActive == false;
     
     private float generationStartTime;

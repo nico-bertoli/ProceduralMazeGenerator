@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown algorithmDropdown;
 
     [Header("Other References")]
-    [SerializeField] private Maze maze;
+    [SerializeField] private MazeFacade maze;
     
     private int nColumns;
     private int nRows;

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using static AbsMazeGenerator;
 
-public class Maze : MonoBehaviour {
+public class MazeFacade : MonoBehaviour {
 
     #region ============================================================================================== Public Events
 
@@ -20,14 +20,7 @@ public class Maze : MonoBehaviour {
     #endregion Public Properties
     #region ============================================================================================= Private Fields
 
-    /// <summary>
-    /// Used for live generation
-    /// </summary>
     [SerializeField] private LiveGenerationGrid liveGenGrid;
-    
-    /// <summary>
-    /// Used for not live generation
-    /// </summary>
     [SerializeField] private VoxelGenerator voxelGenerator;
 
     private DataGrid dataGrid;

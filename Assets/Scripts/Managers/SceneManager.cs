@@ -15,7 +15,7 @@ public class SceneManager:Singleton<SceneManager>
     #region ============================================================================================= Private Fields
 
     [Header("References")]
-    [SerializeField] private Maze Maze;
+    [SerializeField] private MazeFacade Maze;
     [SerializeField] private GameObject playerObj;
     [SerializeField] private GameObject exitObj;
 
