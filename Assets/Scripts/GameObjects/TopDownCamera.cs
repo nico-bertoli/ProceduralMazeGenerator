@@ -11,7 +11,8 @@ public class TopDownCamera : MonoBehaviour {
     #endregion Private Fields
     #region ============================================================================================= Public Methods
     
-    public void LookAtRectangularObject(Vector3 topLeftPosition, int height, int width) {
+    public void LookAtRectangularObject(Vector3 topLeftPosition, int height, int width)
+    {
         transform.position = new Vector3(topLeftPosition.x + width / 2f, transform.position.y, topLeftPosition.z - height / 2f);
         AdjustCameraSize(height, width);
     }
@@ -34,18 +35,20 @@ public class TopDownCamera : MonoBehaviour {
             FixHeight(height, horizzontalPadding);
     }
 
-    private void FixHeight(float nRows, float bordersPadding) {
+    private void FixHeight(float nRows, float bordersPadding)
+    {
         Camera.main.orthographicSize = nRows / 2 + verticalPadding;
         AddPadding((float)bordersPadding);
     }
 
-    private void FixWidth(float nCol, float bordersPadding) {
+    private void FixWidth(float nCol, float bordersPadding)
+    {
         Camera.main.orthographicSize = nCol * Screen.height / Screen.width / 2f + horizzontalPadding;
         AddPadding(bordersPadding);
     }
 
-    private void AddPadding(float bordersPadding) {
-
+    private void AddPadding(float bordersPadding)
+    { 
         if (bordersPadding == 0)
             return;
 

@@ -63,7 +63,8 @@ public class Player : MonoBehaviour
         rotationCor = null;
     }
     
-    private void HandleMovement() {
+    private void HandleMovement()
+    {
         if (inputReader.IsMoving)
         {
             Vector3 moveDir = (-transform.forward * inputReader.MoveDirection.y - transform.right * inputReader.MoveDirection.x).normalized;
