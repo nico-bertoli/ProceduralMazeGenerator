@@ -6,7 +6,7 @@ using static DataGrid;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/20/maze-generation-wilson-s-algorithm.html
 
-public class WilsonMazeGenerator : AbsMazeGenerator {
+public class WilsonMazeGenerator : MazeGenerationStrategy {
     
     private class Step {
         public DataCell cell;
@@ -39,7 +39,7 @@ public class WilsonMazeGenerator : AbsMazeGenerator {
 
 
         List<Step> firstRandomWalk = new List<Step>();
-        yield return StartCoroutine(GetFirstRandomWalkCor(dataGrid, startingCell, firstRandomWalk));
+        yield return Coroutiner.Instance.StartCoroutine(GetFirstRandomWalkCor(dataGrid, startingCell, firstRandomWalk));
         MergeRandomWalkInFinalTree(dataGrid, finalTreeCells, notInFinalTreeCells, firstRandomWalk);
 
         //while there are not connected cells...

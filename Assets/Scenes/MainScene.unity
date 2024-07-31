@@ -3170,6 +3170,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191469153}
   m_CullTransparentMesh: 1
+--- !u!1 &1219526296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1219526298}
+  - component: {fileID: 1219526297}
+  m_Layer: 0
+  m_Name: Coroutiner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1219526297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219526296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33a8c1538530fd4d901ba272fc424ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1219526298
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219526296}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1239864889 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 304088970116668548, guid: 91d29be7e54ea49c4b2da748b01696e3, type: 3}
@@ -3578,7 +3622,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 982381020}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Signal_GoBackToGenerationSettings
+        m_MethodName: Signal_ShowGenerationSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5013,7 +5057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254b9d2c3a043a64288a456badeddc01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Maze: {fileID: 1674199080}
+  maze: {fileID: 1674199080}
   playerObj: {fileID: 56123305}
   exitObj: {fileID: 1239864889}
   mazeGenerationCamera: {fileID: 963194229}

@@ -16,7 +16,10 @@ public class RandDfsRecMazeGenerator : AbsRandDfsMazeGenerator {
         visitedCells[startCell.PosM, startCell.PosN] = true;
 
         if (isLiveGenerationEnabled)
+        {
             yield return new WaitForSeconds(liveGenerationDelay);
+            Debug.Log($"delaay: {liveGenerationDelay}");
+        }
 
         List<DataCell> unvisitedNeighbours = GetUnvisitedNeighbours(grid, startCell);
 
@@ -27,7 +30,7 @@ public class RandDfsRecMazeGenerator : AbsRandDfsMazeGenerator {
             grid.RemoveWall(startCell, randUnvisitedNeigh);
 
             //recursion on neighbour
-            yield return (StartCoroutine(GenerateMazeImplementation(grid, randUnvisitedNeigh)));
+            yield return Coroutiner.Instance.StartCoroutine(GenerateMazeImplementation(grid, randUnvisitedNeigh));
 
             unvisitedNeighbours = GetUnvisitedNeighbours(grid, startCell);
         }

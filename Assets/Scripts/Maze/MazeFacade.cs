@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using static AbsMazeGenerator;
+using static MazeGenerationStrategy;
 
 public class MazeFacade : MonoBehaviour {
 
@@ -24,7 +24,7 @@ public class MazeFacade : MonoBehaviour {
     [SerializeField] private VoxelGenerator voxelGenerator;
 
     private DataGrid dataGrid;
-    private AbsMazeGenerator mazeGenerator;
+    private MazeGenerationStrategy mazeGenStrategy;
     
     #endregion Fields
     #region ============================================================================================= Public Methods
@@ -35,22 +35,15 @@ public class MazeFacade : MonoBehaviour {
         return new Vector3(centralCell.PosN, 0, -centralCell.PosM);
     }
 
-    public void Generate(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm)
+    public void Generate(int nRows, int nColumns, bool showLiveGeneration, eMazeGenStrategy eMazeGenStategy)
     {
-        StartCoroutine(GenerateCor(nRows,nColumns,showLiveGeneration,algorithm));
+        StartCoroutine(GenerateCor(nRows,nColumns,showLiveGeneration,eMazeGenStategy));
     }
     
-    public void SetLiveGenerationSpeed(float speed)
-    {
-        if (mazeGenerator)
-            mazeGenerator.SetLiveGenerationSpeed(speed);
-    }
+    public void SetLiveGenerationSpeed(float speed) => mazeGenStrategy?.SetLiveGenerationSpeed(speed);
 
     public void Reset()
-    {
-        if (mazeGenerator != null)
-            Destroy(mazeGenerator.gameObject);
-        
+    {    
         liveGenGrid.Reset();
         voxelGenerator.Reset();
     }
@@ -71,7 +64,7 @@ public class MazeFacade : MonoBehaviour {
         SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
     }
     
-    private IEnumerator GenerateCor(int nRows, int nColumns, bool showLiveGeneration, eAlgorithms algorithm)
+    private IEnumerator GenerateCor(int nRows, int nColumns, bool showLiveGeneration, eMazeGenStrategy eStrategy)
     {
         yield return null;
         
@@ -82,17 +75,37 @@ public class MazeFacade : MonoBehaviour {
         if (IsLiveGenerationActive)
             liveGenGrid.Init(dataGrid);
 
-        mazeGenerator = CreateMazeGenerator(algorithm);
+        mazeGenStrategy = GetStrategyFromEnum(eStrategy);
+
         OnGenerationStarted?.Invoke();
         
         DataCell startCell = dataGrid.GetCentralCell();
-        yield return StartCoroutine(mazeGenerator.GenerateMaze(dataGrid, startCell, showLiveGeneration));
+
+        yield return Coroutiner.Instance.StartCoroutine(mazeGenStrategy.GenerateMaze(dataGrid, startCell, showLiveGeneration));
+
         OnMazeDataStructureGenerated?.Invoke();
 
         if (IsLiveGenerationActive == false)
             voxelGenerator.CreateGrid(dataGrid);
         else
             OnLiveGenerationMeshGenerated?.Invoke();
+    }
+
+    private MazeGenerationStrategy GetStrategyFromEnum(eMazeGenStrategy enumStrategy)
+    {
+        switch (enumStrategy)
+        {
+            case eMazeGenStrategy.DFSiterative:
+                return new RandDfsIterMazeGenerator();
+            case eMazeGenStrategy.Willson:
+                return new WilsonMazeGenerator();
+            case eMazeGenStrategy.Kruskal:
+                return new KruskalMazeGenerator();
+
+            default:
+                Debug.LogError($"Maze generation strategy enum value not recognized: {enumStrategy}");
+                return null;
+        }
     }
 
     private void OnEscapeMazePhaseStarted()
@@ -102,30 +115,6 @@ public class MazeFacade : MonoBehaviour {
             liveGenGrid.Reset();
             voxelGenerator.CreateGrid(dataGrid);
         }
-    }
-
-    private AbsMazeGenerator CreateMazeGenerator(eAlgorithms algorithm)
-    {
-        AbsMazeGenerator res;
-        switch (algorithm)
-        {
-            case eAlgorithms.DFSiterative:
-                res = new GameObject().AddComponent<RandDfsIterMazeGenerator>();
-                res.gameObject.name = "DFSIter Maze Generator";
-                break;
-            case eAlgorithms.Willson:
-                res = new GameObject().AddComponent<WilsonMazeGenerator>();
-                res.gameObject.name = "Wilson Maze Generator";
-                break;
-            case eAlgorithms.Kruskal:
-                res = new GameObject().AddComponent<KruskalMazeGenerator>();
-                res.gameObject.name = "Kruskal Maze Generator";
-                break;
-            default:
-                Debug.LogError($"{algorithm} not recognized! {nameof(CreateMazeGenerator)} failed");
-                return null;
-        }
-        return res;
     }
 
     #endregion Private Methods

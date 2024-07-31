@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 //algorithm: https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking
 
-public abstract class AbsRandDfsMazeGenerator : AbsMazeGenerator {
+public abstract class AbsRandDfsMazeGenerator : MazeGenerationStrategy {
 
     #region =========================================================================================== Fields
     

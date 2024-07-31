@@ -1,6 +1,7 @@
 using System;
 using JetBrains.Annotations;
 using UnityEngine;
+using static MazeGenerationStrategy;
 
 public class SceneManager:Singleton<SceneManager>
 {
@@ -15,7 +16,7 @@ public class SceneManager:Singleton<SceneManager>
     #region ============================================================================================= Private Fields
 
     [Header("References")]
-    [SerializeField] private MazeFacade Maze;
+    [SerializeField] private MazeFacade maze;
     [SerializeField] private GameObject playerObj;
     [SerializeField] private GameObject exitObj;
 
@@ -26,17 +27,18 @@ public class SceneManager:Singleton<SceneManager>
     #endregion Private Fields
     #region ============================================================================================= Public Methods
     
-    public void ShowMazeGeneration(int nRows,int nColumns, bool showLiveGeneration, AbsMazeGenerator.eAlgorithms algorithm)
+    public void ShowMazeGeneration(int nRows,int nColumns, bool showLiveGeneration, eMazeGenStrategy mazeGenStrategy)
     {
         Vector3 mazeTopLeftPosition = new Vector3(-0.5f, 0f, 0.5f);
         mazeGenerationCamera.LookAtRectangularObject(mazeTopLeftPosition, nRows, nColumns);
-        Maze.Generate(nRows, nColumns, showLiveGeneration, algorithm);
+        maze.Generate(nRows, nColumns, showLiveGeneration, mazeGenStrategy);
     }
 
     public void ResetScene()
     {
-        Maze.Reset();
+        maze.Reset();
         EnableObjects(GamePhase.MazeGeneration);
+        UIManager.Instance.ShowSettingsPanel();
     }
 
     public void PlayMaze()
@@ -52,12 +54,12 @@ public class SceneManager:Singleton<SceneManager>
 
     private void SetupPlayerPosition()
     {
-        Vector3 mazeCentralPos = Maze.GetCentralCellPosition();
+        Vector3 mazeCentralPos = maze.GetCentralCellPosition();
         playerObj.transform.position = new Vector3(mazeCentralPos.x, playerObj.transform.position.y,mazeCentralPos.z);
         playerObj.transform.forward = Vector3.forward;
     }
     
-    private void SetupExitPosition() => exitObj.transform.position = Maze.GetExitPosition();
+    private void SetupExitPosition() => exitObj.transform.position = maze.GetExitPosition();
     
     private void Start() 
     {

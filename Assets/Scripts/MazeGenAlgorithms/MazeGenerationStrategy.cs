@@ -4,21 +4,21 @@ using UnityEngine;
 /// <summary>
 /// Modifies a DataGrid to create a maze
 /// </summary>
-public abstract class AbsMazeGenerator : MonoBehaviour
+public abstract class MazeGenerationStrategy
 {
-    public enum eAlgorithms {
+    public enum eMazeGenStrategy
+    {
         DFSiterative,
-        //DFSrecursive,     //REMOVED
         Willson,
         Kruskal
     }
-    
+
     #region =========================================================================================== Private Fields
 
     #endregion Private Fields
     #region =========================================================================================== Protected Fields
-    
-    protected float liveGenerationDelay;
+
+    protected float liveGenerationDelay ;
     protected bool isLiveGenerationEnabled;
 
     #endregion Protected Fields
@@ -37,7 +37,7 @@ public abstract class AbsMazeGenerator : MonoBehaviour
         //live generation always starts at min speed
         liveGenerationDelay = liveGenerationMaxDelay;
 
-        yield return StartCoroutine(GenerateMazeImplementation(grid, startCell));
+        yield return Coroutiner.Instance.StartCoroutine(GenerateMazeImplementation(grid, startCell));
     }
     
     /// <summary>
