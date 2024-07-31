@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Exit : MonoBehaviour
 {
-    public Action OnExitReached;
+    public event Action OnExitReached;
     private void OnTriggerEnter(Collider other) {
         OnExitReached();
     }

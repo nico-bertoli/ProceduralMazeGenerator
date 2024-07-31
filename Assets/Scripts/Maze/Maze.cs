@@ -7,9 +7,9 @@ public class Maze : MonoBehaviour {
     
     #region ============================================================================================== Public Events
     
-    public Action OnMazeChunksGenerated;
-    public Action OnGenerationStarted;
-    public Action OnGenerationEnded;
+    public event Action OnMazeChunksGenerated;
+    public event Action OnGenerationStarted;
+    public event Action OnGenerationEnded;
     
     #endregion Public Events
     #region ========================================================================================== Public Properties

@@ -8,7 +8,7 @@ using static CubeMeshDataGenerator;
 
 public class VoxelGenerator : MonoBehaviour
 {
-    public Action OnMeshGenerated;
+    public event Action OnMeshGenerated;
     
     #region ============================================================================================= Private Fields
 

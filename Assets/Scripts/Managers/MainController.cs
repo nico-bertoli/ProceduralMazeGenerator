@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainController:Singleton<MainController>
 {
-    public Action OnGameModeActive;
+    public event Action OnGameModeActive;
     
     #region ============================================================================================= Fields
     

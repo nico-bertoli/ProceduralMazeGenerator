@@ -2,7 +2,7 @@ using System;
 
 public class DataCell
 {
-    public Action OnWallBuiltOrDestroyed;
+    public event Action OnWallBuiltOrDestroyed;
     public bool IsTopWallActive
     {
         get => isTopWallActive;
