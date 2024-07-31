@@ -1,25 +1,25 @@
-using System;
 using System.Collections;
-using Cinemachine.Utility;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    private PlayerSettings playerSettings => Settings.Instance.PlayerSettings;
+
     #region ============================================================================================= Private Fields
 
-    private float rotationSpeed => Settings.Instance.PlayerSettings.rotationSpeed;
-    private float moveSpeed => Settings.Instance.PlayerSettings.moveSpeed;
-    
     [Header("References")]
     [SerializeField] private Rigidbody rigidBody;
-
     [SerializeField] private PlayerInputReader inputReader;
     
     private Collision currentWallCollision;
     private Coroutine rotationCor;
 
     #endregion Private Fields
-    #region ============================================================================================ Private Methods
+    #region ============================================================================================ Unity Methods
+
+    private void OnCollisionStay(Collision collision) => currentWallCollision = collision;
+    private void OnCollisionExit(Collision other) => currentWallCollision = null;
 
     private void OnEnable()
     {
@@ -31,6 +31,9 @@ public class Player : MonoBehaviour
         HandleMovement();
         HandleRotation();
     }
+
+    #endregion Unity Methods
+    #region ========================================================================================== Private Methods
 
     private void HandleRotation()
     {
@@ -46,7 +49,7 @@ public class Player : MonoBehaviour
 
         while (totalRotation < 90)
         {
-            float frameRotation = rotationSpeed * Time.deltaTime;
+            float frameRotation = playerSettings.rotationSpeed * Time.deltaTime;
 
             if (totalRotation + frameRotation > 90)
                 frameRotation = 90 - totalRotation;
@@ -65,7 +68,7 @@ public class Player : MonoBehaviour
         {
             Vector3 moveDir = (-transform.forward * inputReader.MoveDirection.y - transform.right * inputReader.MoveDirection.x).normalized;
             moveDir = RotateMoveDirectionAlongCollidingWall(moveDir);
-            rigidBody.velocity = moveDir * moveSpeed;
+            rigidBody.velocity = moveDir * playerSettings.moveSpeed;
         }
         else
         {
@@ -82,15 +85,11 @@ public class Player : MonoBehaviour
 
         if (Vector3.Angle(moveDir, collisionNormal) > 90)
         {
-            Vector3 moveDirectionForcedByWall = moveDir.ProjectOntoPlane(collisionNormal).normalized;
+            Vector3 moveDirectionForcedByWall = Vector3.ProjectOnPlane(moveDir, collisionNormal).normalized;
             return moveDirectionForcedByWall;
         }
         return moveDir;
     }
-    
-    private void OnCollisionStay(Collision collision) => currentWallCollision = collision;
-
-    private void OnCollisionExit(Collision other) => currentWallCollision = null;
 
     #endregion Private Methods
 }
