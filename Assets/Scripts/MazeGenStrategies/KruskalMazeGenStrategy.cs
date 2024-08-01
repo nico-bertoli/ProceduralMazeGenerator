@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
@@ -23,23 +24,16 @@ public class KruskalMazeGenStrategy : AbsMazeGenStrategy
     
     protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell)
     {
-        //get all edges
-        List<Edge> unvisitedEdges = GetEdges(grid);
+        List<Edge> unvisitedEdges = GetAllGridEdges(grid);
+        HashSet<DataCell>[,] sets = GetSetForEachCellContainingItself(grid);
 
-        //create a set for each cell containing the cell itself
-        HashSet<DataCell>[,] sets = GetSets(grid);
-
-        //while there are unvisited cells
         while (unvisitedEdges.Count > 0)
         {
-            //get a random edge
             int randomIndex = Random.Range(0, unvisitedEdges.Count);
             Edge randomEdge = unvisitedEdges[randomIndex];
             unvisitedEdges.RemoveAt(randomIndex);
 
-            //get cells sets
-            HashSet<DataCell> set1 = sets[randomEdge.cell1.PosM, randomEdge.cell1.PosN];
-            HashSet<DataCell> set2 = sets[randomEdge.cell2.PosM, randomEdge.cell2.PosN];
+            var (set1, set2) = GetEdgeCellsSets(randomEdge);
 
             // if the sets are different
             if (set2.Contains(randomEdge.cell1)==false)
@@ -51,26 +45,31 @@ public class KruskalMazeGenStrategy : AbsMazeGenStrategy
 
                 //remove wall between cells
                 grid.RemoveWall(randomEdge.cell1, randomEdge.cell2);
-            }
 
-            if (isLiveGenerationEnabled)
-                yield return new WaitForSeconds(liveGenerationDelay);
-            else if (MustRefreshScreen)
+                if (isLiveGenerationEnabled)
+                    yield return new WaitForSeconds(liveGenerationDelay);
+            }
+            if (isLiveGenerationEnabled == false && MustRefreshScreen)
                 yield return coroutiner.StartCoroutine(RefreshScreenCor());
         }
+
+        //------------- local
+
+        (HashSet<DataCell>, HashSet<DataCell>) GetEdgeCellsSets(Edge edge) => 
+            (sets[edge.cell1.PosM, edge.cell1.PosN], sets[edge.cell2.PosM, edge.cell2.PosN]);
     }
 
-    private HashSet<DataCell>[,] GetSets(DataGrid dataGrid)
+    private HashSet<DataCell>[,] GetSetForEachCellContainingItself(DataGrid dataGrid)
     {
         HashSet<DataCell>[,] sets = new HashSet<DataCell>[dataGrid.RowsCount, dataGrid.ColumnsCount];
         for (int m = 0; m < dataGrid.RowsCount; m++)
             for (int n = 0; n < dataGrid.ColumnsCount; n++)
-                sets[m, n] = new HashSet<DataCell> { dataGrid.GetCell(m, n) };
+                sets[m, n] = new HashSet<DataCell> {dataGrid.GetCell(m, n) };
            
         return sets;
     }
 
-    private List<Edge> GetEdges(DataGrid grid)
+    private List<Edge> GetAllGridEdges(DataGrid grid)
     {
         List<Edge> edges = new List<Edge>();
 
