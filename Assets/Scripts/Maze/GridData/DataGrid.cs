@@ -154,7 +154,6 @@ public class DataGrid
 
     #endregion Public Methods
     #region ======================================================== Private Methods
-
     private bool AreCellsAdjacent(DataCell cell1, DataCell cell2)
     {
         if (Mathf.Abs(cell1.PosM - cell2.PosM) == 1 &&  Mathf.Abs(cell1.PosN - cell2.PosN) == 0)
@@ -167,9 +166,4 @@ public class DataGrid
     }
 
     #endregion Private Methods
-    #region ======================================================== Directions Utils
-
-   
-
-    #endregion Directions Utils
 }
