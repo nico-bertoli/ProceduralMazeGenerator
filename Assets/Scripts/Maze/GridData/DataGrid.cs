@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static GridDirections;
 
 public class DataGrid
 {
-    public enum Directions { Up, Right, Down, Left};
-    
     #region ===================================================================================================== Fields
     public readonly int ColumnsCount;
     public readonly int RowsCount;
@@ -171,19 +169,7 @@ public class DataGrid
     #endregion Private Methods
     #region ======================================================== Directions Utils
 
-    public static Directions GetInverseDirection(Directions direction)
-    {
-        switch (direction)
-        {
-            case Directions.Up: return Directions.Down;
-            case Directions.Down: return Directions.Up;
-            case Directions.Left: return Directions.Right;
-            case Directions.Right: return Directions.Left;
-            default: throw new Exception($"{direction} not recognized");
-        }
-    }
-
-    public static List<Directions> GetAllDirections() => ((Directions[])Enum.GetValues(typeof(Directions))).ToList();
+   
 
     #endregion Directions Utils
 }

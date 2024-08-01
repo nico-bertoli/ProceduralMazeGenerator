@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static CubeMeshDataGenerator;
+using static GridDirections;
 
 // : https://www.youtube.com/watch?v=b_1ZlHrJZc4&list=PL5KbKbJ6Gf9-d303Lk8TGKCW-t5JsBdtB&index=10
 
@@ -117,22 +118,22 @@ public class VoxelGenerator : MonoBehaviour
         // top wall
         if (isTopWall)
         {
-            DataCell rightCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Directions.Right);
+            DataCell rightCell = dataGrid.GetNeighbourAtDirection(cell, Directions.Right);
             if(rightCell !=null && rightCell.IsTopWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Right);
             
-            DataCell leftCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Directions.Left);
+            DataCell leftCell = dataGrid.GetNeighbourAtDirection(cell, Directions.Left);
             if(leftCell !=null && leftCell.IsTopWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Left);
         }
         // right wall
         else
         {
-            DataCell bottomCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Directions.Down);
+            DataCell bottomCell = dataGrid.GetNeighbourAtDirection(cell, Directions.Down);
             if(bottomCell !=null && bottomCell.IsRightWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Back);
             
-            DataCell forwardCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Directions.Up);
+            DataCell forwardCell = dataGrid.GetNeighbourAtDirection(cell, Directions.Up);
             if(forwardCell !=null && forwardCell.IsRightWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Forward);  
         }
