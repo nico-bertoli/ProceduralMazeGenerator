@@ -53,7 +53,7 @@ public class UIManager : Singleton<UIManager>
     private void Start()
     {
         maze.OnMazeDataStructureGenerated += () => loadingPanel.SetActive(false);
-        maze.OnMazeFinalMeshGenerated += OnMazeFinalMeshGenerated;
+        maze.OnVoxelMeshGenerated += OnMazeFinalMeshGenerated;
         maze.OnLiveGenerationMeshGenerated += OnLiveGenerationMeshGenerated;
 
         loadingPanel.SetActive(false);

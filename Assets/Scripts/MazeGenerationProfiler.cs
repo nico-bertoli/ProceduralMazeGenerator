@@ -13,7 +13,7 @@ public class MazeGenerationProfiler : MonoBehaviour
     {
         maze.OnGenerationStarted += OnGenerationStarted;
         maze.OnMazeDataStructureGenerated += OnGenerationEnded;
-        maze.OnMazeFinalMeshGenerated += OnMazeChunksGenerated;
+        maze.OnVoxelMeshGenerated += OnMazeChunksGenerated;
     }
 
     private void OnGenerationStarted()

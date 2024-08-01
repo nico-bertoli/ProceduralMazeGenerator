@@ -7,11 +7,20 @@ public class MazeFacade : MonoBehaviour {
 
     #region ============================================================================================== Public Events
 
-    public event Action OnLiveGenerationMeshGenerated;
-    public event Action OnMazeFinalMeshGenerated;
-    public event Action OnGenerationStarted;
+    /// <summary>
+    /// - Hidden generation mode -> called at the end of maze generation
+    /// - Live generation mode -> called when play button is pressed
+    /// </summary>
+    public event Action OnVoxelMeshGenerated;
+
+    /// <summary>
+    /// Called when maze structure has been defined by the maze gen strategy, but the final mesh is not already created
+    /// </summary>
     public event Action OnMazeDataStructureGenerated;
-    
+
+    public event Action OnLiveGenerationMeshGenerated;
+    public event Action OnGenerationStarted;
+
     #endregion Public Events
     #region ========================================================================================== Public Properties
     
@@ -60,7 +69,7 @@ public class MazeFacade : MonoBehaviour {
     
     private void Start()
     {
-        voxelGenerator.OnMeshGenerated += OnMazeFinalMeshGenerated;
+        voxelGenerator.OnMeshGenerated += OnVoxelMeshGenerated;
         SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
     }
     

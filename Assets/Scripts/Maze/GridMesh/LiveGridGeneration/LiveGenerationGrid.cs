@@ -1,7 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-/// Game Object representing a DataGrid
+/// - Used to show live generation
+/// - When escape phase starts, this is deleted
 /// </summary>
 public class LiveGenerationGrid : MonoBehaviour
 {
