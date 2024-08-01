@@ -24,29 +24,29 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
         HashSet<DataCell> finalTreeCells = new HashSet<DataCell>() {startingCell};
 
         //cells out of final tree
-        HashSet<DataCell> notInFinalTreeCells = new HashSet<DataCell>();
+        HashSet<DataCell> cellsNotInFinalTree = new HashSet<DataCell>();
         for (int m = 0; m < dataGrid.RowsCount; m++)
             for (int n = 0; n < dataGrid.ColumnsCount; n++)
-                if(dataGrid.GetCell(m,n).Equals(startingCell) == false)
-                    notInFinalTreeCells.Add(dataGrid.GetCell(m, n));
+                cellsNotInFinalTree.Add(dataGrid.GetCell(m, n));
 
+        cellsNotInFinalTree.Remove(startingCell);
 
         List<Step> firstRandomWalk = new List<Step>();
         yield return Coroutiner.Instance.StartCoroutine(GetFirstRandomWalkCor(dataGrid, startingCell, firstRandomWalk));
-        MergeRandomWalkInFinalTree(dataGrid, finalTreeCells, notInFinalTreeCells, firstRandomWalk);
+        MergeRandomWalkInFinalTree(dataGrid, finalTreeCells, cellsNotInFinalTree, firstRandomWalk);
 
         //while there are not connected cells...
-        while (notInFinalTreeCells.Count > 0)
+        while (cellsNotInFinalTree.Count > 0)
         {
             //fin a random walk
             List<Step> randomWalk = new List<Step>();
 
             //yields for coroutine launching it during current frame
-            IEnumerator coroutineToCallDuringFrame = GetRandomWalkCor(dataGrid, finalTreeCells, notInFinalTreeCells, randomWalk);
+            IEnumerator coroutineToCallDuringFrame = GetRandomWalkCor(dataGrid, finalTreeCells, cellsNotInFinalTree, randomWalk);
             while (coroutineToCallDuringFrame.MoveNext())
                 yield return coroutineToCallDuringFrame.Current;
 
-            MergeRandomWalkInFinalTree(dataGrid,finalTreeCells,notInFinalTreeCells, randomWalk);
+            MergeRandomWalkInFinalTree(dataGrid,finalTreeCells,cellsNotInFinalTree, randomWalk);
         }
     }
 
@@ -64,6 +64,13 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
         }
     }
 
+    /// <summary>
+    /// Generates the first random from the starting cell, this incerases the probability for the next random walk to find the final tree.
+    /// </summary>
+    /// <param name="grid"></param>
+    /// <param name="startingCell"></param>
+    /// <param name="outRandomWalk"></param>
+    /// <returns></returns>
     private IEnumerator GetFirstRandomWalkCor(DataGrid grid, DataCell startingCell, List<Step> outRandomWalk)
     {
         int firstRandomWalkLength = grid.GetShorterSideCellsCount()-3;
@@ -80,14 +87,9 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
 
             // get new random direction (direction of the previous cel is excluded)
             Direction previousCellDirection = GetInverseDirection(previousStep.direction);
-            Direction? newDirection;
 
-            do
-            {
-                newDirection = grid.GetRandomNeighbourDirection(newCell, new Direction[] { previousCellDirection, allwaysPreventedDirection });
-            }
-            while (visitedCells.Contains(newCell));
-            
+            //cannot be null
+            Direction newDirection = (Direction)grid.GetRandomNeighbourDirection(newCell, new Direction[] { previousCellDirection, allwaysPreventedDirection } );
 
             Step newStep = new Step(newCell, (Direction)newDirection);
             outRandomWalk.Add(newStep);
@@ -100,9 +102,12 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
             }
         }
     }
-
+    
+    //iterators cannot use out parameters -_-
     private IEnumerator GetRandomWalkCor (DataGrid grid, HashSet<DataCell> finalTreeCells, HashSet<DataCell> notInFinalTreeCells, List<Step> outRandomWalk)
     {
+        Debug.Assert(outRandomWalk.Count == 0, $"{nameof(GetRandomWalkCor)} received not empty {nameof(outRandomWalk)}!");
+
         DataCell randomStartingCell = notInFinalTreeCells.ElementAt(Random.Range(0, notInFinalTreeCells.Count));
         Direction randomDirection = grid.GetRandomNeighbourDirection(randomStartingCell);
 

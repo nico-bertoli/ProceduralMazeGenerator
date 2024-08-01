@@ -6,13 +6,11 @@ using UnityEngine;
 
 public class KruskalMazeGenStrategy : AbsMazeGenStrategy
 {
-    
     /// <summary>
     /// Edge between two cells
     /// </summary>
     private class Edge
     {
-
         public DataCell cell1;
         public DataCell cell2;
 
