@@ -39,8 +39,6 @@ public class LiveGenerationGrid : MonoBehaviour
 
         SetWallsWidth(liveGenWallsWidth);
         marginWallsGenerator.InitMargins(dataGrid,liveGenWallsWidth);
-        
-        SetCellsActive(true);
     }
     
     public void Reset()
@@ -65,13 +63,6 @@ public class LiveGenerationGrid : MonoBehaviour
                 cellObjs[m, n].SetWallsWidth(width);
 
         marginWallsGenerator.SetWallsWidth(dataGrid, width);
-    }
-    
-    private void SetCellsActive(bool setActive)
-    {
-        for (int m = 0; m < dataGrid.RowsCount; m++) 
-            for (int n = 0; n < dataGrid.ColumnsCount; n++) 
-                cellObjs[m, n].gameObject.SetActive(setActive);
     }
    
     #endregion Private Methods
