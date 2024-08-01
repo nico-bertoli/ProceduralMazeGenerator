@@ -1465,7 +1465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae882bbc60584201ad57260c36ce9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maze: {fileID: 1674199080}
+  maze: {fileID: 1674199083}
 --- !u!1 &370796105
 GameObject:
   m_ObjectHideFlags: 0
@@ -2623,7 +2623,8 @@ MonoBehaviour:
   loadingPanel: {fileID: 203668941}
   liveGenToggle: {fileID: 1889807211}
   algorithmDropdown: {fileID: 1435849417}
-  maze: {fileID: 1674199080}
+  hiddenGenMaze: {fileID: 1674199083}
+  liveGenMaze: {fileID: 1674199082}
 --- !u!1 &996903635
 GameObject:
   m_ObjectHideFlags: 0
@@ -5057,7 +5058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254b9d2c3a043a64288a456badeddc01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maze: {fileID: 1674199080}
+  hiddenGenMaze: {fileID: 1674199083}
+  liveGenMaze: {fileID: 1674199082}
   playerObj: {fileID: 56123305}
   exitObj: {fileID: 1239864889}
   mazeGenerationCamera: {fileID: 963194229}
@@ -5072,28 +5074,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1674199081}
-  - component: {fileID: 1674199080}
+  - component: {fileID: 1674199083}
+  - component: {fileID: 1674199082}
   m_Layer: 0
-  m_Name: MazeFacade
+  m_Name: Maze
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1674199080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1674199079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 504f7d6fdca406544b246339ecd9a156, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  liveGenGrid: {fileID: 499915267}
-  voxelGenerator: {fileID: 819684769}
 --- !u!4 &1674199081
 Transform:
   m_ObjectHideFlags: 0
@@ -5113,6 +5102,33 @@ Transform:
   m_Father: {fileID: 444656080}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1674199082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674199079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f9291c6b231d540b5b39a5715b26f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voxelGenerator: {fileID: 819684769}
+  liveGenGrid: {fileID: 499915267}
+--- !u!114 &1674199083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674199079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7381196596ced14192dbf0d0f0d0396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voxelGenerator: {fileID: 819684769}
 --- !u!1 &1697083839
 GameObject:
   m_ObjectHideFlags: 0

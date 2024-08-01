@@ -13,10 +13,20 @@ public class SceneManager:Singleton<SceneManager>
         EscapeMaze
     }
 
+    private VoxelMaze activeMaze;
+    private void SetActiveMaze(bool showLiveGen)
+    {
+        activeMaze = showLiveGen ? liveGenMaze : hiddenGenMaze;
+        liveGenMaze.enabled = showLiveGen;
+        hiddenGenMaze.enabled = showLiveGen == false;
+    }
+
     #region ============================================================================================= Private Fields
 
     [Header("References")]
-    [SerializeField] private MazeFacade maze;
+    [SerializeField] private VoxelMaze hiddenGenMaze;
+    [SerializeField] private LiveGenMaze liveGenMaze;
+
     [SerializeField] private GameObject playerObj;
     [SerializeField] private GameObject exitObj;
 
@@ -31,12 +41,15 @@ public class SceneManager:Singleton<SceneManager>
     {
         Vector3 mazeTopLeftPosition = new Vector3(-0.5f, 0f, 0.5f);
         mazeGenerationCamera.LookAtRectangularObject(mazeTopLeftPosition, nRows, nColumns);
-        maze.Generate(nRows, nColumns, showLiveGeneration, mazeGenStrategy);
+
+        SetActiveMaze(showLiveGeneration);
+        activeMaze.Generate(nRows, nColumns, showLiveGeneration, mazeGenStrategy);
     }
 
     public void ResetScene()
     {
-        maze.Reset();
+        activeMaze.Reset();
+
         EnableObjects(GamePhase.MazeGeneration);
         UIManager.Instance.ShowSettingsPanel();
     }
@@ -54,12 +67,12 @@ public class SceneManager:Singleton<SceneManager>
 
     private void SetupPlayerPosition()
     {
-        Vector3 mazeCentralPos = maze.GetCentralCellPosition();
+        Vector3 mazeCentralPos = activeMaze.GetCentralCellPosition();
         playerObj.transform.position = new Vector3(mazeCentralPos.x, playerObj.transform.position.y,mazeCentralPos.z);
         playerObj.transform.forward = Vector3.forward;
     }
     
-    private void SetupExitPosition() => exitObj.transform.position = maze.GetExitPosition();
+    private void SetupExitPosition() => exitObj.transform.position = activeMaze.GetExitPosition();
     
     private void Start() 
     {
