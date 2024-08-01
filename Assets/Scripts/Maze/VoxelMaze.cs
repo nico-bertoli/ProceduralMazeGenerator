@@ -45,28 +45,32 @@ public class VoxelMaze : MonoBehaviour {
         StartCoroutine(GenerateMazeCor(nRows,nColumns,eMazeGenStategy));
     }
 
-    public virtual void Reset() => voxelGenerator.Reset();
+    public virtual void Reset()
+    {
+        voxelGenerator.OnMeshGenerated -= OnVoxelMeshGenerated;
+        voxelGenerator.Reset();
+    } 
 
     public Vector3 GetExitPosition() => dataGrid.GetExitPosition();
 
     #endregion Public Methods
     #region ============================================================================================ Protected Methods
 
-    protected virtual void Start() => voxelGenerator.OnMeshGenerated += () => OnVoxelMeshGenerated?.Invoke();
-
-
-
-    protected virtual DataGrid TemplateGenerateMaze_GetDataGrid(int nRows, int nColumns) => new DataGrid(nRows, nColumns);
-    protected virtual void TemplateGenerateMaze_GenerationCompleted() => voxelGenerator.CreateGrid(dataGrid);
+    protected virtual void Hook_GenerationStarted() { }
+    protected virtual DataGrid Hook_CreateDataGrid(int nRows, int nColumns) => new DataGrid(nRows, nColumns);
+    protected virtual void Hook_GenerationCompleted() => voxelGenerator.CreateGrid(dataGrid);
 
     #endregion Protected Methods
     #region ============================================================================================ Private Methods
 
     private IEnumerator GenerateMazeCor(int nRows, int nColumns, MazeGenStrategy eStrategy)
     {
+
         yield return null;
 
-        dataGrid = TemplateGenerateMaze_GetDataGrid(nRows,nColumns);
+        Hook_GenerationStarted();
+
+        dataGrid = Hook_CreateDataGrid(nRows,nColumns);
 
         mazeGenStrategy = GetStrategyFromEnum(eStrategy);
 
@@ -78,7 +82,10 @@ public class VoxelMaze : MonoBehaviour {
 
         OnMazeDataStructureGenerated?.Invoke();
 
-        TemplateGenerateMaze_GenerationCompleted();
+        if (OnVoxelMeshGenerated != null)
+            voxelGenerator.OnMeshGenerated += OnVoxelMeshGenerated;
+
+        Hook_GenerationCompleted();
     }
 
     private AbsMazeGenStrategy GetStrategyFromEnum(MazeGenStrategy enumStrategy)

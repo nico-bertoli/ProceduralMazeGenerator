@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using static AbsMazeGenStrategy;
 
 public class LiveGenMaze : VoxelMaze
 {
@@ -10,12 +9,6 @@ public class LiveGenMaze : VoxelMaze
     [SerializeField] private LiveGenerationGrid liveGenGrid;
 
     public void SetLiveGenerationSpeed(float speed) => mazeGenStrategy?.SetLiveGenerationSpeed(speed);
-
-    protected override void Start()
-    {
-        base.Start();
-        SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
-    }
 
     public override void Reset()
     {
@@ -27,14 +20,21 @@ public class LiveGenMaze : VoxelMaze
     {
         liveGenGrid.Reset();
         voxelGenerator.CreateGrid(dataGrid);
+        SceneManager.Instance.OnEscapeMazePhaseStarted -= OnEscapeMazePhaseStarted;
     }
 
-    protected override void TemplateGenerateMaze_GenerationCompleted() => OnLiveGenerationMeshGenerated?.Invoke();
+    protected override void Hook_GenerationCompleted() => OnLiveGenerationMeshGenerated?.Invoke();
 
-    protected override DataGrid TemplateGenerateMaze_GetDataGrid(int nRows, int nColumns)
+    protected override DataGrid Hook_CreateDataGrid(int nRows, int nColumns)
     {
-        DataGrid dataGrid = base.TemplateGenerateMaze_GetDataGrid(nRows,nColumns);
+        DataGrid dataGrid = base.Hook_CreateDataGrid(nRows,nColumns);
         liveGenGrid.Init(dataGrid);
         return dataGrid;
+    }
+
+    protected override void Hook_GenerationStarted()
+    {
+        base.Hook_GenerationStarted();
+        SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
     }
 }
