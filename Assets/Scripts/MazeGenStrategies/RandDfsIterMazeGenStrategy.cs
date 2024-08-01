@@ -53,7 +53,7 @@ public class RandDfsIterMazeGenStrategy : AbsMazeGenStrategy
 
     private List<DataCell> GetUnvisitedNeighbours(DataGrid grid, DataCell cell)
     {
-        List<DataCell> unvisitedNeighbours = grid.GetNeighbours(cell);
+        List<DataCell> unvisitedNeighbours = grid.GetAllNeighbours(cell);
 
         for (int i = unvisitedNeighbours.Count - 1; i >= 0; i--)
             if (visitedCells.IsVisited(unvisitedNeighbours[i]))

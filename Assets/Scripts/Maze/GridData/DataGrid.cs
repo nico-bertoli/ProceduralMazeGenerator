@@ -5,74 +5,39 @@ using static GridDirections;
 
 public class DataGrid
 {
-    #region ===================================================================================================== Fields
+    #region ============================================================================================= Fields
+
     public readonly int ColumnsCount;
     public readonly int RowsCount;
     private readonly DataCell[,] cells;
 
     #endregion  Fields
-    #region ============================================================================================= Public Methods
 
-    public int GetShorterSideCellsCount() => ColumnsCount < RowsCount ? ColumnsCount : RowsCount;
-
-    public Vector3 GetExitPosition() => new Vector3(ColumnsCount - 1, 0, -RowsCount + 1);
-
-    public DataGrid (int rowsCount,int columnsCount)
+    public DataGrid(int rowsCount, int columnsCount)
     {
         RowsCount = rowsCount;
         ColumnsCount = columnsCount;
-        cells = new DataCell[RowsCount,ColumnsCount];
+        cells = new DataCell[RowsCount, ColumnsCount];
 
         for (int m = 0; m < rowsCount; m++)
             for (int n = 0; n < columnsCount; n++)
                 cells[m, n] = new DataCell(this, m, n);
     }
 
+    #region ============================================================================================= Public Methods
+
+    //====================================================================== Get Stuff 
+    public int GetShorterSideCellsCount() => ColumnsCount < RowsCount ? ColumnsCount : RowsCount;
+    public Vector3 GetExitPosition() => new Vector3(ColumnsCount - 1, 0, -RowsCount + 1);
+    public DataCell GetCell(int m, int n) => cells[m, n];
     public DataCell GetCentralCell()
     {
         int m = RowsCount / 2;
         int n = ColumnsCount / 2;
         return cells[m, n];
     }
-    
-    public void RemoveWall(DataCell cell1, DataCell cell2)
-    {
-        if(AreCellsAdjacent(cell1, cell2) == false)
-        {
-            Debug.LogError($"{nameof(RemoveWall)} Received not adjacent cells ({cell1}, {cell2}), returning");
-            return;
-        }
 
-        if (cell1.PosM < cell2.PosM)
-            cell2.IsTopWallActive = false;
-        else if (cell1.PosM > cell2.PosM)
-            cell1.IsTopWallActive = false;
-        else if (cell1.PosN > cell2.PosN)
-            cell2.IsRightWallActive = false;
-        else
-            cell1.IsRightWallActive = false;
-    }
-    
-    public void BuildWall(DataCell cell1, DataCell cell2)
-    {
-        if (AreCellsAdjacent(cell1, cell2) == false)
-        {
-            Debug.LogError($"{nameof(BuildWall)} Received not adjacent cells ({cell1}, {cell2}), returning");
-            return;
-        }
-
-        if (cell1.PosM < cell2.PosM)
-            cell2.IsTopWallActive = true;
-        else if (cell1.PosM > cell2.PosM)
-            cell1.IsTopWallActive = true;
-        else if (cell1.PosN > cell2.PosN)
-            cell2.IsRightWallActive = true;
-        else
-            cell1.IsRightWallActive = true;
-    }
-
-    public DataCell GetCell(int m, int n) => cells[m, n];
-
+    //====================================================================== Get Neighbours 
     public Directions? GetRandomNeighbourDirection (DataCell cell, Directions[] preventDirections)
     {
         Debug.Assert(preventDirections.Length > 0 && preventDirections != null,
@@ -98,7 +63,7 @@ public class DataGrid
         return possibleDirections[Random.Range(0, possibleDirections.Count)];
     }
 
-    public List<DataCell> GetNeighbours(DataCell cell)
+    public List<DataCell> GetAllNeighbours(DataCell cell)
     {
         List<DataCell> possibleNeighbours = new List<DataCell>();
         List<Directions> directions = GetNeighboursDirections(cell);
@@ -138,7 +103,46 @@ public class DataGrid
         }
     }
 
-    public List<Directions> GetNeighboursDirections(DataCell cell)
+    //====================================================================== Walls 
+    public void RemoveWall(DataCell cell1, DataCell cell2)
+    {
+        if (AreCellsAdjacent(cell1, cell2) == false)
+        {
+            Debug.LogError($"{nameof(RemoveWall)} Received not adjacent cells ({cell1}, {cell2}), returning");
+            return;
+        }
+
+        if (cell1.PosM < cell2.PosM)
+            cell2.IsTopWallActive = false;
+        else if (cell1.PosM > cell2.PosM)
+            cell1.IsTopWallActive = false;
+        else if (cell1.PosN > cell2.PosN)
+            cell2.IsRightWallActive = false;
+        else
+            cell1.IsRightWallActive = false;
+    }
+
+    public void BuildWall(DataCell cell1, DataCell cell2)
+    {
+        if (AreCellsAdjacent(cell1, cell2) == false)
+        {
+            Debug.LogError($"{nameof(BuildWall)} Received not adjacent cells ({cell1}, {cell2}), returning");
+            return;
+        }
+
+        if (cell1.PosM < cell2.PosM)
+            cell2.IsTopWallActive = true;
+        else if (cell1.PosM > cell2.PosM)
+            cell1.IsTopWallActive = true;
+        else if (cell1.PosN > cell2.PosN)
+            cell2.IsRightWallActive = true;
+        else
+            cell1.IsRightWallActive = true;
+    }
+
+    #endregion Public Methods
+    #region ============================================================================================= Private Methods
+    private List<Directions> GetNeighboursDirections(DataCell cell)
     {
         List<Directions> result = GetAllDirections();
 
@@ -151,8 +155,6 @@ public class DataGrid
         return result;
     }
 
-    #endregion Public Methods
-    #region ======================================================== Private Methods
     private bool AreCellsAdjacent(DataCell cell1, DataCell cell2)
     {
         if (Mathf.Abs(cell1.PosM - cell2.PosM) == 1 &&  Mathf.Abs(cell1.PosN - cell2.PosN) == 0)
