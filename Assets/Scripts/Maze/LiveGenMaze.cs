@@ -4,7 +4,7 @@ using static AbsMazeGenStrategy;
 
 public class LiveGenMaze : VoxelMaze
 {
-    protected override bool IsLiveGenerationEnabled => false;
+    protected override bool IsLiveGenerationEnabled => true;
     public event Action OnLiveGenerationMeshGenerated;
 
     [SerializeField] private LiveGenerationGrid liveGenGrid;
