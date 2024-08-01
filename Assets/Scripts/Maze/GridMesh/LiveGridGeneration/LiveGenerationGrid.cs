@@ -11,6 +11,7 @@ public class LiveGenerationGrid : MonoBehaviour
     [Header("References")]
     [SerializeField] private CellObject cellObjectPrefab;
     [SerializeField] private MarginWallsGenerator marginWallsGenerator;
+    [SerializeField] private PoolSpawner cellsPoolSpawner;
 
     private DataGrid dataGrid;
     private CellObject[,] cellObjs;
@@ -30,7 +31,7 @@ public class LiveGenerationGrid : MonoBehaviour
             for (int n = 0; n < grid.ColumnsCount; n++)
             {
                 //todo use pooling instad of Init
-                CellObject cellObject = Instantiate(cellObjectPrefab, transform).GetComponent<CellObject>();
+                CellObject cellObject = cellsPoolSpawner.GetItem().GetComponent<CellObject>();
                 cellObjs[m, n] = cellObject;
                 cellObjs[m, n].Init(dataGrid.GetCell(m, n));
             }
@@ -45,10 +46,10 @@ public class LiveGenerationGrid : MonoBehaviour
     public void Reset()
     {
         if (cellObjs == null)
-            return; 
-        
+            return;
+
         foreach (CellObject cell in cellObjs)
-            Destroy(cell.gameObject);
+            cellsPoolSpawner.ReturnItem(cell.gameObject);
 
         cellObjs = null;
         marginWallsGenerator.Reset();
