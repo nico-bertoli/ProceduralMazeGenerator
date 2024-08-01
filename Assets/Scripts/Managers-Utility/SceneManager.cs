@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using UnityEngine;
 using static AbsMazeGenStrategy;
 
@@ -11,14 +10,6 @@ public class SceneManager:Singleton<SceneManager>
     {
         MazeGeneration,
         EscapeMaze
-    }
-
-    private VoxelMaze activeMaze;
-    private void SetActiveMaze(bool showLiveGen)
-    {
-        activeMaze = showLiveGen ? liveGenMaze : hiddenGenMaze;
-        liveGenMaze.enabled = showLiveGen;
-        hiddenGenMaze.enabled = showLiveGen == false;
     }
 
     #region ============================================================================================= Private Fields
@@ -34,9 +25,11 @@ public class SceneManager:Singleton<SceneManager>
     [SerializeField] private GameObject escapePhaseObjectsContainer;
     [SerializeField] private GameObject generationPhaseObjectsContainer;
 
+    private VoxelMaze activeMaze;
+
     #endregion Private Fields
     #region ============================================================================================= Public Methods
-    
+
     public void ShowMazeGeneration(int nRows,int nColumns, bool showLiveGeneration, MazeGenStrategy mazeGenStrategy)
     {
         Vector3 mazeTopLeftPosition = new Vector3(-0.5f, 0f, 0.5f);
@@ -63,6 +56,13 @@ public class SceneManager:Singleton<SceneManager>
 
     #endregion Public Methods
     #region ============================================================================================ Private Methods
+
+    private void SetActiveMaze(bool showLiveGen)
+    {
+        activeMaze = showLiveGen ? liveGenMaze : hiddenGenMaze;
+        liveGenMaze.enabled = showLiveGen;
+        hiddenGenMaze.enabled = showLiveGen == false;
+    }
 
     private void SetupPlayerPosition()
     {

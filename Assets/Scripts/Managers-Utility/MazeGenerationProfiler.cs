@@ -1,20 +1,21 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeGenerationProfiler : MonoBehaviour
 {
 #if UNITY_EDITOR
 
-    [SerializeField] private VoxelMaze maze;
+    //-------------- Fields
+    [SerializeField] private VoxelMaze voxelMaze;
 
     private float generationStartTime;
     private float generationEndTime;
     
+    //-------------- Methods
     private void Start()
     {
-        maze.OnGenerationStarted += OnGenerationStarted;
-        maze.OnMazeDataStructureGenerated += OnGenerationEnded;
-        maze.OnVoxelMeshGenerated += OnMazeChunksGenerated;
+        voxelMaze.OnGenerationStarted += OnGenerationStarted;
+        voxelMaze.OnMazeDataStructureGenerated += OnGenerationEnded;
+        voxelMaze.OnVoxelMeshGenerated += OnMazeChunksGenerated;
     }
 
     private void OnGenerationStarted() => generationStartTime = Time.time;

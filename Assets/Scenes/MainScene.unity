@@ -1527,8 +1527,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 749455833}
-  m_RootOrder: 1
+  m_Father: {fileID: 1665717943}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &346531869
 MonoBehaviour:
@@ -1542,7 +1542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae882bbc60584201ad57260c36ce9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maze: {fileID: 1674199083}
+  voxelMaze: {fileID: 1674199083}
 --- !u!1 &370796105
 GameObject:
   m_ObjectHideFlags: 0
@@ -2169,8 +2169,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 749455833}
-  m_RootOrder: 0
+  m_Father: {fileID: 1665717943}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &713090821
 MonoBehaviour:
@@ -2262,40 +2262,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719066837}
   m_CullTransparentMesh: 1
---- !u!1 &749455832
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 749455833}
-  m_Layer: 0
-  m_Name: Utility
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &749455833
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 749455832}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 713090820}
-  - {fileID: 346531868}
-  - {fileID: 1219526298}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &780941459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2729,7 +2695,7 @@ MonoBehaviour:
   loadingPanel: {fileID: 203668941}
   liveGenToggle: {fileID: 1889807211}
   algorithmDropdown: {fileID: 1435849417}
-  hiddenGenMaze: {fileID: 1674199083}
+  voxelMaze: {fileID: 1674199083}
   liveGenMaze: {fileID: 1674199082}
 --- !u!1 &996903635
 GameObject:
@@ -3318,8 +3284,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 749455833}
-  m_RootOrder: 2
+  m_Father: {fileID: 1665717943}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1239864889 stripped
 GameObject:
@@ -5146,7 +5112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1665717943}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: Managers-Utility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5166,6 +5132,9 @@ Transform:
   m_Children:
   - {fileID: 982381019}
   - {fileID: 1607155378}
+  - {fileID: 713090820}
+  - {fileID: 346531868}
+  - {fileID: 1219526298}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

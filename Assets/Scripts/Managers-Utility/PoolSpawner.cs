@@ -25,7 +25,6 @@ public class PoolSpawner : MonoBehaviour
         {
             if (pool[i].gameObject.activeSelf == false)
             {
-                // Debug.Log("pool spawner: a pooled object wasn't active, activating it");
                 pool[i].gameObject.SetActive(true);
                 return pool[i];
             }

@@ -29,7 +29,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private TMP_Dropdown algorithmDropdown;
 
     [Header("Other References")]
-    [SerializeField] private VoxelMaze hiddenGenMaze;
+    [SerializeField] private VoxelMaze voxelMaze;
     [SerializeField] private LiveGenMaze liveGenMaze;
 
     private int nColumns;
@@ -49,12 +49,11 @@ public class UIManager : Singleton<UIManager>
     }
 
     #endregion Public Methods
-    #region ============================================================================================ Monobehaviour
-    
+    #region ============================================================================================ Private Methods
     private void Start()
     {
-        hiddenGenMaze.OnMazeDataStructureGenerated += () => loadingPanel.SetActive(false);
-        hiddenGenMaze.OnVoxelMeshGenerated += OnMazeFinalMeshGenerated;
+        voxelMaze.OnMazeDataStructureGenerated += () => loadingPanel.SetActive(false);
+        voxelMaze.OnVoxelMeshGenerated += OnMazeFinalMeshGenerated;
 
         liveGenMaze.OnMazeDataStructureGenerated += () => loadingPanel.SetActive(false);
         liveGenMaze.OnVoxelMeshGenerated += OnMazeFinalMeshGenerated;
@@ -66,14 +65,11 @@ public class UIManager : Singleton<UIManager>
 
         ShowSettingsPanel();
     }
-    
+
     private void Update()
     {
         RefreshGridPossibleSize();
     }
-
-    #endregion
-    #region ============================================================================================ Private Methods
 
     private void ShowGenerationPanel()
     {
@@ -128,9 +124,7 @@ public class UIManager : Singleton<UIManager>
             }
         }
         else
-        {
             return mazeGenSettings.LiveGenMaxSideCells;
-        }
     }
 
     #endregion Private Methods
@@ -163,8 +157,6 @@ public class UIManager : Singleton<UIManager>
     [UsedImplicitly]
     public void Signal_StartGeneration()
     {
-        //btnStartEscape.SetActive(false);
-
         if (isLiveGenerationActive)
         {
             genSpeedSlider.gameObject.SetActive(true);
