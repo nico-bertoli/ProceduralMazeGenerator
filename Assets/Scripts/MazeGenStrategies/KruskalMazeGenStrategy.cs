@@ -27,17 +27,7 @@ public class KruskalMazeGenStrategy : AbsMazeGenStrategy
         List<Edge> unvisitedEdges = GetEdges(grid);
 
         //create a set for each cell containing the cell itself
-        HashSet<DataCell>[,] sets = new HashSet<DataCell>[grid.RowsCount, grid.ColumnsCount];
-        for (int m = 0; m < grid.RowsCount; m++)
-        {
-            for (int n = 0; n < grid.ColumnsCount; n++)
-            {
-                sets[m, n] = new HashSet<DataCell> { grid.GetCell(m, n)};
-
-               if (MustRefreshScreen)
-                    yield return coroutiner.StartCoroutine(RefreshScreenCor());
-            }
-        }
+        HashSet<DataCell>[,] sets = GetSets(grid);
 
         //while there are unvisited cells
         while (unvisitedEdges.Count > 0)
@@ -52,7 +42,7 @@ public class KruskalMazeGenStrategy : AbsMazeGenStrategy
             HashSet<DataCell> set2 = sets[randomEdge.cell2.PosM, randomEdge.cell2.PosN];
 
             // if the sets are different
-            if (!set2.Contains(randomEdge.cell1))
+            if (set2.Contains(randomEdge.cell1)==false)
             {
                 //put cells in same set
                 set1.UnionWith(set2);
@@ -70,25 +60,30 @@ public class KruskalMazeGenStrategy : AbsMazeGenStrategy
         }
     }
 
-    /// <summary>
-    /// Returns all edges for the given grid
-    /// </summary>
-    /// <param name="grid"></param>
-    /// <returns></returns>
+    private HashSet<DataCell>[,] GetSets(DataGrid dataGrid)
+    {
+        HashSet<DataCell>[,] sets = new HashSet<DataCell>[dataGrid.RowsCount, dataGrid.ColumnsCount];
+        for (int m = 0; m < dataGrid.RowsCount; m++)
+            for (int n = 0; n < dataGrid.ColumnsCount; n++)
+                sets[m, n] = new HashSet<DataCell> { dataGrid.GetCell(m, n) };
+           
+        return sets;
+    }
+
     private List<Edge> GetEdges(DataGrid grid)
     {
-        List<Edge> ris = new List<Edge>();
+        List<Edge> edges = new List<Edge>();
 
         for (int m = 0; m < grid.RowsCount; m++)
         {
             for (int n = 0; n < grid.ColumnsCount; n++)
             {
                 if(n+1 < grid.ColumnsCount)
-                    ris.Add(new Edge(grid.GetCell(m, n), grid.GetCell(m, n + 1)));
+                    edges.Add(new Edge(grid.GetCell(m, n), grid.GetCell(m, n + 1)));
                 if(m+1 < grid.RowsCount)
-                    ris.Add(new Edge(grid.GetCell(m, n), grid.GetCell(m+1, n)));
+                    edges.Add(new Edge(grid.GetCell(m, n), grid.GetCell(m+1, n)));
             }
         }
-        return ris;   
+        return edges;   
     }
 }
