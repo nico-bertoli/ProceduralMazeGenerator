@@ -51,7 +51,7 @@ public class VoxelMaze : MonoBehaviour {
     #endregion Public Methods
     #region ============================================================================================ Hooks
     protected virtual DataGrid Hook_CreateDataGrid(int nRows, int nColumns) => new DataGrid(nRows, nColumns);
-    protected virtual void Hook_GenerationCompleted() => voxelGenerator.CreateGrid(dataGrid);
+    protected virtual void Hook_GenerationCompleted() => voxelGenerator.GenerateGridMesh(dataGrid);
 
     #endregion Hooks
     #region ============================================================================================ Private Methods

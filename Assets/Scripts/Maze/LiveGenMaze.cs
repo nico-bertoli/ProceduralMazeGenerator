@@ -44,7 +44,7 @@ public class LiveGenMaze : VoxelMaze
             return;
 
         liveGenGrid.Reset();
-        voxelGenerator.CreateGrid(dataGrid);
+        voxelGenerator.GenerateGridMesh(dataGrid);
     }
 
     #endregion Private Methods
