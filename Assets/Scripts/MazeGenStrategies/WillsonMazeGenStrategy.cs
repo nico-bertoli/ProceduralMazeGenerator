@@ -10,9 +10,9 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
     private class Step
     {
         public DataCell cell;
-        public Direction direction;
+        public Directions direction;
 
-        public Step(DataCell cell, Direction direction)
+        public Step(DataCell cell, Directions direction)
         {
             this.cell = cell;
             this.direction = direction;
@@ -77,9 +77,9 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
 
         int firstRandomWalkLength = grid.GetShorterSideCellsCount()-3;
         HashSet<DataCell> visitedCells = new HashSet<DataCell>() { startingCell };
-        Direction allwaysPreventedDirection = (Direction)Random.Range(0,System.Enum.GetValues(typeof(Direction)).Length);
+        Directions allwaysPreventedDirection = (Directions)Random.Range(0,System.Enum.GetValues(typeof(Directions)).Length);
 
-        Direction randomDirection = (Direction)grid.GetRandomNeighbourDirection(startingCell, new Direction[] { allwaysPreventedDirection });
+        Directions randomDirection = (Directions)grid.GetRandomNeighbourDirection(startingCell, new Directions[] { allwaysPreventedDirection });
         outRandomWalk.Add(new Step(startingCell, randomDirection));
 
         for (int i = 0; i< firstRandomWalkLength; i++)
@@ -88,10 +88,10 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
             DataCell newCell = grid.GetNeighbourAtDirection(previousStep.cell, previousStep.direction);
 
             // get new random direction (direction of the previous cel is excluded)
-            Direction previousCellDirection = GetInverseDirection(previousStep.direction);
+            Directions previousCellDirection = GetInverseDirection(previousStep.direction);
 
             //cannot be null
-            Direction newDirection = (Direction)grid.GetRandomNeighbourDirection(newCell, new Direction[] { previousCellDirection, allwaysPreventedDirection } );
+            Directions newDirection = (Directions)grid.GetRandomNeighbourDirection(newCell, new Directions[] { previousCellDirection, allwaysPreventedDirection } );
 
             Step newStep = new Step(newCell, newDirection);
             outRandomWalk.Add(newStep);
@@ -111,7 +111,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
         Debug.Assert(outRandomWalk.Count == 0, $"{nameof(GetRandomWalkCor)} received {nameof(outRandomWalk)} should be empty, but it isn't!");
 
         DataCell randomStartingCell = notInFinalTreeCells.ElementAt(Random.Range(0, notInFinalTreeCells.Count));
-        Direction randomDirection = grid.GetRandomNeighbourDirection(randomStartingCell);
+        Directions randomDirection = grid.GetRandomNeighbourDirection(randomStartingCell);
 
         outRandomWalk.Add(new Step(randomStartingCell, randomDirection));
 
@@ -121,8 +121,8 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
             DataCell newCell = grid.GetNeighbourAtDirection(previousStep.cell, previousStep.direction);
 
             // get new random direction (direction of the previous cel is excluded)
-            Direction previousCellDirection = GetInverseDirection(previousStep.direction);
-            Direction newDirection = (Direction)grid.GetRandomNeighbourDirection(newCell, new Direction[] { previousCellDirection });
+            Directions previousCellDirection = GetInverseDirection(previousStep.direction);
+            Directions newDirection = (Directions)grid.GetRandomNeighbourDirection(newCell, new Directions[] { previousCellDirection });
             
             bool foundLoop = false;
 
@@ -147,7 +147,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
             //otherwise, the new step is added to randomwalk
             if (!foundLoop)
             {
-                Step newStep = new Step(newCell, (Direction)newDirection);
+                Step newStep = new Step(newCell, (Directions)newDirection);
                 outRandomWalk.Add(newStep);
 
                 if (isLiveGenerationEnabled)

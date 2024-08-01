@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class DataGrid {
-    public enum Direction { Up, Right, Down, Left};
+public class DataGrid
+{
+    public enum Directions { Up, Right, Down, Left};
     
     #region ===================================================================================================== Fields
-    public int ColumnsCount { get; private set; }
-    public int RowsCount { get; private set; }
-    public int CellsCount => ColumnsCount * RowsCount;
-    
+    public readonly int ColumnsCount;
+    public readonly int RowsCount;
     private readonly DataCell[,] cells;
 
     #endregion  Fields
@@ -18,11 +17,8 @@ public class DataGrid {
 
     public int GetShorterSideCellsCount() => ColumnsCount < RowsCount ? ColumnsCount : RowsCount;
 
-    public Vector3 GetExitPosition()
-    {
-        return new Vector3(ColumnsCount-1, 0, -RowsCount+1);
-    }
-    
+    public Vector3 GetExitPosition() => new Vector3(ColumnsCount - 1, 0, -RowsCount + 1);
+
     public DataGrid (int rowsCount,int columnsCount)
     {
         RowsCount = rowsCount;
@@ -43,12 +39,12 @@ public class DataGrid {
     
     public void RemoveWall(DataCell cell1, DataCell cell2)
     {
-        Debug.Assert(Mathf.Abs(cell1.PosM - cell2.PosM) == 1 ||  Mathf.Abs(cell1.PosN - cell2.PosN) == 1 , 
-            $"{nameof(RemoveWall)} received not adjacent cells! {cell1}, {cell2}");
-        
-        Debug.Assert(cell1.Equals(cell2) == false, 
-            $"{nameof(RemoveWall)} received same cell, wall couldn't be removed");
-        
+        if(AreCellsAdjacent(cell1, cell2) == false)
+        {
+            Debug.LogError($"{nameof(RemoveWall)} Received not adjacent cells ({cell1}, {cell2}), returning");
+            return;
+        }
+
         if (cell1.PosM < cell2.PosM)
             cell2.IsTopWallActive = false;
         else if (cell1.PosM > cell2.PosM)
@@ -61,9 +57,12 @@ public class DataGrid {
     
     public void BuildWall(DataCell cell1, DataCell cell2)
     {
-        Debug.Assert(Mathf.Abs(cell1.PosM - cell2.PosM) == 1||  Mathf.Abs(cell1.PosN - cell2.PosN) == 1 , 
-            $"{nameof(BuildWall)} received not adjacent cells! {cell1}, {cell2}");
-        
+        if (AreCellsAdjacent(cell1, cell2) == false)
+        {
+            Debug.LogError($"{nameof(BuildWall)} Received not adjacent cells ({cell1}, {cell2}), returning");
+            return;
+        }
+
         if (cell1.PosM < cell2.PosM)
             cell2.IsTopWallActive = true;
         else if (cell1.PosM > cell2.PosM)
@@ -74,24 +73,18 @@ public class DataGrid {
             cell1.IsRightWallActive = true;
     }
 
-    /// <summary>
-    /// Returns cell at specified coordinates
-    /// </summary>
-    /// <param name="m">Cell m index (distance from the top)</param>
-    /// <param name="n">Cell n index (distance from left side)</param>
-    /// <returns></returns>
-    public DataCell GetCell(int m, int n) =>  cells[m, n];
+    public DataCell GetCell(int m, int n) => cells[m, n];
 
-    public Direction? GetRandomNeighbourDirection (DataCell cell, Direction[] preventDirections)
+    public Directions? GetRandomNeighbourDirection (DataCell cell, Directions[] preventDirections)
     {
         Debug.Assert(preventDirections.Length > 0 && preventDirections != null,
             $"{nameof(GetRandomNeighbourDirection)} called passing null or empty {nameof(preventDirections)} list!");
 
-        List<Direction> possibleDirections = GetNeighboursDirections(cell);
+        List<Directions> possibleDirections = GetNeighboursDirections(cell);
 
         if (preventDirections.Length > 0)
         {
-            foreach (Direction preventDirection in preventDirections)
+            foreach (Directions preventDirection in preventDirections)
                 possibleDirections.Remove(preventDirection);
         }
        
@@ -101,43 +94,42 @@ public class DataGrid {
         return possibleDirections[Random.Range(0, possibleDirections.Count)];
     }
 
-    public Direction GetRandomNeighbourDirection(DataCell cell)
+    public Directions GetRandomNeighbourDirection(DataCell cell)
     {
-        List<Direction> possibleDirections = GetNeighboursDirections(cell);
+        List<Directions> possibleDirections = GetNeighboursDirections(cell);
         return possibleDirections[Random.Range(0, possibleDirections.Count)];
     }
-
 
     public List<DataCell> GetNeighbours(DataCell cell)
     {
         List<DataCell> possibleNeighbours = new List<DataCell>();
-        List<Direction> directions = GetNeighboursDirections(cell);
-        foreach (Direction dir in directions)
+        List<Directions> directions = GetNeighboursDirections(cell);
+        foreach (Directions dir in directions)
             possibleNeighbours.Add(GetNeighbourAtDirection(cell,dir));
 
         return possibleNeighbours;
     }
     
-    public DataCell GetNeighbourAtDirection(DataCell cell, Direction direction)
+    public DataCell GetNeighbourAtDirection(DataCell cell, Directions direction)
     {
         switch (direction)
         {
-            case Direction.Up:
+            case Directions.Up:
                 if (cell.PosM == 0)
                     return null;
                 return cells[cell.PosM - 1, cell.PosN];
             
-            case Direction.Down:
+            case Directions.Down:
                 if (cell.PosM == RowsCount-1)
                     return null;
                 return cells[cell.PosM + 1, cell.PosN];
 
-            case Direction.Left:
+            case Directions.Left:
                 if (cell.PosN == 0)
                     return null;
                 return cells[cell.PosM, cell.PosN-1];
             
-            case Direction.Right:
+            case Directions.Right:
                 if (cell.PosN == ColumnsCount-1)
                     return null;
                 return cells[cell.PosM, cell.PosN+1];
@@ -147,15 +139,15 @@ public class DataGrid {
         }
     }
 
-    public List<Direction> GetNeighboursDirections(DataCell cell)
+    public List<Directions> GetNeighboursDirections(DataCell cell)
     {
-        List<Direction> ris = GetAllDirections();
+        List<Directions> ris = GetAllDirections();
 
-        if (cell.PosN == 0) ris.Remove(Direction.Left);
-        else if (cell.PosN == ColumnsCount - 1) ris.Remove(Direction.Right);
+        if (cell.PosN == 0) ris.Remove(Directions.Left);
+        else if (cell.PosN == ColumnsCount - 1) ris.Remove(Directions.Right);
 
-        if (cell.PosM == 0) ris.Remove(Direction.Up);
-        else if (cell.PosM == RowsCount - 1) ris.Remove(Direction.Down);
+        if (cell.PosM == 0) ris.Remove(Directions.Up);
+        else if (cell.PosM == RowsCount - 1) ris.Remove(Directions.Down);
 
         return ris;
     }
@@ -166,14 +158,14 @@ public class DataGrid {
     /// <param name="_dir">Direction you want to get the inverse</param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public static Direction GetInverseDirection(Direction direction)
+    public static Directions GetInverseDirection(Directions direction)
     {
         switch (direction)
         {
-            case Direction.Up:return Direction.Down;
-            case Direction.Down: return Direction.Up;
-            case Direction.Left: return Direction.Right;
-            case Direction.Right: return Direction.Left;
+            case Directions.Up:return Directions.Down;
+            case Directions.Down: return Directions.Up;
+            case Directions.Left: return Directions.Right;
+            case Directions.Right: return Directions.Left;
             default: throw new Exception($"{direction} not recognized");
         }
     }
@@ -182,15 +174,25 @@ public class DataGrid {
     /// Returns a list containing all the possible directions
     /// </summary>
     /// <returns></returns>
-    public static List<Direction> GetAllDirections()
+    public static List<Directions> GetAllDirections()
     {
-        List<Direction> allDir = new List<Direction>();
-        int directionsCount = Enum.GetValues(typeof(Direction)).Length;
+        List<Directions> allDir = new List<Directions>();
+        int directionsCount = Enum.GetValues(typeof(Directions)).Length;
         
         for (int i = 0; i < directionsCount; i++)
-            allDir.Add((Direction)i);
+            allDir.Add((Directions)i);
         return allDir;
     }
-    
+
     #endregion Public Methods
+
+    private bool AreCellsAdjacent(DataCell cell1, DataCell cell2)
+    {
+        if (Mathf.Abs(cell1.PosM - cell2.PosM) == 1 || Mathf.Abs(cell1.PosN - cell2.PosN) == 1)
+            return false;
+        if (cell1.Equals(cell2))
+            return false;
+
+        return true;
+    }
 }

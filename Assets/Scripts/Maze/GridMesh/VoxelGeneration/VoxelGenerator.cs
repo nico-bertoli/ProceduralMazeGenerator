@@ -117,22 +117,22 @@ public class VoxelGenerator : MonoBehaviour
         // top wall
         if (isTopWall)
         {
-            DataCell rightCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Right);
+            DataCell rightCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Directions.Right);
             if(rightCell !=null && rightCell.IsTopWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Right);
             
-            DataCell leftCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Left);
+            DataCell leftCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Directions.Left);
             if(leftCell !=null && leftCell.IsTopWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Left);
         }
         // right wall
         else
         {
-            DataCell bottomCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Down);
+            DataCell bottomCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Directions.Down);
             if(bottomCell !=null && bottomCell.IsRightWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Back);
             
-            DataCell forwardCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Direction.Up);
+            DataCell forwardCell = dataGrid.GetNeighbourAtDirection(cell, DataGrid.Directions.Up);
             if(forwardCell !=null && forwardCell.IsRightWallActive)
                 dontCreateFaces.Add(CubeFaceDirection.Forward);  
         }
