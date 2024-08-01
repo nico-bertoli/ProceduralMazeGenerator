@@ -113,13 +113,13 @@ public class DataGrid
         }
 
         if (cell1.PosM < cell2.PosM)
-            cell2.IsTopWallActive = false;
+            cell2.SetTopWallActive(false);
         else if (cell1.PosM > cell2.PosM)
-            cell1.IsTopWallActive = false;
+            cell1.SetTopWallActive(false);
         else if (cell1.PosN > cell2.PosN)
-            cell2.IsRightWallActive = false;
+            cell2.SetRightWallActive(false);
         else
-            cell1.IsRightWallActive = false;
+            cell1.SetRightWallActive(false);
     }
 
     public void BuildWall(DataCell cell1, DataCell cell2)
@@ -131,13 +131,13 @@ public class DataGrid
         }
 
         if (cell1.PosM < cell2.PosM)
-            cell2.IsTopWallActive = true;
+            cell2.SetTopWallActive(true);
         else if (cell1.PosM > cell2.PosM)
-            cell1.IsTopWallActive = true;
+            cell1.SetTopWallActive(true);
         else if (cell1.PosN > cell2.PosN)
-            cell2.IsRightWallActive = true;
+            cell2.SetRightWallActive(true);
         else
-            cell1.IsRightWallActive = true;
+            cell1.SetRightWallActive(true);
     }
 
     #endregion Public Methods

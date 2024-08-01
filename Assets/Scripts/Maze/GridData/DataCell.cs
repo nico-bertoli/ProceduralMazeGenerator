@@ -3,31 +3,7 @@ using System;
 public class DataCell
 {
     public event Action OnWallBuiltOrDestroyed;
-    public bool IsTopWallActive
-    {
-        get => isTopWallActive;
-        set
-        {
-            if (isTopWallActive == value)
-                return;
 
-            isTopWallActive = value;
-            OnWallBuiltOrDestroyed?.Invoke();
-        }
-    }
-    
-    public bool IsRightWallActive
-    {
-        get => isRightWallActive;
-        set
-        {
-            if (isRightWallActive == value)
-                return;
-
-            isRightWallActive = value;
-            OnWallBuiltOrDestroyed?.Invoke();
-        }
-    }
     #region ============================================================================================== Public Fields
     
     /// <summary>
@@ -48,8 +24,8 @@ public class DataCell
     /// </summary>
     private DataGrid grid;
 
-    private bool isTopWallActive;
-    private bool isRightWallActive;
+    public bool IsTopWallActive { get; private set; }
+    public bool IsRightWallActive { get; private set; }
 
     #endregion Private Fields
     #region ============================================================================================= Public Methods
@@ -63,7 +39,25 @@ public class DataCell
         //most of maze generation algorithms start with a grid with walls active
         SetAllWallsActive(true);   
     }
-    
+
+    public void SetTopWallActive(bool value)
+    {
+        if (IsTopWallActive == value)
+            return;
+
+        IsTopWallActive = value;
+        OnWallBuiltOrDestroyed?.Invoke();
+    }
+
+    public void SetRightWallActive(bool value)
+    {
+        if (IsRightWallActive == value)
+            return;
+
+        IsRightWallActive = value;
+        OnWallBuiltOrDestroyed?.Invoke();
+    }
+
     public override string ToString() => "[" + PosM.ToString() + "," + PosN + "]";
     public override int GetHashCode() => PosM * grid.ColumnsCount + PosN;
     public override bool Equals(object obj)
