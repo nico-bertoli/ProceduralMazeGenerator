@@ -3,7 +3,9 @@ using System.Collections;
 using UnityEngine;
 using static AbsMazeGenStrategy;
 
-public class MazeFacade : MonoBehaviour {
+public class HiddenGenMaze : MonoBehaviour {
+
+    protected virtual bool IsLiveGenerationEnabled => false;
 
     #region ============================================================================================== Public Events
 
@@ -18,23 +20,17 @@ public class MazeFacade : MonoBehaviour {
     /// </summary>
     public event Action OnMazeDataStructureGenerated;
 
-    public event Action OnLiveGenerationMeshGenerated;
     public event Action OnGenerationStarted;
 
     #endregion Public Events
-    #region ========================================================================================== Public Properties
-    
-    public bool IsLiveGenerationActive { get; private set; }
-    
-    #endregion Public Properties
-    #region ============================================================================================= Private Fields
+    #region ============================================================================================= Fields
 
-    [SerializeField] private LiveGenerationGrid liveGenGrid;
-    [SerializeField] private VoxelGenerator voxelGenerator;
+    //--- protected
+    [SerializeField] protected VoxelGenerator voxelGenerator;
+    protected DataGrid dataGrid;
 
-    private DataGrid dataGrid;
+    //--- private
     private AbsMazeGenStrategy mazeGenStrategy;
-    
     #endregion Fields
     #region ============================================================================================= Public Methods
     
@@ -46,43 +42,31 @@ public class MazeFacade : MonoBehaviour {
 
     public void Generate(int nRows, int nColumns, bool showLiveGeneration, MazeGenStrategy eMazeGenStategy)
     {
-        StartCoroutine(GenerateCor(nRows,nColumns,showLiveGeneration,eMazeGenStategy));
+        StartCoroutine(GenerateMazeCor(nRows,nColumns,eMazeGenStategy));
     }
     
     public void SetLiveGenerationSpeed(float speed) => mazeGenStrategy?.SetLiveGenerationSpeed(speed);
 
-    public void Reset()
-    {    
-        liveGenGrid.Reset();
-        voxelGenerator.Reset();
-    }
+    public virtual void Reset() => voxelGenerator.Reset();
 
-    public Vector3 GetExitPosition()
-    {
-        return dataGrid.GetExitPosition();
-    }
-    
-    
+    public Vector3 GetExitPosition() => dataGrid.GetExitPosition();
+
     #endregion Public Methods
-    
+    #region ============================================================================================ Protected Methods
+
+    protected virtual void Start() => voxelGenerator.OnMeshGenerated += OnVoxelMeshGenerated;
+
+    protected virtual DataGrid TemplateGenerateMaze_GetDataGrid(int nRows, int nColumns) => new DataGrid(nRows, nColumns);
+    protected virtual void TemplateGenerateMaze_GenerationCompleted() => voxelGenerator.CreateGrid(dataGrid);
+
+    #endregion Protected Methods
     #region ============================================================================================ Private Methods
-    
-    private void Start()
-    {
-        voxelGenerator.OnMeshGenerated += OnVoxelMeshGenerated;
-        SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
-    }
-    
-    private IEnumerator GenerateCor(int nRows, int nColumns, bool showLiveGeneration, MazeGenStrategy eStrategy)
+
+    private IEnumerator GenerateMazeCor(int nRows, int nColumns, MazeGenStrategy eStrategy)
     {
         yield return null;
-        
-        IsLiveGenerationActive = showLiveGeneration;
 
-        dataGrid = new DataGrid(nRows, nColumns);
-
-        if (IsLiveGenerationActive)
-            liveGenGrid.Init(dataGrid);
+        dataGrid = TemplateGenerateMaze_GetDataGrid(nRows,nColumns);
 
         mazeGenStrategy = GetStrategyFromEnum(eStrategy);
 
@@ -90,14 +74,11 @@ public class MazeFacade : MonoBehaviour {
         
         DataCell startCell = dataGrid.GetCentralCell();
 
-        yield return Coroutiner.Instance.StartCoroutine(mazeGenStrategy.GenerateMaze(dataGrid, startCell, showLiveGeneration, Coroutiner.Instance));
+        yield return Coroutiner.Instance.StartCoroutine(mazeGenStrategy.GenerateMaze(dataGrid, startCell, IsLiveGenerationEnabled, Coroutiner.Instance));
 
         OnMazeDataStructureGenerated?.Invoke();
 
-        if (IsLiveGenerationActive == false)
-            voxelGenerator.CreateGrid(dataGrid);
-        else
-            OnLiveGenerationMeshGenerated?.Invoke();
+        TemplateGenerateMaze_GenerationCompleted();
     }
 
     private AbsMazeGenStrategy GetStrategyFromEnum(MazeGenStrategy enumStrategy)
@@ -116,15 +97,5 @@ public class MazeFacade : MonoBehaviour {
                 return null;
         }
     }
-
-    private void OnEscapeMazePhaseStarted()
-    {
-        if (IsLiveGenerationActive)
-        {
-            liveGenGrid.Reset();
-            voxelGenerator.CreateGrid(dataGrid);
-        }
-    }
-
     #endregion Private Methods
 }

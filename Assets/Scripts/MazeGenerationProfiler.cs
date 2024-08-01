@@ -3,9 +3,9 @@ using UnityEngine;
 public class MazeGenerationProfiler : MonoBehaviour
 {
 #if UNITY_EDITOR
-    [SerializeField] private MazeFacade maze;
-    private bool canShowDebugLog => maze.IsLiveGenerationActive == false;
-    
+    [SerializeField] private HiddenGenMaze maze;
+    private bool canShowDebugLog => SceneManager.Instance.IsLiveGenerationActive == false;
+
     private float generationStartTime;
     private float generationEndTime;
     

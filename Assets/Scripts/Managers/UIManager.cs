@@ -29,8 +29,9 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private TMP_Dropdown algorithmDropdown;
 
     [Header("Other References")]
-    [SerializeField] private MazeFacade maze;
-    
+    [SerializeField] private HiddenGenMaze hiddenGenMaze;
+    [SerializeField] private LiveGenMaze liveGenMaze;
+
     private int nColumns;
     private int nRows;
     private bool isLiveGenerationActive;
@@ -52,9 +53,12 @@ public class UIManager : Singleton<UIManager>
     
     private void Start()
     {
-        maze.OnMazeDataStructureGenerated += () => loadingPanel.SetActive(false);
-        maze.OnVoxelMeshGenerated += OnMazeFinalMeshGenerated;
-        maze.OnLiveGenerationMeshGenerated += OnLiveGenerationMeshGenerated;
+        hiddenGenMaze.OnMazeDataStructureGenerated += () => loadingPanel.SetActive(false);
+        hiddenGenMaze.OnVoxelMeshGenerated += OnMazeFinalMeshGenerated;
+
+        liveGenMaze.OnMazeDataStructureGenerated += () => loadingPanel.SetActive(false);
+        liveGenMaze.OnVoxelMeshGenerated += OnMazeFinalMeshGenerated;
+        liveGenMaze.OnLiveGenerationMeshGenerated += OnLiveGenerationMeshGenerated;
 
         loadingPanel.SetActive(false);
         liveGenToggle.isOn = false;
@@ -133,7 +137,7 @@ public class UIManager : Singleton<UIManager>
     #region ============================================================================================ Signals
 
     [UsedImplicitly]
-    public void Signal_UpdateLiveGenerationSpeed() => maze.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
+    public void Signal_UpdateLiveGenerationSpeed() => liveGenMaze.SetLiveGenerationSpeed(genSpeedSlider.value * 100);
 
     [UsedImplicitly]
     public void Signal_StartEscapePhase()
