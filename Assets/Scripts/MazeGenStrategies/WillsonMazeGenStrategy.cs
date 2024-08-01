@@ -73,6 +73,8 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
     /// <returns></returns>
     private IEnumerator GetFirstRandomWalkCor(DataGrid grid, DataCell startingCell, List<Step> outRandomWalk)
     {
+        Debug.Assert(outRandomWalk.Count == 0, $"{nameof(GetRandomWalkCor)} received {nameof(outRandomWalk)} should be empty, but it isn't!");
+
         int firstRandomWalkLength = grid.GetShorterSideCellsCount()-3;
         HashSet<DataCell> visitedCells = new HashSet<DataCell>() { startingCell };
         Direction allwaysPreventedDirection = (Direction)Random.Range(0,System.Enum.GetValues(typeof(Direction)).Length);
@@ -91,7 +93,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
             //cannot be null
             Direction newDirection = (Direction)grid.GetRandomNeighbourDirection(newCell, new Direction[] { previousCellDirection, allwaysPreventedDirection } );
 
-            Step newStep = new Step(newCell, (Direction)newDirection);
+            Step newStep = new Step(newCell, newDirection);
             outRandomWalk.Add(newStep);
             visitedCells.Add(newCell);
 
@@ -106,7 +108,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
     //iterators cannot use out parameters -_-
     private IEnumerator GetRandomWalkCor (DataGrid grid, HashSet<DataCell> finalTreeCells, HashSet<DataCell> notInFinalTreeCells, List<Step> outRandomWalk)
     {
-        Debug.Assert(outRandomWalk.Count == 0, $"{nameof(GetRandomWalkCor)} received not empty {nameof(outRandomWalk)}!");
+        Debug.Assert(outRandomWalk.Count == 0, $"{nameof(GetRandomWalkCor)} received {nameof(outRandomWalk)} should be empty, but it isn't!");
 
         DataCell randomStartingCell = notInFinalTreeCells.ElementAt(Random.Range(0, notInFinalTreeCells.Count));
         Direction randomDirection = grid.GetRandomNeighbourDirection(randomStartingCell);
