@@ -8,6 +8,9 @@ public class DataCell
         get => isTopWallActive;
         set
         {
+            if (isTopWallActive == value)
+                return;
+
             isTopWallActive = value;
             OnWallBuiltOrDestroyed?.Invoke();
         }
@@ -18,6 +21,9 @@ public class DataCell
         get => isRightWallActive;
         set
         {
+            if (isRightWallActive == value)
+                return;
+
             isRightWallActive = value;
             OnWallBuiltOrDestroyed?.Invoke();
         }
