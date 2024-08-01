@@ -14,17 +14,35 @@ public class CubeMeshDataGenerator : MonoBehaviour
         Bottom = 5
     }
 
-    private static readonly Vector3[] CubeVertices = new Vector3[]
+    #region ================================================================================================= Public Methods
+
+    public static void GetMeshData(List<Vector3> vertices, List<int> triangles, Vector3 scale, Vector3 position, List<CubeFaceDirection> dontCreateFaces)
     {
-        new (1, 1,  1),
+        foreach (CubeFaceDirection direction in Enum.GetValues(typeof(CubeFaceDirection)))
+        {
+            // prevents creating bottom face
+            if (dontCreateFaces.Contains(direction))
+                continue;
+
+            GetFaceData(vertices, triangles, direction, scale, position);
+        }
+    }
+
+    #endregion Public Methods
+
+    #region ================================================================================================= Private Methods
+
+    private static readonly Vector3[] CubeVertices = new Vector3[]
+   {
+        new ( 1, 1, 1),
         new (-1, 1, 1),
         new (-1,-1, 1),
-        new (1, -1, 1),
+        new ( 1,-1, 1),
         new (-1, 1,-1),
-        new (1, 1, -1),
-        new (1, -1,-1),
-        new (-1, -1,-1),
-    };
+        new ( 1, 1,-1),
+        new ( 1,-1,-1),
+        new (-1,-1,-1),
+   };
 
     private static readonly int[][] CubeTriangles = new int[][]
     {
@@ -35,30 +53,18 @@ public class CubeMeshDataGenerator : MonoBehaviour
         new [] { 5, 4, 1, 0 },
         new [] { 3, 2, 7, 6 }
     };
-    
-    public static void GetMeshData(List<Vector3> vertices, List<int> triangles, Vector3 scale, Vector3 position, List<CubeFaceDirection> dontCreateFaces)
-    {
-        foreach (CubeFaceDirection direction in Enum.GetValues(typeof(CubeFaceDirection)))
-        {
-            // prevents creating bottom face
-            if(dontCreateFaces.Contains(direction))
-                continue;
-            
-            GetFaceData(vertices,triangles,direction, scale, position);
-        }
-    }
 
     private static void GetFaceData(List<Vector3> vertices, List<int> triangles, CubeFaceDirection cubeFaceDirection, Vector3 scale, Vector3 position)
     {
-        vertices.AddRange(GetFaceVertices(cubeFaceDirection,scale, position));
+        vertices.AddRange(GetFaceVertices(cubeFaceDirection, scale, position));
         int vertCount = vertices.Count;
-        
-        triangles.Add(vertCount -4);
-        triangles.Add(vertCount -4 + 1);
-        triangles.Add(vertCount -4 + 2);
-        triangles.Add(vertCount -4);
-        triangles.Add(vertCount -4 + 2);
-        triangles.Add(vertCount -4 + 3);
+
+        triangles.Add(vertCount - 4);
+        triangles.Add(vertCount - 4 + 1);
+        triangles.Add(vertCount - 4 + 2);
+        triangles.Add(vertCount - 4);
+        triangles.Add(vertCount - 4 + 2);
+        triangles.Add(vertCount - 4 + 3);
     }
 
     private static Vector3[] GetFaceVertices(CubeFaceDirection faceDirection, Vector3 scale, Vector3 position)
@@ -73,4 +79,6 @@ public class CubeMeshDataGenerator : MonoBehaviour
         }
         return faceVertices;
     }
+
+    #endregion Private Methods
 }
