@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// - Used to show live generation
-/// - When escape phase starts, this is deleted
+/// - When escape phase starts, this is deleted and a more efficient maze is generated using voxel generator
 /// </summary>
 public class LiveGenerationGrid : MonoBehaviour
 {
@@ -12,11 +12,8 @@ public class LiveGenerationGrid : MonoBehaviour
     [SerializeField] private CellObject cellObjectPrefab;
     [SerializeField] private MarginWallsGenerator marginWallsGenerator;
 
-
     private DataGrid dataGrid;
     private CellObject[,] cellObjs;
-    private GameObject meshesContainer;
-    private GameObject chunksContainer;
     
     private float liveGenWallsWidth => Settings.Instance.MazeGenerationSettings.LiveGenerationWallsWidth;
     
@@ -32,6 +29,7 @@ public class LiveGenerationGrid : MonoBehaviour
         {
             for (int n = 0; n < grid.ColumnsCount; n++)
             {
+                //todo use pooling instad of Init
                 CellObject cellObject = Instantiate(cellObjectPrefab, transform).GetComponent<CellObject>();
                 cellObjs[m, n] = cellObject;
                 cellObjs[m, n].Init(dataGrid.GetCell(m, n));
