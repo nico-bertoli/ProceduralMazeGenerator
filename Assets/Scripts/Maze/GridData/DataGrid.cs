@@ -19,8 +19,8 @@ public class DataGrid
         ColumnsCount = columnsCount;
         cells = new DataCell[RowsCount, ColumnsCount];
 
-        for (int m = 0; m < rowsCount; m++)
-            for (int n = 0; n < columnsCount; n++)
+        for (short m = 0; m < rowsCount; m++)
+            for (short n = 0; n < columnsCount; n++)
                 cells[m, n] = new DataCell(this, m, n);
     }
 

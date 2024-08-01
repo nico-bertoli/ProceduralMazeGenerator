@@ -4,37 +4,33 @@ public class DataCell
 {
     public event Action OnWallBuiltOrDestroyed;
 
-    #region ============================================================================================== Public Fields
-    
-    /// <summary>
-    /// Distance from top border
-    /// </summary>
-    public int PosM { get; }
-    
-    /// <summary>
-    /// Distance from left border
-    /// </summary>
-    public int PosN { get; }
-
-    #endregion Public Fields
-    #region ============================================================================================= Private Fields
-    
-    /// <summary>
-    /// Grid object this cell is associated to
-    /// </summary>
-    private DataGrid grid;
-
+    #region ============================================================================================== Public Properties
     public bool IsTopWallActive { get; private set; }
     public bool IsRightWallActive { get; private set; }
 
-    #endregion Private Fields
+    #endregion Public Properties
+    #region ============================================================================================== Fields
+
+    /// <summary>
+    /// Distance from top border
+    /// </summary>
+    public readonly short PosM;
+
+    /// <summary>
+    /// Distance from left border
+    /// </summary>
+    public readonly short PosN;
+
+    private readonly DataGrid dataGrid;
+
+    #endregion Fields
     #region ============================================================================================= Public Methods
-    
-    public DataCell(DataGrid grid, int posM, int posN)
+
+    public DataCell(DataGrid dataGrid, short posM, short posN)
     {
         PosM = posM;
         PosN = posN;
-        this.grid = grid;
+        this.dataGrid = dataGrid;
 
         //most of maze generation algorithms start with a grid with walls active
         SetAllWallsActive(true);   
@@ -59,7 +55,7 @@ public class DataCell
     }
 
     public override string ToString() => "[" + PosM.ToString() + "," + PosN + "]";
-    public override int GetHashCode() => PosM * grid.ColumnsCount + PosN;
+    public override int GetHashCode() => (int)(PosM * dataGrid.ColumnsCount + PosN);
     public override bool Equals(object obj)
     {
         DataCell otherCell = obj as DataCell;
