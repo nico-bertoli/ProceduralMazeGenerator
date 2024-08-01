@@ -7,18 +7,17 @@ public class CellObject : MonoBehaviour
     [SerializeField] private WallObject rightWall;
 
     private DataCell dataCell;
-    private WallObject[] walls;
+    private WallObject [] walls;
     
     #endregion Private Fields
     #region ============================================================================================= Public Methods
-    public void Init(DataCell _cell)
+    public void Init(DataCell cell)
     {
-        dataCell = _cell;
+        dataCell = cell;
         transform.position = new Vector3(dataCell.PosN, 0, -dataCell.PosM);
         walls = new WallObject[] { topWall, rightWall };
         
         RefreshWallsActive();
-
         dataCell.OnWallBuiltOrDestroyed += RefreshWallsActive;
     }
 
