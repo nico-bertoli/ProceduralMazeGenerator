@@ -13,12 +13,18 @@ public class SceneManager:Singleton<SceneManager>
         EscapeMaze
     }
 
-    public bool IsLiveGenerationActive { get; private set; }    
+    private VoxelMaze activeMaze;
+    private void SetActiveMaze(bool showLiveGen)
+    {
+        activeMaze = showLiveGen ? liveGenMaze : hiddenGenMaze;
+        liveGenMaze.enabled = showLiveGen;
+        hiddenGenMaze.enabled = showLiveGen == false;
+    }
 
     #region ============================================================================================= Private Fields
 
     [Header("References")]
-    [SerializeField] private HiddenGenMaze hiddenGenMaze;
+    [SerializeField] private VoxelMaze hiddenGenMaze;
     [SerializeField] private LiveGenMaze liveGenMaze;
 
     [SerializeField] private GameObject playerObj;
@@ -28,24 +34,25 @@ public class SceneManager:Singleton<SceneManager>
     [SerializeField] private GameObject escapePhaseObjectsContainer;
     [SerializeField] private GameObject generationPhaseObjectsContainer;
 
+    private bool isLiveGenActive;
+
     #endregion Private Fields
     #region ============================================================================================= Public Methods
     
     public void ShowMazeGeneration(int nRows,int nColumns, bool showLiveGeneration, MazeGenStrategy mazeGenStrategy)
     {
-        IsLiveGenerationActive = showLiveGeneration;
+        isLiveGenActive = showLiveGeneration;
         Vector3 mazeTopLeftPosition = new Vector3(-0.5f, 0f, 0.5f);
         mazeGenerationCamera.LookAtRectangularObject(mazeTopLeftPosition, nRows, nColumns);
 
-        if(showLiveGeneration)
-            liveGenMaze.Generate(nRows, nColumns, showLiveGeneration, mazeGenStrategy);
-        else
-            hiddenGenMaze.Generate(nRows, nColumns, showLiveGeneration, mazeGenStrategy);
+        SetActiveMaze(showLiveGeneration);
+        activeMaze.Generate(nRows, nColumns, showLiveGeneration, mazeGenStrategy);
     }
 
     public void ResetScene()
     {
-        hiddenGenMaze.Reset();
+        activeMaze.Reset();
+
         EnableObjects(GamePhase.MazeGeneration);
         UIManager.Instance.ShowSettingsPanel();
     }
@@ -63,12 +70,12 @@ public class SceneManager:Singleton<SceneManager>
 
     private void SetupPlayerPosition()
     {
-        Vector3 mazeCentralPos = hiddenGenMaze.GetCentralCellPosition();
+        Vector3 mazeCentralPos = activeMaze.GetCentralCellPosition();
         playerObj.transform.position = new Vector3(mazeCentralPos.x, playerObj.transform.position.y,mazeCentralPos.z);
         playerObj.transform.forward = Vector3.forward;
     }
     
-    private void SetupExitPosition() => exitObj.transform.position = hiddenGenMaze.GetExitPosition();
+    private void SetupExitPosition() => exitObj.transform.position = activeMaze.GetExitPosition();
     
     private void Start() 
     {

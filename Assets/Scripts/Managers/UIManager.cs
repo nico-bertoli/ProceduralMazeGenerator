@@ -29,7 +29,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private TMP_Dropdown algorithmDropdown;
 
     [Header("Other References")]
-    [SerializeField] private HiddenGenMaze hiddenGenMaze;
+    [SerializeField] private VoxelMaze hiddenGenMaze;
     [SerializeField] private LiveGenMaze liveGenMaze;
 
     private int nColumns;

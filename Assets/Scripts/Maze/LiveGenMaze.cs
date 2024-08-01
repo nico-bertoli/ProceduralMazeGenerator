@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
+using static AbsMazeGenStrategy;
 
-public class LiveGenMaze : HiddenGenMaze
+public class LiveGenMaze : VoxelMaze
 {
     protected override bool IsLiveGenerationEnabled => false;
     public event Action OnLiveGenerationMeshGenerated;
 
     [SerializeField] private LiveGenerationGrid liveGenGrid;
+
+    public void SetLiveGenerationSpeed(float speed) => mazeGenStrategy?.SetLiveGenerationSpeed(speed);
 
     protected override void Start()
     {
@@ -34,6 +37,4 @@ public class LiveGenMaze : HiddenGenMaze
         liveGenGrid.Init(dataGrid);
         return dataGrid;
     }
-
-   
 }

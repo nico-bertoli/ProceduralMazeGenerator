@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using static AbsMazeGenStrategy;
 
-public class HiddenGenMaze : MonoBehaviour {
+public class VoxelMaze : MonoBehaviour {
 
     protected virtual bool IsLiveGenerationEnabled => false;
 
@@ -30,7 +30,7 @@ public class HiddenGenMaze : MonoBehaviour {
     protected DataGrid dataGrid;
 
     //--- private
-    private AbsMazeGenStrategy mazeGenStrategy;
+    protected AbsMazeGenStrategy mazeGenStrategy;
     #endregion Fields
     #region ============================================================================================= Public Methods
     
@@ -44,8 +44,6 @@ public class HiddenGenMaze : MonoBehaviour {
     {
         StartCoroutine(GenerateMazeCor(nRows,nColumns,eMazeGenStategy));
     }
-    
-    public void SetLiveGenerationSpeed(float speed) => mazeGenStrategy?.SetLiveGenerationSpeed(speed);
 
     public virtual void Reset() => voxelGenerator.Reset();
 
@@ -54,7 +52,14 @@ public class HiddenGenMaze : MonoBehaviour {
     #endregion Public Methods
     #region ============================================================================================ Protected Methods
 
-    protected virtual void Start() => voxelGenerator.OnMeshGenerated += OnVoxelMeshGenerated;
+    protected virtual void Start() => voxelGenerator.OnMeshGenerated += () =>
+    {
+        if(enabled)
+            OnVoxelMeshGenerated?.Invoke();
+    };
+    
+
+
 
     protected virtual DataGrid TemplateGenerateMaze_GetDataGrid(int nRows, int nColumns) => new DataGrid(nRows, nColumns);
     protected virtual void TemplateGenerateMaze_GenerationCompleted() => voxelGenerator.CreateGrid(dataGrid);
