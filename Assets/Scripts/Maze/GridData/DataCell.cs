@@ -26,6 +26,7 @@ public class DataCell
     #endregion Fields
     #region ============================================================================================= Public Methods
 
+    //-------------------- Constructors
     public DataCell(DataGrid dataGrid, short posM, short posN)
     {
         PosM = posM;
@@ -33,9 +34,24 @@ public class DataCell
         this.dataGrid = dataGrid;
 
         //most of maze generation algorithms start with a grid with walls active
-        SetAllWallsActive(true);   
+        IsTopWallActive = true;
+        IsRightWallActive = true;
     }
 
+    //-------------------- Overrides
+    public override string ToString() => "[" + PosM.ToString() + "," + PosN + "]";
+    public override int GetHashCode() => (int)(PosM * dataGrid.ColumnsCount + PosN);
+    public override bool Equals(object obj)
+    {
+        DataCell otherCell = obj as DataCell;
+
+        if (otherCell == null || otherCell.PosN != PosN || otherCell.PosM != PosM)
+            return false;
+
+        return true;
+    }
+
+    //-------------------- Walls
     public void SetTopWallActive(bool value)
     {
         if (IsTopWallActive == value)
@@ -53,29 +69,5 @@ public class DataCell
         IsRightWallActive = value;
         OnWallBuiltOrDestroyed?.Invoke();
     }
-
-    public override string ToString() => "[" + PosM.ToString() + "," + PosN + "]";
-    public override int GetHashCode() => (int)(PosM * dataGrid.ColumnsCount + PosN);
-    public override bool Equals(object obj)
-    {
-        DataCell otherCell = obj as DataCell;
-        
-        if (otherCell == null || otherCell.PosN != PosN || otherCell.PosM != PosM)
-            return false;
-        
-        return true;
-    }
-    
     #endregion Public Methods
-    #region ============================================================================================ Private Methods
-    /// <summary>
-    /// Enables/disables all walls
-    /// </summary>
-    /// <param name="_active"></param>
-    private void SetAllWallsActive(bool setActive)
-    {
-        IsTopWallActive = setActive;
-        IsRightWallActive = setActive;
-    }
-    #endregion Private Methods
 }
