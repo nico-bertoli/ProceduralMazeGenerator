@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 //algorithm: https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
