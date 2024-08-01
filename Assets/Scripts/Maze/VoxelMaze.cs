@@ -25,12 +25,11 @@ public class VoxelMaze : MonoBehaviour {
     #endregion Public Events
     #region ============================================================================================= Fields
 
-    //--- protected
     [SerializeField] protected VoxelGenerator voxelGenerator;
-    protected DataGrid dataGrid;
 
-    //--- private
+    protected DataGrid dataGrid;
     protected AbsMazeGenStrategy mazeGenStrategy;
+
     #endregion Fields
     #region ============================================================================================= Public Methods
     
