@@ -7,18 +7,18 @@ public class TopDownCamera : MonoBehaviour {
     
     [SerializeField] private float verticalPadding = 0.2f;
     [SerializeField] private float horizzontalPadding = 0.1f;
-    
+
     #endregion Private Fields
-    #region ============================================================================================= Public Methods
-    
+    #region ============================================================================================= Methods
+
+    //---------------------- Public
     public void LookAtRectangularObject(Vector3 topLeftPosition, int height, int width)
     {
         transform.position = new Vector3(topLeftPosition.x + width / 2f, transform.position.y, topLeftPosition.z - height / 2f);
         AdjustCameraSize(height, width);
     }
 
-    #endregion Public Methods
-    #region ============================================================================================= Private Methods
+    //---------------------- Private
     private void AdjustCameraSize(int height, int width)
     {
         // formulas source: https://www.youtube.com/watch?v=3xXlnSetHPM&ab_channel=PressStart
@@ -55,5 +55,5 @@ public class TopDownCamera : MonoBehaviour {
         Camera.main.orthographicSize += bordersPadding;
     }
     
-    #endregion Private Methods
+    #endregion Methods
 }

@@ -4,11 +4,15 @@ using UnityEngine.InputSystem;
 public class PlayerInputReader : MonoBehaviour
 {
     #region ============================================================================================== Public Fields
-    public Vector2 MoveDirection { get; private set; }
+
+    //--------- movement
     public bool IsMoving { get; private set; }
-    public float RotateDirection { get; private set; }
+    public Vector2 MoveDirection { get; private set; }
+
+    //--------- rotation
     public bool IsRotating { get; private set; }
-    
+    public float RotateDirection { get; private set; }
+   
     #endregion Public Fields
     #region ============================================================================================= Public Methods
     
