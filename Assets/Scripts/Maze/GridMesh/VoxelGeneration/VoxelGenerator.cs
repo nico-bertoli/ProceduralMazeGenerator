@@ -15,7 +15,7 @@ public class VoxelGenerator : MonoBehaviour
 
     [Header("References")] 
     [SerializeField] private VoxelChunk voxelChunkPrototype;
-    [SerializeField] private MarginWallsGenerator marginWallsGenerator;
+    [SerializeField] private MarginWallsHandler marginWallsGenerator;
     
     [Header("Settings")]
     [SerializeField] private Material material;
@@ -48,7 +48,7 @@ public class VoxelGenerator : MonoBehaviour
         
         chunks.Clear();
         
-        marginWallsGenerator.Reset();
+        marginWallsGenerator.EnableMargins(false);
     }
 
     #endregion Public Methods

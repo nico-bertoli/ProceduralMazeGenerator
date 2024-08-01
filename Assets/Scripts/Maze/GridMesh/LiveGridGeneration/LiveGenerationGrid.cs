@@ -10,7 +10,7 @@ public class LiveGenerationGrid : MonoBehaviour
     
     [Header("References")]
     [SerializeField] private CellObject cellObjectPrefab;
-    [SerializeField] private MarginWallsGenerator marginWallsGenerator;
+    [SerializeField] private MarginWallsHandler marginWallsGenerator;
     [SerializeField] private PoolSpawner cellsPoolSpawner;
 
     private DataGrid dataGrid;
@@ -50,7 +50,7 @@ public class LiveGenerationGrid : MonoBehaviour
             cellsPoolSpawner.ReturnItem(cell.gameObject);
 
         cellObjs = null;
-        marginWallsGenerator.Reset();
+        marginWallsGenerator.EnableMargins(false);
     }
 
     #endregion Public Methods

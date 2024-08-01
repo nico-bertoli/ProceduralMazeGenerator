@@ -1,21 +1,16 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class MarginWallsGenerator : MonoBehaviour
+public class MarginWallsHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject marginWallPrefab;
+    //[SerializeField] private GameObject marginWallPrefab;
     
-    private WallObject leftMargin;
-    private WallObject bottomMargin;
+    [SerializeField] private WallObject leftMargin;
+    [SerializeField] private WallObject bottomMargin;
+
+    private void Start() => EnableMargins(false);
 
     public void InitMargins(DataGrid dataGrid, float wallsWidth)
-    {
-        leftMargin = Instantiate(marginWallPrefab).GetComponent<WallObject>();
-        bottomMargin = Instantiate(marginWallPrefab).GetOrAddComponent<WallObject>();
-
-        leftMargin.gameObject.name = "Left margin";
-        bottomMargin.gameObject.name = "Bottom margin";
-        
+    {       
         float positionAdjustment = 0.5f - wallsWidth / 2f;
         
         leftMargin.SetPosition(-0.5f,-dataGrid.RowsCount / 2f  + positionAdjustment);
@@ -23,12 +18,13 @@ public class MarginWallsGenerator : MonoBehaviour
 
         bottomMargin.SetWidth(wallsWidth);
         leftMargin.SetWidth(wallsWidth);
+
         bottomMargin.SetLength(dataGrid.ColumnsCount);
         leftMargin.SetLength(dataGrid.RowsCount);
 
+        bottomMargin.transform.rotation = Quaternion.Euler(Vector3.zero);
         leftMargin.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
 
-        leftMargin.transform.parent = bottomMargin.transform.parent = transform;
         bottomMargin.gameObject.SetActive(true);
         leftMargin.gameObject.SetActive(true);
     }
@@ -48,12 +44,9 @@ public class MarginWallsGenerator : MonoBehaviour
         }
     }
     
-    public void Reset()
+    public void EnableMargins(bool enable)
     {
-        if(leftMargin != null && leftMargin.gameObject != null)
-            Destroy(leftMargin.gameObject);
-        
-        if(bottomMargin != null && bottomMargin.gameObject != null)
-            Destroy(bottomMargin.gameObject);
+        leftMargin.gameObject.SetActive(enable);
+        bottomMargin.gameObject.SetActive(enable);   
     }
 }
