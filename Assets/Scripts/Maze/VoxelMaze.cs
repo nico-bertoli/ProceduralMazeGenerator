@@ -30,6 +30,8 @@ public class VoxelMaze : MonoBehaviour {
     protected DataGrid dataGrid;
     protected AbsMazeGenStrategy mazeGenStrategy;
 
+    private Coroutine generationCor;
+
     #endregion Fields
     #region ============================================================================================= Public Methods
     
@@ -44,7 +46,12 @@ public class VoxelMaze : MonoBehaviour {
         StartCoroutine(GenerateMazeCor(nRows,nColumns,eMazeGenStategy));
     }
 
-    public virtual void Reset() => voxelGenerator.Reset();
+    public virtual void Reset()
+    {
+        Coroutiner.Instance.StopCoroutine(generationCor);
+        generationCor = null;
+        voxelGenerator.Reset();
+    } 
 
     public Vector3 GetExitPosition() => dataGrid.GetExitPosition();
 
@@ -78,7 +85,7 @@ public class VoxelMaze : MonoBehaviour {
         
         DataCell startCell = dataGrid.GetCentralCell();
 
-        yield return Coroutiner.Instance.StartCoroutine(mazeGenStrategy.GenerateMaze(dataGrid, startCell, IsLiveGenerationEnabled, Coroutiner.Instance));
+        yield return generationCor = Coroutiner.Instance.StartCoroutine(mazeGenStrategy.GenerateMaze(dataGrid, startCell, IsLiveGenerationEnabled, Coroutiner.Instance));
 
         OnMazeDataStructureGenerated?.Invoke();
 

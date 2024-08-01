@@ -49,7 +49,6 @@ public class SceneManager:Singleton<SceneManager>
     public void ResetScene()
     {
         activeMaze.Reset();
-
         EnableObjects(GamePhase.MazeGeneration);
         UIManager.Instance.ShowSettingsPanel();
     }
