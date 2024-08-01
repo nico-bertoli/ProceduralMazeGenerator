@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -133,6 +134,7 @@ public class DataGrid
                 if (cell.PosN == ColumnsCount-1)
                     return null;
                 return cells[cell.PosM, cell.PosN+1];
+
             default:
                 Debug.LogError($"direction: {direction} not recognized, returning null neighbour");
                 return null;
@@ -141,58 +143,47 @@ public class DataGrid
 
     public List<Directions> GetNeighboursDirections(DataCell cell)
     {
-        List<Directions> ris = GetAllDirections();
+        List<Directions> result = GetAllDirections();
 
-        if (cell.PosN == 0) ris.Remove(Directions.Left);
-        else if (cell.PosN == ColumnsCount - 1) ris.Remove(Directions.Right);
+        if (cell.PosN == 0) result.Remove(Directions.Left);
+        else if (cell.PosN == ColumnsCount - 1) result.Remove(Directions.Right);
 
-        if (cell.PosM == 0) ris.Remove(Directions.Up);
-        else if (cell.PosM == RowsCount - 1) ris.Remove(Directions.Down);
+        if (cell.PosM == 0) result.Remove(Directions.Up);
+        else if (cell.PosM == RowsCount - 1) result.Remove(Directions.Down);
 
-        return ris;
+        return result;
     }
-    
-    /// <summary>
-    /// Returns the inverse direction of the given one
-    /// </summary>
-    /// <param name="_dir">Direction you want to get the inverse</param>
-    /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+
+    #endregion Public Methods
+    #region ======================================================== Private Methods
+
+    private bool AreCellsAdjacent(DataCell cell1, DataCell cell2)
+    {
+        if (Mathf.Abs(cell1.PosM - cell2.PosM) == 1 &&  Mathf.Abs(cell1.PosN - cell2.PosN) == 0)
+            return true;
+
+        if (Mathf.Abs(cell1.PosN - cell2.PosN) == 1 && Mathf.Abs(cell1.PosM - cell2.PosM) == 0)
+            return true;
+
+        return false;
+    }
+
+    #endregion Private Methods
+    #region ======================================================== Directions Utils
+
     public static Directions GetInverseDirection(Directions direction)
     {
         switch (direction)
         {
-            case Directions.Up:return Directions.Down;
+            case Directions.Up: return Directions.Down;
             case Directions.Down: return Directions.Up;
             case Directions.Left: return Directions.Right;
             case Directions.Right: return Directions.Left;
             default: throw new Exception($"{direction} not recognized");
         }
     }
-    
-    /// <summary>
-    /// Returns a list containing all the possible directions
-    /// </summary>
-    /// <returns></returns>
-    public static List<Directions> GetAllDirections()
-    {
-        List<Directions> allDir = new List<Directions>();
-        int directionsCount = Enum.GetValues(typeof(Directions)).Length;
-        
-        for (int i = 0; i < directionsCount; i++)
-            allDir.Add((Directions)i);
-        return allDir;
-    }
 
-    #endregion Public Methods
+    public static List<Directions> GetAllDirections() => ((Directions[])Enum.GetValues(typeof(Directions))).ToList();
 
-    private bool AreCellsAdjacent(DataCell cell1, DataCell cell2)
-    {
-        if (Mathf.Abs(cell1.PosM - cell2.PosM) == 1 || Mathf.Abs(cell1.PosN - cell2.PosN) == 1)
-            return false;
-        if (cell1.Equals(cell2))
-            return false;
-
-        return true;
-    }
+    #endregion Directions Utils
 }
