@@ -45,30 +45,31 @@ public class VoxelMaze : MonoBehaviour {
         StartCoroutine(GenerateMazeCor(nRows,nColumns,eMazeGenStategy));
     }
 
-    public virtual void Reset()
-    {
-        voxelGenerator.OnMeshGenerated -= OnVoxelMeshGenerated;
-        voxelGenerator.Reset();
-    } 
+    public virtual void Reset() => voxelGenerator.Reset();
 
     public Vector3 GetExitPosition() => dataGrid.GetExitPosition();
 
     #endregion Public Methods
-    #region ============================================================================================ Protected Methods
-
-    protected virtual void Hook_GenerationStarted() { }
+    #region ============================================================================================ Hooks
     protected virtual DataGrid Hook_CreateDataGrid(int nRows, int nColumns) => new DataGrid(nRows, nColumns);
     protected virtual void Hook_GenerationCompleted() => voxelGenerator.CreateGrid(dataGrid);
 
-    #endregion Protected Methods
+    #endregion Hooks
     #region ============================================================================================ Private Methods
+
+    protected virtual void Start() => voxelGenerator.OnMeshGenerated += CallMeshGeneratedEvent;
+
+    private void CallMeshGeneratedEvent()
+    {
+        if (enabled == false)
+            return;
+        OnVoxelMeshGenerated?.Invoke();
+    }
 
     private IEnumerator GenerateMazeCor(int nRows, int nColumns, MazeGenStrategy eStrategy)
     {
 
         yield return null;
-
-        Hook_GenerationStarted();
 
         dataGrid = Hook_CreateDataGrid(nRows,nColumns);
 
@@ -82,8 +83,7 @@ public class VoxelMaze : MonoBehaviour {
 
         OnMazeDataStructureGenerated?.Invoke();
 
-        if (OnVoxelMeshGenerated != null)
-            voxelGenerator.OnMeshGenerated += OnVoxelMeshGenerated;
+
 
         Hook_GenerationCompleted();
     }
