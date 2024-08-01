@@ -52,12 +52,7 @@ public class VoxelMaze : MonoBehaviour {
     #endregion Public Methods
     #region ============================================================================================ Protected Methods
 
-    protected virtual void Start() => voxelGenerator.OnMeshGenerated += () =>
-    {
-        if(enabled)
-            OnVoxelMeshGenerated?.Invoke();
-    };
-    
+    protected virtual void Start() => voxelGenerator.OnMeshGenerated += () => OnVoxelMeshGenerated?.Invoke();
 
 
 
