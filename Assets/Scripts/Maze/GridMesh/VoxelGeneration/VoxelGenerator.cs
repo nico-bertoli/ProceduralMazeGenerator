@@ -88,35 +88,38 @@ public class VoxelGenerator : MonoBehaviour
             for (int n = nBegin; n < nBegin + chunkSize && n < dataGrid.ColumnsCount; n++)
             {
                 DataCell cell = dataGrid.GetCell(m, n);
-                
+
                 if (cell.IsTopWallActive)
                 {
-                    List<CubeFaceDirection> dontCreateFaces = GetNotVisibleFaces(dataGrid,m,n,true);
+                    List<CubeFaceDirection> dontCreateFaces = GetNotVisibleFaces(dataGrid, m, n, true);
                     Vector3 topWallPos = new Vector3(cell.PosN - wallsOffsetFromCenter, 0, -cell.PosM);
-                    CubeMeshDataGenerator.GetMeshData(vertices,triangles,topWallScale * 0.5f,topWallPos,dontCreateFaces);
+                    GetCubeMeshVerticesAndTriangles(topWallScale * 0.5f, topWallPos, dontCreateFaces, vertices, triangles);
                 }
                 if (cell.IsRightWallActive)
                 {
-                    List<CubeFaceDirection> preventCreationFaces = GetNotVisibleFaces(dataGrid,m,n,false);
+                    List<CubeFaceDirection> preventCreationFaces = GetNotVisibleFaces(dataGrid, m, n, false);
                     Vector3 rightWallPos = new Vector3(cell.PosN, 0, -cell.PosM - wallsOffsetFromCenter);
-                    CubeMeshDataGenerator.GetMeshData(vertices,triangles,rightWallScale * 0.5f,rightWallPos,preventCreationFaces);
+                    GetCubeMeshVerticesAndTriangles(rightWallScale * 0.5f, rightWallPos, preventCreationFaces, vertices, triangles);
                 }
             }
         }
-        
+
+        Debug.Assert(vertices != null && vertices.Count > 0, "Vertices list is null or empty!");
+        Debug.Assert(triangles != null && triangles.Count > 0, "Triangles list is null or empty!");
+
         VoxelChunk chunk = Instantiate(voxelChunkPrototype,transform).GetComponent<VoxelChunk>();
         chunk.Init(vertices,triangles,material);
         chunk.gameObject.isStatic = true;
         return chunk;
     }
     
-    private List<CubeFaceDirection> GetNotVisibleFaces(DataGrid dataGrid, int m, int n, bool isTopWall)
+    private List<CubeFaceDirection> GetNotVisibleFaces(DataGrid dataGrid, int m, int n, bool siHorizzontalWall)
     {
         List<CubeFaceDirection> dontCreateFaces = new List<CubeFaceDirection>() { CubeFaceDirection.Bottom };
         DataCell cell = dataGrid.GetCell(m, n);
 
         // top wall
-        if (isTopWall)
+        if (siHorizzontalWall)
         {
             DataCell rightCell = dataGrid.GetNeighbourAtDirection(cell, Directions.Right);
             if(rightCell !=null && rightCell.IsTopWallActive)

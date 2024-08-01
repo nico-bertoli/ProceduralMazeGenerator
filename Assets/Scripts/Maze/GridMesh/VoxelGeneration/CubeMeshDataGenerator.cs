@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeMeshDataGenerator : MonoBehaviour
+public static class CubeMeshDataGenerator
 {
     public enum CubeFaceDirection
     {
@@ -16,8 +16,17 @@ public class CubeMeshDataGenerator : MonoBehaviour
 
     #region ================================================================================================= Public Methods
 
-    public static void GetMeshData(List<Vector3> vertices, List<int> triangles, Vector3 scale, Vector3 position, List<CubeFaceDirection> dontCreateFaces)
+    public static void GetCubeMeshVerticesAndTriangles(
+        Vector3 scale,
+        Vector3 position,
+        List<CubeFaceDirection> dontCreateFaces,
+        List<Vector3> vertices,
+        List<int> triangles
+    )
     {
+        Debug.Assert(vertices != null, "Received null vertices!");
+        Debug.Assert(triangles != null, "Received null triangles!");
+
         foreach (CubeFaceDirection direction in Enum.GetValues(typeof(CubeFaceDirection)))
         {
             // prevents creating bottom face
@@ -54,7 +63,7 @@ public class CubeMeshDataGenerator : MonoBehaviour
         new [] { 3, 2, 7, 6 }
     };
 
-    private static void GetFaceData(List<Vector3> vertices, List<int> triangles, CubeFaceDirection cubeFaceDirection, Vector3 scale, Vector3 position)
+    private static void GetFaceData( List<Vector3> vertices, List<int> triangles, CubeFaceDirection cubeFaceDirection, Vector3 scale, Vector3 position)
     {
         vertices.AddRange(GetFaceVertices(cubeFaceDirection, scale, position));
         int vertCount = vertices.Count;
