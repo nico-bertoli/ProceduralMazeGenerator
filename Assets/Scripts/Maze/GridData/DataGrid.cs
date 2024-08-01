@@ -82,11 +82,10 @@ public class DataGrid {
     /// <returns></returns>
     public DataCell GetCell(int m, int n) =>  cells[m, n];
 
-    //todo remove
     public Direction? GetRandomNeighbourDirection (DataCell cell, Direction[] preventDirections)
     {
-        Debug.Assert(preventDirections.Length > 0, $"{nameof(GetRandomNeighbourDirection)} called passing empty {nameof(preventDirections)} list!" +
-            $"Consider using method version without this parameter");
+        Debug.Assert(preventDirections.Length > 0 && preventDirections != null,
+            $"{nameof(GetRandomNeighbourDirection)} called passing null or empty {nameof(preventDirections)} list!");
 
         List<Direction> possibleDirections = GetNeighboursDirections(cell);
 

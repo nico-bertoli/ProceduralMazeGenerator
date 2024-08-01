@@ -122,7 +122,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
 
             // get new random direction (direction of the previous cel is excluded)
             Direction previousCellDirection = GetInverseDirection(previousStep.direction);
-            Direction? newDirection = grid.GetRandomNeighbourDirection(newCell, new Direction[] { previousCellDirection });
+            Direction newDirection = (Direction)grid.GetRandomNeighbourDirection(newCell, new Direction[] { previousCellDirection });
             
             bool foundLoop = false;
 
@@ -139,8 +139,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
                             grid.BuildWall(outRandomWalk[j].cell, outRandomWalk[j - 1].cell);
                         outRandomWalk.RemoveAt(j);
                     }
-                    if(newDirection != null)
-                        outRandomWalk[i].direction = (Direction)newDirection;
+                    outRandomWalk[i].direction = newDirection;
                     break;
                 }
             }
@@ -148,7 +147,6 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
             //otherwise, the new step is added to randomwalk
             if (!foundLoop)
             {
-                Debug.Assert(newDirection != null,"newDirection was null generating random walk, this shouldn't happen!");
                 Step newStep = new Step(newCell, (Direction)newDirection);
                 outRandomWalk.Add(newStep);
 
@@ -161,7 +159,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
                     yield return coroutiner.StartCoroutine(RefreshScreenCor());
             }
 
-            //if random walk reached final tree, the random walk can be returned
+            //if random walk reached the final tree, can be returned
             if (finalTreeCells.Contains(newCell))
                 break;
         }
