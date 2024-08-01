@@ -33,8 +33,6 @@ public class MarginWallsGenerator : MonoBehaviour
         leftMargin.transform.parent = bottomMargin.transform.parent = transform;
         bottomMargin.gameObject.SetActive(true);
         leftMargin.gameObject.SetActive(true);
-        leftMargin.SetMeshActive(true);
-        bottomMargin.SetMeshActive(true);
     }
 
     public void SetWallsWidth(DataGrid dataGrid, float width)

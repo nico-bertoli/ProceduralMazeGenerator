@@ -21,12 +21,6 @@ public class CellObject : MonoBehaviour
         dataCell.OnWallBuiltOrDestroyed += RefreshWallsActive;
     }
 
-    public void SetWallMeshesActive(bool active)
-    {
-        foreach (WallObject wall in walls)
-            wall.SetMeshActive(active);
-    }
-
     public void SetWallsWidth(float width)
     {
         foreach (WallObject wall in walls)
