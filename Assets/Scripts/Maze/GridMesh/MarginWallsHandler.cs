@@ -25,8 +25,7 @@ public class MarginWallsHandler : MonoBehaviour
         bottomMargin.transform.rotation = Quaternion.Euler(Vector3.zero);
         leftMargin.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
 
-        bottomMargin.gameObject.SetActive(true);
-        leftMargin.gameObject.SetActive(true);
+        EnableMargins(true);
     }
 
     public void SetWallsWidth(DataGrid dataGrid, float width)
