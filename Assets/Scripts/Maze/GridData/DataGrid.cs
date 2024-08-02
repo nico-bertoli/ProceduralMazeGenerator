@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using static GridDirections;
+using Unity.VisualScripting;
 
 public class DataGrid
 {
@@ -12,7 +13,9 @@ public class DataGrid
     private readonly DataCell[,] cells;
 
     #endregion  Fields
+    #region ============================================================================================= Public Methods
 
+    //====================================================================== Constructor
     public DataGrid(int rowsCount, int columnsCount)
     {
         RowsCount = rowsCount;
@@ -23,8 +26,6 @@ public class DataGrid
             for (short n = 0; n < columnsCount; n++)
                 cells[m, n] = new DataCell(this, m, n);
     }
-
-    #region ============================================================================================= Public Methods
 
     //====================================================================== Get Stuff 
     public int GetShorterSideCellsCount() => ColumnsCount < RowsCount ? ColumnsCount : RowsCount;
@@ -39,7 +40,7 @@ public class DataGrid
 
     //====================================================================== Get Neighbours 
     public Directions? GetRandomNeighbourDirection (DataCell cell, Directions[] preventDirections)
-    {
+    {        
         Debug.Assert(preventDirections.Length > 0 && preventDirections != null,
             $"{nameof(GetRandomNeighbourDirection)} called passing null or empty {nameof(preventDirections)} list!");
 
