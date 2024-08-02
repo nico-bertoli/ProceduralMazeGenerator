@@ -9,8 +9,6 @@ using UnityEngine;
 /// </summary>
 public class RandDfsIterMazeGenStrategy : AbsMazeGenStrategy
 {
-    private VisitedCells visitedCells;
-
     private class VisitedCells
     {
         bool[,] visitedCellsMatrix;
@@ -19,6 +17,8 @@ public class RandDfsIterMazeGenStrategy : AbsMazeGenStrategy
         public bool IsVisited(DataCell cell) => visitedCellsMatrix[cell.PosM, cell.PosN];
         public void SetVisited(DataCell cell) => visitedCellsMatrix[cell.PosM, cell.PosN] = true;
     }
+
+    private VisitedCells visitedCells;
 
     protected override IEnumerator GenerateMazeImplementation(DataGrid grid, DataCell startCell)
     {
