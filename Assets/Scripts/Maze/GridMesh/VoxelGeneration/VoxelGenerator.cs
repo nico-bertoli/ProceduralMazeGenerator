@@ -56,8 +56,8 @@ public class VoxelGenerator : MonoBehaviour
 
     private IEnumerator GenerateGridMeshCor(DataGrid dataGrid)
     {
-        int mChunksCount = Mathf.CeilToInt(dataGrid.RowsCount / chunkSize) +1;
-        int nChunksCount = Mathf.CeilToInt(dataGrid.ColumnsCount / chunkSize) +1;
+        int mChunksCount = Mathf.CeilToInt(dataGrid.RowsCount / (float)chunkSize);
+        int nChunksCount = Mathf.CeilToInt(dataGrid.ColumnsCount / (float)chunkSize);
 
         for (int m = 0; m < mChunksCount; m++)
         {
@@ -104,8 +104,11 @@ public class VoxelGenerator : MonoBehaviour
             }
         }
 
-        Debug.Assert(vertices != null && vertices.Count > 0, "Vertices list is null or empty!");
-        Debug.Assert(triangles != null && triangles.Count > 0, "Triangles list is null or empty!");
+
+        Debug.Assert(vertices != null, "Vertices list is null!");
+        Debug.Assert(triangles != null, "Triangles list is null!");
+        Debug.Assert(vertices.Count > 0, "Vertices list is empty!");
+        Debug.Assert(triangles.Count > 0, "Triangles list is empty!");
 
         VoxelChunk chunk = Instantiate(voxelChunkPrototype,transform).GetComponent<VoxelChunk>();
         chunk.Init(vertices,triangles,material);
