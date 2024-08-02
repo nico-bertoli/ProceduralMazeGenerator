@@ -36,13 +36,10 @@ public abstract class AbsMazeGenStrategy
         this.isLiveGenerationEnabled = isLiveGenerationEnabled;
         this.coroutiner = coroutiner;
 
-        //live generation always starts at min speed
-        liveGenerationDelay = liveGenSettings.MaxStepDelay;
-
         lastScreenRefreshTime = Time.realtimeSinceStartup;
         yield return coroutiner.StartCoroutine(GenerateMazeImplementation(grid, startCell));
     }
-    
+
     public void SetLiveGenerationSpeed(float speed)
     {
         speed = Mathf.Clamp(speed, 0, 100);

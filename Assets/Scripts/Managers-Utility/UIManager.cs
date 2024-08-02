@@ -58,6 +58,7 @@ public class UIManager : Singleton<UIManager>
         liveGenMaze.OnMazeDataStructureGenerated += () => loadingPanel.SetActive(false);
         liveGenMaze.OnVoxelMeshGenerated += OnMazeFinalMeshGenerated;
         liveGenMaze.OnLiveGenerationMeshGenerated += OnLiveGenerationMeshGenerated;
+        liveGenMaze.OnGenerationStarted += () => Signal_UpdateLiveGenerationSpeed();
 
         loadingPanel.SetActive(false);
         liveGenToggle.isOn = false;
