@@ -10,8 +10,11 @@ public class MazeSizeSettings : ScriptableObject
 
     [field: Header("Size")]
     [field: SerializeField] public int MinSideCells { get; private set; } = 10;
+    
+    [field: Space]
     [field: SerializeField] public int LiveGenMaxSideCells { get; private set; } = 50;
 
+    [field:Space]
     [field: SerializeField] public int VoxelGenMaxSideCellsDFS { get; private set; } = 2000;
     [field: SerializeField] public int VoxelGenMaxSideCellsKruskal { get; private set; } = 400;
     [field: SerializeField] public int VoxelGenMaxSideCellsWillson { get; private set; } = 200;
