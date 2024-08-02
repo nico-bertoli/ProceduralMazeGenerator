@@ -16,11 +16,12 @@ public class LiveGenMaze : VoxelMaze
     {
         base.Reset();
         liveGenGrid.Reset();
+        SceneManager.Instance.OnEscapeMazePhaseStarted -= OnEscapeMazePhaseStarted;
     }
 
     #endregion Public Methods
     #region ============================================================================================== Hooks Override
-    protected override void Hook_GenerationCompleted() => OnLiveGenerationMeshGenerated?.Invoke();
+    protected override void Hook_GenerationEndPhase() => OnLiveGenerationMeshGenerated?.Invoke();
 
     protected override DataGrid Hook_CreateDataGrid(int nRows, int nColumns)
     {
@@ -31,19 +32,15 @@ public class LiveGenMaze : VoxelMaze
     #endregion Hooks Override
     #region ============================================================================================== Private Methods
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
-        SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
+        OnMazeDataStructureGenerated += () => SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
     }
 
     private void OnEscapeMazePhaseStarted()
     {
-        if (enabled == false)
-            return;
-
         liveGenGrid.Reset();
-        voxelGenerator.GenerateGridMesh(dataGrid);
+        GenerateVoxel();
     }
 
     #endregion Private Methods

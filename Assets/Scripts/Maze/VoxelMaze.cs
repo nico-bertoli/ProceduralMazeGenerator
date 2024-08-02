@@ -42,6 +42,7 @@ public class VoxelMaze : MonoBehaviour {
         Coroutiner.Instance.StopCoroutine(generationCor);
         generationCor = null;
         voxelGenerator.Reset();
+        voxelGenerator.OnMeshGenerated -= OnVoxelMeshGenerated;
     } 
 
     public Vector3 GetExitPosition() => dataGrid.GetExitPosition();
@@ -49,19 +50,16 @@ public class VoxelMaze : MonoBehaviour {
     #endregion Public Methods
     #region ============================================================================================ Hooks
     protected virtual DataGrid Hook_CreateDataGrid(int nRows, int nColumns) => new DataGrid(nRows, nColumns);
-    protected virtual void Hook_GenerationCompleted() => voxelGenerator.GenerateGridMesh(dataGrid);
+    protected virtual void Hook_GenerationEndPhase() => GenerateVoxel();
+
+    protected void GenerateVoxel()
+    {
+        voxelGenerator.OnMeshGenerated += OnVoxelMeshGenerated;
+        voxelGenerator.GenerateGridMesh(dataGrid);
+    }
 
     #endregion Hooks
     #region ============================================================================================ Private Methods
-
-    protected virtual void Start() => voxelGenerator.OnMeshGenerated += CallMeshGeneratedEvent;
-
-    private void CallMeshGeneratedEvent()
-    {
-        if (enabled == false)
-            return;
-        OnVoxelMeshGenerated?.Invoke();
-    }
 
     private IEnumerator GenerateMazeCor(int nRows, int nColumns, MazeGenStrategy eStrategy)
     {
@@ -80,7 +78,7 @@ public class VoxelMaze : MonoBehaviour {
 
         OnMazeDataStructureGenerated?.Invoke();
 
-        Hook_GenerationCompleted();
+        Hook_GenerationEndPhase();
     }
 
     private AbsMazeGenStrategy GetStrategyFromEnum(MazeGenStrategy enumStrategy)
