@@ -9,13 +9,13 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
 {  
     private class Step
     {
-        public DataCell cell;
-        public Directions direction;
+        public readonly DataCell Cell;
+        public Directions Direction;
 
         public Step(DataCell cell, Directions direction)
         {
-            this.cell = cell;
-            this.direction = direction;
+            Cell = cell;
+            Direction = direction;
         }
     }
 
@@ -55,12 +55,12 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
         //add random walk cells to the final tree (and remove them from out of tree set)
         for (int i = 0; i < randomWalk.Count; i++)
         {
-            finalTreeCells.Add(randomWalk[i].cell);
-            notInFinalTreeCells.Remove(randomWalk[i].cell);
+            finalTreeCells.Add(randomWalk[i].Cell);
+            notInFinalTreeCells.Remove(randomWalk[i].Cell);
 
             // optimization for non live generation: walls are edited only after a complete random walk is found
             if (!isLiveGenerationEnabled && i != randomWalk.Count - 1)
-                dataGrid.RemoveWall(randomWalk[i].cell, dataGrid.GetNeighbourAtDirection(randomWalk[i].cell, randomWalk[i].direction));
+                dataGrid.RemoveWall(randomWalk[i].Cell, dataGrid.GetNeighbourAtDirection(randomWalk[i].Cell, randomWalk[i].Direction));
         }
     }
 
@@ -85,10 +85,10 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
         for (int i = 0; i< firstRandomWalkLength; i++)
         {
             Step previousStep = outRandomWalk[outRandomWalk.Count - 1];
-            DataCell newCell = grid.GetNeighbourAtDirection(previousStep.cell, previousStep.direction);
+            DataCell newCell = grid.GetNeighbourAtDirection(previousStep.Cell, previousStep.Direction);
 
             // get new random direction (direction of the previous cel is excluded)
-            Directions previousCellDirection = GetInverseDirection(previousStep.direction);
+            Directions previousCellDirection = GetInverseDirection(previousStep.Direction);
 
             //cannot be null
             Directions newDirection = (Directions)grid.GetRandomNeighbourDirection(newCell, new Directions[] { previousCellDirection, allwaysPreventedDirection } );
@@ -99,7 +99,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
 
             if (isLiveGenerationEnabled)
             {
-                grid.RemoveWall(previousStep.cell, newStep.cell);
+                grid.RemoveWall(previousStep.Cell, newStep.Cell);
                 yield return new WaitForSeconds(liveGenerationDelay);
             }
         }
@@ -118,10 +118,10 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
         while (true)
         {
             Step previousStep = outRandomWalk[outRandomWalk.Count - 1];
-            DataCell newCell = grid.GetNeighbourAtDirection(previousStep.cell, previousStep.direction);
+            DataCell newCell = grid.GetNeighbourAtDirection(previousStep.Cell, previousStep.Direction);
 
             // get new random direction (direction of the previous cel is excluded)
-            Directions previousCellDirection = GetInverseDirection(previousStep.direction);
+            Directions previousCellDirection = GetInverseDirection(previousStep.Direction);
             Directions newDirection = (Directions)grid.GetRandomNeighbourDirection(newCell, new Directions[] { previousCellDirection });
             
             bool foundLoop = false;
@@ -129,17 +129,17 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
             // if the new step creates a loop in path, the loop is cut
             for (int i = 0; i < outRandomWalk.Count; i++)
             {
-                if (outRandomWalk[i].cell == newCell)
+                if (outRandomWalk[i].Cell == newCell)
                 {
                     foundLoop = true;
                     for (int j = outRandomWalk.Count - 1; j > i; j--)
                     {
 
                         if (isLiveGenerationEnabled)
-                            grid.BuildWall(outRandomWalk[j].cell, outRandomWalk[j - 1].cell);
+                            grid.BuildWall(outRandomWalk[j].Cell, outRandomWalk[j - 1].Cell);
                         outRandomWalk.RemoveAt(j);
                     }
-                    outRandomWalk[i].direction = newDirection;
+                    outRandomWalk[i].Direction = newDirection;
                     break;
                 }
             }
@@ -152,7 +152,7 @@ public class WillsonMazeGenStrategy : AbsMazeGenStrategy
 
                 if (isLiveGenerationEnabled)
                 {
-                    grid.RemoveWall(previousStep.cell, newStep.cell);
+                    grid.RemoveWall(previousStep.Cell, newStep.Cell);
                     yield return new WaitForSeconds(liveGenerationDelay);
                 }
                 else if (MustRefreshScreen)
