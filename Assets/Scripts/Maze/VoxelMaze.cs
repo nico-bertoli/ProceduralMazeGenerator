@@ -9,17 +9,8 @@ public class VoxelMaze : MonoBehaviour {
 
     #region ============================================================================================== Public Events
 
-    /// <summary>
-    /// - Hidden generation mode -> called at the end of maze generation
-    /// - Live generation mode -> called when play button is pressed
-    /// </summary>
     public event Action OnVoxelMeshGenerated;
-
-    /// <summary>
-    /// Called when maze structure has been defined by the maze gen strategy, but the final mesh is not already created
-    /// </summary>
     public event Action OnMazeDataStructureGenerated;
-
     public event Action OnGenerationStarted;
 
     #endregion Public Events
@@ -34,16 +25,14 @@ public class VoxelMaze : MonoBehaviour {
 
     #endregion Fields
     #region ============================================================================================= Public Methods
-    
+
+    public void Generate(int nRows, int nColumns, bool showLiveGeneration, MazeGenStrategy eMazeGenStategy) 
+        => StartCoroutine(GenerateMazeCor(nRows, nColumns, eMazeGenStategy));
+
     public Vector3 GetCentralCellPosition() 
     {
         var centralCell = dataGrid.GetCentralCell();
         return new Vector3(centralCell.PosN, 0, -centralCell.PosM);
-    }
-
-    public void Generate(int nRows, int nColumns, bool showLiveGeneration, MazeGenStrategy eMazeGenStategy)
-    {
-        StartCoroutine(GenerateMazeCor(nRows,nColumns,eMazeGenStategy));
     }
 
     public virtual void Reset()
@@ -88,8 +77,6 @@ public class VoxelMaze : MonoBehaviour {
         yield return generationCor = Coroutiner.Instance.StartCoroutine(mazeGenStrategy.GenerateMaze(dataGrid, startCell, IsLiveGenerationEnabled, Coroutiner.Instance));
 
         OnMazeDataStructureGenerated?.Invoke();
-
-
 
         Hook_GenerationCompleted();
     }

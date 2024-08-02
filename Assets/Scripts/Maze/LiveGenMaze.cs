@@ -37,7 +37,6 @@ public class LiveGenMaze : VoxelMaze
         SceneManager.Instance.OnEscapeMazePhaseStarted += OnEscapeMazePhaseStarted;
     }
 
-
     private void OnEscapeMazePhaseStarted()
     {
         if (enabled == false)
