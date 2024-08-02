@@ -4,7 +4,9 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - <MazeSettings>k__BackingField: {fileID: 11400000, guid: a800a79f391ab7943ad508d3276989c0, type: 2}
   - <MazeGenerationSettings>k__BackingField: {fileID: 11400000, guid: b3a54aa6dc1304d5e8231a92bf1f50dc, type: 2}
+  - <LiveGenSettings>k__BackingField: {fileID: 11400000, guid: 1700eb88e3a995c47a953e6daaa11e7e, type: 2}
   - <PlayerSettings>k__BackingField: {fileID: 11400000, guid: f7b96c180651b4ff98b78705fe7a09c3, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}

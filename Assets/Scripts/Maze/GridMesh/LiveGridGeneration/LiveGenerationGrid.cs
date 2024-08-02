@@ -16,7 +16,7 @@ public class LiveGenerationGrid : MonoBehaviour
     private DataGrid dataGrid;
     private CellObject[,] cellObjs;
     
-    private float liveGenWallsWidth => Settings.Instance.MazeGenerationSettings.LiveGenerationWallsWidth;
+    private float liveGenWallsWidth => Settings.Instance.MazeSettings.LiveGenWallsWidth;
     
     #endregion Private Fields
     #region ============================================================================================= Public Methods

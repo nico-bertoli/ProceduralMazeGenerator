@@ -12,5 +12,5 @@ public class WallObject : MonoBehaviour
     public void SetPosition(float x, float z) => transform.position = new Vector3(x, 0, z);
 
     //-------------- private methods
-    private void Awake() => SetHeight(Settings.Instance.MazeGenerationSettings.WallsHeight);
+    private void Awake() => SetHeight(Settings.Instance.MazeSettings.WallsHeight);
 }

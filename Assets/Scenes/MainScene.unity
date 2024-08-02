@@ -2149,7 +2149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 713090820}
-  - component: {fileID: 713090821}
+  - component: {fileID: 713090822}
   m_Layer: 0
   m_Name: Settings
   m_TagString: Untagged
@@ -2172,7 +2172,7 @@ Transform:
   m_Father: {fileID: 1665717943}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &713090821
+--- !u!114 &713090822
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2184,7 +2184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4814054a118b479c8f65c1747150748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <MazeSettings>k__BackingField: {fileID: 11400000, guid: a800a79f391ab7943ad508d3276989c0, type: 2}
   <MazeGenerationSettings>k__BackingField: {fileID: 11400000, guid: b3a54aa6dc1304d5e8231a92bf1f50dc, type: 2}
+  <LiveGenSettings>k__BackingField: {fileID: 11400000, guid: 1700eb88e3a995c47a953e6daaa11e7e, type: 2}
   <PlayerSettings>k__BackingField: {fileID: 11400000, guid: f7b96c180651b4ff98b78705fe7a09c3, type: 2}
 --- !u!1 &719066837
 GameObject:

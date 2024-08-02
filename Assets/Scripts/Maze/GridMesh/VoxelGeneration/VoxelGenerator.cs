@@ -26,10 +26,9 @@ public class VoxelGenerator : MonoBehaviour
     #endregion Private Fields
     #region ========================================================================================= Private Properties
 
-    private MazeGenSettings mazeGenSettings => Settings.Instance.MazeGenerationSettings;
-    private float wallsWidth => mazeGenSettings.InGameWallsWidth;
-    private float wallsHeight => mazeGenSettings.WallsHeight;
-    private int chunkSize => mazeGenSettings.VoxelChunkSize;
+    private float wallsWidth => Settings.Instance.MazeSettings.VoxelWallsWidth;
+    private float wallsHeight => Settings.Instance.MazeSettings.WallsHeight;
+    private int chunkSize => Settings.Instance.MazeGenerationSettings.NumberOfCellsComposingChunk;
 
     #endregion Private Properties
     #region ============================================================================================ Pucblic Methods

@@ -11,7 +11,7 @@ public class PoolSpawner : MonoBehaviour
     {
         Debug.Assert(objectToSpawn != null, $"{nameof(objectToSpawn)} is null");
 
-        int startingPoolSize = (int)Mathf.Pow(Settings.Instance.MazeGenerationSettings.LiveGenMaxSideCells,2);
+        int startingPoolSize = (int)Mathf.Pow(Settings.Instance.MazeSettings.LiveGenMaxSideCells,2);
 
         pool = new List<GameObject>();
         for (int i = 0; i < startingPoolSize; i++)
