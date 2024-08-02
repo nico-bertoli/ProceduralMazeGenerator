@@ -26,8 +26,11 @@ public abstract class AbsMazeGenStrategy
 
     private LiveGenSettings liveGenSettings => Settings.Instance.LiveGenSettings;
 
-    protected bool MustRefreshScreen =>
-       Time.realtimeSinceStartup - lastScreenRefreshTime > Settings.Instance.MazeGenerationSettings.RefreshScreenEverySeconds;
+    protected bool MustRefreshScreen
+    {
+        get => Time.realtimeSinceStartup - lastScreenRefreshTime > Settings.Instance.MazeGenerationSettings.RefreshScreenEverySeconds;
+    }
+
     #endregion Properties
     #region ============================================================================================= PublicMethods
 

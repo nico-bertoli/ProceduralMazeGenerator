@@ -12,6 +12,7 @@ public class LiveGenMaze : VoxelMaze
     #region ============================================================================================== Public Methods
 
     public void SetLiveGenerationSpeed(float speed) => mazeGenStrategy?.SetLiveGenerationSpeed(speed);
+
     public override void Reset()
     {
         base.Reset();
