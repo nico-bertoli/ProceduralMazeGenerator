@@ -26,8 +26,10 @@ public class VoxelMaze : MonoBehaviour {
     #endregion Fields
     #region ============================================================================================= Public Methods
 
-    public void Generate(int nRows, int nColumns, bool showLiveGeneration, MazeGenStrategy eMazeGenStategy) 
-        => StartCoroutine(GenerateMazeCor(nRows, nColumns, eMazeGenStategy));
+    public void Generate(int nRows, int nColumns, bool showLiveGeneration, MazeGenStrategy eMazeGenStategy)
+    {
+        StartCoroutine(GenerateMazeCor(nRows, nColumns, eMazeGenStategy));
+    }
 
     public Vector3 GetCentralCellPosition() 
     {
