@@ -30,7 +30,6 @@ public class LiveGenerationGrid : MonoBehaviour
         {
             for (int n = 0; n < grid.ColumnsCount; n++)
             {
-                //todo use pooling instad of Init
                 CellObject cellObject = cellsPoolSpawner.GetItem().GetComponent<CellObject>();
                 cellObjs[m, n] = cellObject;
                 cellObjs[m, n].Init(dataGrid.GetCell(m, n));
