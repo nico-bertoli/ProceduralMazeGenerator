@@ -14,18 +14,18 @@ public static class CubeMeshDataGenerator
         Bottom = 5
     }
 
+    
     #region ================================================================================================= Public Methods
 
-    public static void GetCubeMeshVerticesAndTriangles(
+    public static void GetCubeMeshData(
         Vector3 scale,
         Vector3 position,
         List<CubeFaceDirection> dontCreateFaces,
-        List<Vector3> vertices,
-        List<int> triangles
+        ref MeshData meshData
     )
     {
-        Debug.Assert(vertices != null, "Received null vertices!");
-        Debug.Assert(triangles != null, "Received null triangles!");
+        Debug.Assert(meshData.Vertices != null, "Received null vertices!");
+        Debug.Assert(meshData.Triangles != null, "Received null triangles!");
 
         foreach (CubeFaceDirection direction in Enum.GetValues(typeof(CubeFaceDirection)))
         {
@@ -33,7 +33,7 @@ public static class CubeMeshDataGenerator
             if (dontCreateFaces.Contains(direction))
                 continue;
 
-            GetFaceData(vertices, triangles, direction, scale, position);
+            GetFaceData(meshData, direction, scale, position);
         }
     }
 
@@ -63,17 +63,17 @@ public static class CubeMeshDataGenerator
         new [] { 3, 2, 7, 6 }
     };
 
-    private static void GetFaceData( List<Vector3> vertices, List<int> triangles, CubeFaceDirection cubeFaceDirection, Vector3 scale, Vector3 position)
+    private static void GetFaceData(MeshData meshData , CubeFaceDirection cubeFaceDirection, Vector3 scale, Vector3 position)
     {
-        vertices.AddRange(GetFaceVertices(cubeFaceDirection, scale, position));
-        int vertCount = vertices.Count;
+        meshData.Vertices.AddRange(GetFaceVertices(cubeFaceDirection, scale, position));
+        int vertCount = meshData.Vertices.Count;
 
-        triangles.Add(vertCount - 4);
-        triangles.Add(vertCount - 4 + 1);
-        triangles.Add(vertCount - 4 + 2);
-        triangles.Add(vertCount - 4);
-        triangles.Add(vertCount - 4 + 2);
-        triangles.Add(vertCount - 4 + 3);
+        meshData.Triangles.Add(vertCount - 4);
+        meshData.Triangles.Add(vertCount - 4 + 1);
+        meshData.Triangles.Add(vertCount - 4 + 2);
+        meshData.Triangles.Add(vertCount - 4);
+        meshData.Triangles.Add(vertCount - 4 + 2);
+        meshData.Triangles.Add(vertCount - 4 + 3);
     }
 
     private static Vector3[] GetFaceVertices(CubeFaceDirection faceDirection, Vector3 scale, Vector3 position)

@@ -74,9 +74,7 @@ public class VoxelGenerator : MonoBehaviour
     
     private VoxelChunk CreateChunk(DataGrid dataGrid, int mBegin, int nBegin, int chunkSize)
     {
-        // create voxel
-        List<Vector3> vertices = new List<Vector3>();
-        List<int> triangles = new List<int>();
+        MeshData meshData = MeshData.CreateEmpty();
 
         Vector3 topWallScale = new Vector3(1f + wallsWidth, wallsHeight, wallsWidth);
         Vector3 rightWallScale = new Vector3(wallsWidth, wallsHeight, 1f + wallsWidth);
@@ -93,24 +91,24 @@ public class VoxelGenerator : MonoBehaviour
                 {
                     List<CubeFaceDirection> notVisibleFaces = GetNotVisibleFaces(dataGrid, m, n, true);
                     Vector3 topWallPos = new Vector3(cell.PosN - wallsOffsetFromCenter, 0, -cell.PosM);
-                    GetCubeMeshVerticesAndTriangles(topWallScale * 0.5f, topWallPos, notVisibleFaces, vertices, triangles);
+                    GetCubeMeshData(topWallScale * 0.5f, topWallPos, notVisibleFaces, ref meshData);
                 }
                 if (cell.IsRightWallActive)
                 {
                     List<CubeFaceDirection> notVisibleFaces = GetNotVisibleFaces(dataGrid, m, n, false);
                     Vector3 rightWallPos = new Vector3(cell.PosN, 0, -cell.PosM - wallsOffsetFromCenter);
-                    GetCubeMeshVerticesAndTriangles(rightWallScale * 0.5f, rightWallPos, notVisibleFaces, vertices, triangles);
+                    GetCubeMeshData(rightWallScale * 0.5f, rightWallPos, notVisibleFaces, ref meshData);
                 }
             }
         }
 
-        Debug.Assert(vertices != null, "Vertices list is null!");
-        Debug.Assert(triangles != null, "Triangles list is null!");
-        Debug.Assert(vertices.Count > 0, "Vertices list is empty!");
-        Debug.Assert(triangles.Count > 0, "Triangles list is empty!");
+        Debug.Assert(meshData.Vertices != null, "Vertices list is null!");
+        Debug.Assert(meshData.Triangles != null, "Triangles list is null!");
+        Debug.Assert(meshData.Vertices.Count > 0, "Vertices list is empty!");
+        Debug.Assert(meshData.Triangles.Count > 0, "Triangles list is empty!");
 
         VoxelChunk chunk = Instantiate(voxelChunkPrototype,transform).GetComponent<VoxelChunk>();
-        chunk.Init(vertices,triangles,material);
+        chunk.Init(meshData,material);
         chunk.gameObject.isStatic = true;
         return chunk;
     }

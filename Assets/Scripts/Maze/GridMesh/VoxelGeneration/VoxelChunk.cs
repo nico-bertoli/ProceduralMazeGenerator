@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -6,15 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(MeshCollider))]
 public class VoxelChunk : MonoBehaviour
 {
-    public void Init(List<Vector3> vertices, List<int> triangles, Material material)
+    public void Init(MeshData meshData, Material material)
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         MeshCollider collider = GetComponent<MeshCollider>();
         
         mesh.Clear();
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
+        mesh.vertices = meshData.Vertices.ToArray();
+        mesh.triangles = meshData.Triangles.ToArray();
         mesh.RecalculateNormals();
         
         meshRenderer.material = material;
