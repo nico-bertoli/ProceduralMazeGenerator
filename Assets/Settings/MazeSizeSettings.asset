@@ -19,4 +19,4 @@ MonoBehaviour:
   <LiveGenMaxSideCells>k__BackingField: 50
   <VoxelGenMaxSideCellsDFS>k__BackingField: 2000
   <VoxelGenMaxSideCellsKruskal>k__BackingField: 400
-  <VoxelGenMaxSideCellsWillson>k__BackingField: 200
+  <VoxelGenMaxSideCellsWillson>k__BackingField: 300
