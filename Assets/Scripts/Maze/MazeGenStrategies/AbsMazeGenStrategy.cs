@@ -26,9 +26,9 @@ public abstract class AbsMazeGenStrategy
     #region =========================================================================================== Properties
 
     protected bool MustRefreshScreen =>
-       Time.realtimeSinceStartup - lastScreenRefreshTime > genSettings.MaxTimeWithoutRefreshingScreenDuringHiddenGen;
+       Time.realtimeSinceStartup - lastScreenRefreshTime > genSettings.VoxelGenMaxTimeWithoutRefreshingScreen;
 
-    private MazeGenerationSettings genSettings => Settings.Instance.MazeGenerationSettings;
+    private MazeGenSettings genSettings => Settings.Instance.MazeGenerationSettings;
    
     #endregion Properties
     #region ============================================================================================= PublicMethods
@@ -39,7 +39,7 @@ public abstract class AbsMazeGenStrategy
         this.coroutiner = coroutiner;
 
         //live generation always starts at min speed
-        liveGenerationDelay = genSettings.LiveGenerationMaxDelay;
+        liveGenerationDelay = genSettings.LiveGenMaxDelay;
 
         lastScreenRefreshTime = Time.realtimeSinceStartup;
         yield return coroutiner.StartCoroutine(GenerateMazeImplementation(grid, startCell));
@@ -48,7 +48,7 @@ public abstract class AbsMazeGenStrategy
     public void SetLiveGenerationSpeed(float speed)
     {
         speed = Mathf.Clamp(speed, 0, 100);
-        liveGenerationDelay = genSettings.LiveGenerationMaxDelay / 100 * Mathf.Abs(speed - 100);
+        liveGenerationDelay = genSettings.LiveGenMaxDelay / 100 * Mathf.Abs(speed - 100);
     }
 
     #endregion PublicMethods

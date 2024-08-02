@@ -6,7 +6,7 @@ using static AbsMazeGenStrategy;
 
 public class UIManager : Singleton<UIManager>
 {
-    private MazeGenerationSettings mazeGenSettings => Settings.Instance.MazeGenerationSettings;
+    private MazeGenSettings mazeGenSettings => Settings.Instance.MazeGenerationSettings;
     
     #region ============================================================================================= Private Fields
 
@@ -113,11 +113,11 @@ public class UIManager : Singleton<UIManager>
             switch (mazeGenStrategy)
             {
                 case MazeGenStrategy.DFSiterative:
-                    return mazeGenSettings.NotLiveGenDFSMaxSideCells;
+                    return mazeGenSettings.VoxelGenDFSMaxSideCells;
                 case MazeGenStrategy.Willson:
-                    return mazeGenSettings.NotLiveGenWilsonMaxSideCells;
+                    return mazeGenSettings.VoxelGenWilsonMaxSideCells;
                 case MazeGenStrategy.Kruskal:
-                    return mazeGenSettings.NotLiveGenKruskalMaxSideCells;
+                    return mazeGenSettings.VoxelGenKruskalMaxSideCells;
                 default:
                     Debug.LogError($"current algorithm not recognized: {mazeGenStrategy}");
                     return -1;
@@ -160,7 +160,7 @@ public class UIManager : Singleton<UIManager>
         if (isLiveGenerationActive)
         {
             genSpeedSlider.gameObject.SetActive(true);
-            genSpeedSlider.value = mazeGenSettings.LiveGenerationStartingSpeedSliderValue;
+            genSpeedSlider.value = mazeGenSettings.LiveGenSpeedSliderValue;
         }
 
         ShowGenerationPanel();
