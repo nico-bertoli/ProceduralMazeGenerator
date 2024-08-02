@@ -104,7 +104,6 @@ public class VoxelGenerator : MonoBehaviour
             }
         }
 
-
         Debug.Assert(vertices != null, "Vertices list is null!");
         Debug.Assert(triangles != null, "Triangles list is null!");
         Debug.Assert(vertices.Count > 0, "Vertices list is empty!");
