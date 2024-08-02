@@ -7,7 +7,6 @@ public class CellObject : MonoBehaviour
     [SerializeField] private WallObject rightWall;
 
     private DataCell dataCell;
-    private WallObject [] walls;
     
     #endregion Private Fields
     #region ============================================================================================= Public Methods
@@ -15,7 +14,6 @@ public class CellObject : MonoBehaviour
     {
         dataCell = cell;
         transform.position = new Vector3(dataCell.PosN, 0, -dataCell.PosM);
-        walls = new WallObject[] { topWall, rightWall };
         
         RefreshWallsActive();
         dataCell.OnWallBuiltOrDestroyed += RefreshWallsActive;
@@ -23,20 +21,23 @@ public class CellObject : MonoBehaviour
 
     public void SetWallsWidth(float width)
     {
-        foreach (WallObject wall in walls)
-        {
-            wall.SetWidth(width);
-            wall.SetLength(1f + width);
-        }   
+        SetWallWidth(topWall, width);
+        SetWallWidth(rightWall, width);
     }
     
     #endregion Public Methods
     #region ============================================================================================ Private Methods
     
     private void RefreshWallsActive() {
-        walls[0].gameObject.SetActive(dataCell.IsTopWallActive);
-        walls[1].gameObject.SetActive(dataCell.IsRightWallActive);
+        topWall.gameObject.SetActive(dataCell.IsTopWallActive);
+        rightWall.gameObject.SetActive(dataCell.IsRightWallActive);
     }
-    
+
+    private void SetWallWidth(WallObject wall, float width)
+    {
+        wall.SetWidth(width);
+        wall.SetLength(1f + width);
+    }
+
     #endregion Private Methods
 }
