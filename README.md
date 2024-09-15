@@ -1,1 +1,1 @@
-# MazeProject
+# Procedural Maze Generator
