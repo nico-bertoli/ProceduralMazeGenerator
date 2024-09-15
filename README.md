@@ -1,1 +1,8 @@
 # Procedural Maze Generator
+
+- High-performance thanks to dynamic mesh generation.
+- Three generation algorithms are available: Randomized DFS, Kruskal’s alg, Wilson’s alg.
+- Real-Time Visualization: algorithms can be seen operating step by step.
+- After generating a labyrinth you can control a pawn and try to escape.
+
+[Itch Page](https://nicobertoli.itch.io/maze-generator)
