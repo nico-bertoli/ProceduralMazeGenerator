@@ -2,3 +2,4 @@
 * text=auto
 *.cs linguist-language=C#
 *.shader linguist-vendored
+*.hlsl linguist-vendored
