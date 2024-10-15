@@ -1,4 +1,6 @@
 # Procedural Maze Generator
+<b>About:</b>
+
 A procedural maze generator made with Unity:
 
 - High-performance thanks to dynamic mesh generation.
