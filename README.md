@@ -1,5 +1,3 @@
-# Procedural Maze Generator
-
 A procedural maze generator made with Unity.
 - High-performance thanks to dynamic mesh generation.
 - Three generation algorithms are available: Randomized DFS, Kruskal’s alg, Wilson’s alg.
