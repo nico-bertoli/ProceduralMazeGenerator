@@ -5,12 +5,9 @@ A procedural maze generator made with Unity.
 - After generating a labyrinth you can control a pawn and try to escape.
 
 #
+[Youtube Trailer](https://www.youtube.com/watch?v=gEkphmxIJFs&ab_channel=Nicol%C3%B2Bertoli)
+
 <img src="screenshots/screen3.png" style="height:250px; max-width:100%;">
 <img src="screenshots/screen4.png" style="height:250px; max-width:100%;">
 <img src="screenshots/screen2.png" style="height:250px; max-width:100%;">
 <img src="screenshots/screen1.png" style="height:250px; max-width:100%;">
-
-#
-<b>Links:</b>
-- [Trailer](https://www.youtube.com/watch?v=gEkphmxIJFs&ab_channel=Nicol%C3%B2Bertoli)
-- [Itch Page](https://nicobertoli.itch.io/maze-generator)
