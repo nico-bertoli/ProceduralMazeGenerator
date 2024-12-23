@@ -1,7 +1,7 @@
 An efficient procedural maze generator, made with Unity.
 - High-performance thanks to dynamic mesh generation.
 - Three generation algorithms are available: Randomized DFS, Kruskal’s alg, Wilson’s alg.
-- Real-Time Visualization: algorithms can be seen operating step by step.
+- Algorithms can be seen operating step by step, or you can get a faster generation without real-time visualization.
 - After generating a labyrinth you can control a pawn and try to escape.
 
 #
